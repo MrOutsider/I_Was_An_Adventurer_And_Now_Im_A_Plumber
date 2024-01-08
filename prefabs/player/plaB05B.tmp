@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://bledb3dcpla5r"]
+[gd_scene load_steps=31 format=3 uid="uid://bledb3dcpla5r"]
 
 [ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_hqj3q"]
 [ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="2_cvq8l"]
@@ -403,6 +403,22 @@ _data = {
 "move_up": SubResource("Animation_xtyg4")
 }
 
+[sub_resource type="GDScript" id="GDScript_cyj08"]
+script/source = "extends Area2D
+
+@onready var collision_shape_2d = $CollisionShape2D
+
+signal take_dmg
+
+func _ready():
+	collision_shape_2d.connect(\"tree_entered\", take_dmg)
+
+func _process(delta):
+	pass
+
+func scan_dmg() -> void:
+	pass"
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_nrlxc"]
 radius = 6.0
 
@@ -439,6 +455,7 @@ libraries = {
 }
 
 [node name="Hurtbox" type="Area2D" parent="."]
+script = SubResource("GDScript_cyj08")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CircleShape2D_nrlxc")

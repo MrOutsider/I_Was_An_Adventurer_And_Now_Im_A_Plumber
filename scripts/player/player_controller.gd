@@ -1,13 +1,14 @@
 extends CharacterBody2D
 
+@export var HP : Area2D
 @onready var anim_player : AnimationPlayer = $AnimationPlayer
 
 @export var speed : float = 7.0
-@export var pushing_force = 100.0
+@export var pushing_force = 150.0
 @export var friction : float = 1.0
 @export var acceleration : float = 1.0
 
-enum PLAYER_STATES {IDLE, MOVING, ATTACKING, DASHING, HURTING}
+enum PLAYER_STATES {IDLE, MOVING, ATTACKING, DASHING, HURTING, GRABBING}
 var player_state : int = PLAYER_STATES.IDLE
 
 enum PLAYER_DIRECTION_STATES {UP, DOWN, LEFT, RIGHT}
@@ -53,10 +54,13 @@ func _physics_process(delta):
 	else:
 		velocity = lerp(velocity, Vector2.ZERO, friction)
 	if (move_and_slide()):
+		# Check all collisions and apply force.
 		for i in get_slide_collision_count():
 			var col = get_slide_collision(i)
 			if (col.get_collider() is RigidBody2D):
-				col.get_collider().apply_force((col.get_normal() * pushing_force)* -1.0)
+				if (col.get_collider().is_in_group("movable")):
+					col.get_collider().apply_force((col.get_normal() * pushing_force)* -1.0)
+					velocity = col.get_collider().linear_velocity
 
 func attack_phase() -> void:
 	if (Input.is_action_just_pressed("attack")):
