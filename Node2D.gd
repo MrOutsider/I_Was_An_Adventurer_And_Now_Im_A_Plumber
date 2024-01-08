@@ -3,6 +3,7 @@ extends CharacterBody2D
 @onready var anim_player : AnimationPlayer = $AnimationPlayer
 
 @export var speed : float = 7.0
+@export var pushing_force = 100.0
 @export var friction : float = 1.0
 @export var acceleration : float = 1.0
 
@@ -22,13 +23,14 @@ func _ready():
 func _input(event):
 	if (Input.is_action_pressed("ui_cancel")):
 		get_tree().quit()
-
-	input_dir.x = Input.get_action_raw_strength("move_right") - Input.get_action_raw_strength("move_left")
-	input_dir.y = Input.get_action_raw_strength("move_down") - Input.get_action_raw_strength("move_up")
-	if (input_dir.length() > 1.0):
-		input_dir = input_dir.normalized()
-	if (input_dir.length() < 0.1):
-		input_dir = Vector2.ZERO
+	
+	if (player_state == PLAYER_STATES.IDLE || player_state == PLAYER_STATES.MOVING):
+		input_dir.x = Input.get_action_raw_strength("move_right") - Input.get_action_raw_strength("move_left")
+		input_dir.y = Input.get_action_raw_strength("move_down") - Input.get_action_raw_strength("move_up")
+		if (input_dir.length() > 1.0):
+			input_dir = input_dir.normalized()
+		if (input_dir.length() < 0.1):
+			input_dir = Vector2.ZERO
 	
 	match player_state:
 		PLAYER_STATES.IDLE:
@@ -42,6 +44,7 @@ func _input(event):
 
 func _process(delta):
 	player_dir_to_state()
+	attack_phase()
 	animate_sprite()
 
 func _physics_process(delta):
@@ -49,7 +52,15 @@ func _physics_process(delta):
 		velocity = lerp(velocity, input_dir * speed * 20.0, acceleration)
 	else:
 		velocity = lerp(velocity, Vector2.ZERO, friction)
-	move_and_slide()
+	if (move_and_slide()):
+		for i in get_slide_collision_count():
+			var col = get_slide_collision(i)
+			if (col.get_collider() is RigidBody2D):
+				col.get_collider().apply_force((col.get_normal() * pushing_force)* -1.0)
+
+func attack_phase() -> void:
+	if (Input.is_action_just_pressed("attack")):
+		pass
 
 func player_dir_to_state() -> void:
 	match player_state:
