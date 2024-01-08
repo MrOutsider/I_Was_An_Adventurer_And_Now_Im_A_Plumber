@@ -1,8 +1,16 @@
 extends CharacterBody2D
 
+@onready var anim_player : AnimationPlayer = $AnimationPlayer
+
 @export var speed : float = 10.0
 @export var friction : float = 1.0
 @export var acceleration : float = 1.0
+
+enum PLAYER_STATES {IDLE, MOVING, ATTACKING, DASHING, HURTING}
+var player_state : int = PLAYER_STATES.IDLE
+
+enum PLAYER_POINTING {UP, DOWN, LEFT, RIGHT}
+var player_pointing : int = PLAYER_POINTING.DOWN
 
 var input_dir : Vector2 = Vector2.ZERO
 
@@ -21,7 +29,7 @@ func _input(event):
 		input_dir = Vector2.ZERO
 
 func _process(delta):
-	pass
+	animate_sprite()
 
 func _physics_process(delta):
 	if (input_dir.length() > 0.0):
@@ -29,3 +37,16 @@ func _physics_process(delta):
 	else:
 		velocity = lerp(velocity, Vector2.ZERO, friction)
 	move_and_slide()
+
+func animate_sprite() -> void:
+	match player_state:
+		PLAYER_STATES.IDLE:
+			match player_pointing:
+				PLAYER_POINTING.UP:
+					anim_player.play("idle_up")
+				PLAYER_POINTING.DOWN:
+					anim_player.play("idle_down")
+				PLAYER_POINTING.LEFT:
+					anim_player.play("idle_left")
+				PLAYER_POINTING.RIGHT:
+					anim_player.play("idle_right")
