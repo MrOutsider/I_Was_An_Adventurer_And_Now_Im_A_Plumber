@@ -13,7 +13,7 @@ extends CharacterBody2D
 @export var pushing_force : float = 20.0
 const FRICTION_BASE : float = 1.0
 const FRICTION_KNOCKBACK : float = 0.3
-const KNOCKBACK_FORCE : float = 1000.0
+const KNOCKBACK_FORCE : float = 500.0
 @export var friction : float = FRICTION_BASE
 @export var acceleration : float = 1.0
 
@@ -39,9 +39,6 @@ func _ready():
 func _input(_event):
 	if (Input.is_action_pressed("quit")):
 		get_tree().quit()
-	
-	if (Input.is_action_just_pressed("reset")):
-		reset_after_attack()
 	
 	if (player_state == PLAYER_STATES.IDLE || player_state == PLAYER_STATES.MOVING):
 		input_dir.x = Input.get_action_raw_strength("move_right") - Input.get_action_raw_strength("move_left")
@@ -190,6 +187,8 @@ func attack_hit(body) -> void:
 		body.linear_velocity = (player_backward_direction * -1) * pushing_force
 	if (body.is_in_group("enemy")):
 		body.hurt()
+	if (body.is_in_group("solid")):
+		knockback(player_backward_direction)
 
 func reset_after_attack() -> void:
 	can_attack = true

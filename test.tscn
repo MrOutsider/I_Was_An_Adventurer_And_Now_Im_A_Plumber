@@ -2449,7 +2449,6 @@ layout_mode = 2
 layout_mode = 2
 text = "WASD Movment (Left Stick)
 Space For Attack (X Button)
-Left Arrow Resets Attack State To Idle (Back)
 ESC Key To Quit (Start)"
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -2463,7 +2462,7 @@ y_sort_enabled = true
 
 [node name="Player" parent="Node2D" instance=ExtResource("2_dr3r3")]
 
-[node name="Movable" type="RigidBody2D" parent="Node2D" groups=["movable"]]
+[node name="Movable" type="RigidBody2D" parent="Node2D" groups=["movable", "solid"]]
 position = Vector2(45, -18)
 collision_layer = 2
 collision_mask = 7
@@ -2502,7 +2501,7 @@ angle_max = 360.0
 scale_amount_max = 3.0
 color = Color(1, 1, 1, 0.588235)
 
-[node name="Switch" type="CharacterBody2D" parent="Node2D" groups=["switch"]]
+[node name="Switch" type="CharacterBody2D" parent="Node2D" groups=["solid", "switch"]]
 position = Vector2(-40, -72)
 collision_layer = 4
 collision_mask = 0
