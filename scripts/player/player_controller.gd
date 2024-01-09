@@ -1,13 +1,15 @@
 extends CharacterBody2D
 
 @onready var anim_player : AnimationPlayer = $AnimationPlayer
+@onready var anim_player_attacks = $AnimationPlayerAttacks
+
 @onready var knockback_timer = $Knockback_Timer
 
 # Colliders
 @onready var sword_col : Area2D = $SwordPivot/Sword
 
 @export var speed : float = 7.0
-@export var pushing_force = 150.0
+@export var pushing_force = 20.0
 const FRICTION_BASE : float = 1.0
 const FRICTION_KNOCKBACK : float = 0.3
 const KNOCKBACK_FORCE : float = 1000.0
@@ -32,13 +34,9 @@ func _ready():
 	sword_col.connect("body_entered", attack_hit, 1)
 	sword_col.connect("area_entered", attack_hit, 1)
 
-func _input(event):
+func _input(_event):
 	if (Input.is_action_pressed("quit")):
 		get_tree().quit()
-	
-	if (Input.is_action_just_pressed("attack") && can_attack):
-		can_attack = false
-		set_player_state(PLAYER_STATES.ATTACKING)
 	
 	if (Input.is_action_just_pressed("reset")):
 		reset_after_attack()
@@ -50,6 +48,10 @@ func _input(event):
 			input_dir = input_dir.normalized()
 		if (input_dir.length() < 0.1):
 			input_dir = Vector2.ZERO
+		
+		if (Input.is_action_just_pressed("attack") && can_attack):
+			can_attack = false
+			set_player_state(PLAYER_STATES.ATTACKING)
 	
 	match player_state:
 		PLAYER_STATES.IDLE:
@@ -59,25 +61,26 @@ func _input(event):
 			if (input_dir.length() == 0.0):
 				set_player_state(PLAYER_STATES.IDLE)
 
-func _process(delta):
+func _process(_delta):
 	player_dir_to_state()
 	animate_sprite()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	# Accelerate Or Decelerate
 	if (input_dir.length() > 0.0 && player_state == PLAYER_STATES.MOVING):
 		velocity = lerp(velocity, input_dir * speed * 20.0, acceleration)
 	else:
 		velocity = lerp(velocity, Vector2.ZERO, friction)
-		
+	move_and_slide()
+	
 	# Move via velocity but also interact with collisions
-	if (move_and_slide()):
-		for i in get_slide_collision_count():
-			var col = get_slide_collision(i)
-			if (col.get_collider() is RigidBody2D):
-				if (col.get_collider().is_in_group("movable")):
-					col.get_collider().apply_force((col.get_normal() * pushing_force)* -1.0)
-					velocity = col.get_collider().linear_velocity
+	#if (move_and_slide()):
+		#for i in get_slide_collision_count():
+			#var col = get_slide_collision(i)
+			#if (col.get_collider() is RigidBody2D):
+				#if (col.get_collider().is_in_group("movable")):
+					#col.get_collider().apply_force((col.get_normal() * pushing_force)* -1.0)
+					#velocity = col.get_collider().linear_velocity
 
 func set_player_state(new_state : PLAYER_STATES) -> void:
 	player_last_state = player_state
@@ -151,13 +154,13 @@ func animate_sprite() -> void:
 			PLAYER_STATES.ATTACKING:
 				match player_direction_state:
 					PLAYER_DIRECTION_STATES.UP:
-						anim_player.play("attack_sword_up") # Attack
+						anim_player_attacks.play("attack_sword_up") # Attack
 					PLAYER_DIRECTION_STATES.DOWN:
-						anim_player.play("attack_sword_down") # Attack
+						anim_player_attacks.play("attack_sword_down") # Attack
 					PLAYER_DIRECTION_STATES.LEFT:
-						anim_player.play("attack_sword_left") # Attack
+						anim_player_attacks.play("attack_sword_left") # Attack
 					PLAYER_DIRECTION_STATES.RIGHT:
-						anim_player.play("attack_sword_right") # Attack
+						anim_player_attacks.play("attack_sword_right") # Attack
 			PLAYER_STATES.KNOCKED_BACK:
 				match player_direction_state:
 					PLAYER_DIRECTION_STATES.UP:
@@ -177,14 +180,14 @@ func knockback(knockback_vector : Vector2) -> void:
 	knockback_timer.start()
 
 func attack_hit(body) -> void:
-	print(body)
+	if (body.is_in_group("player")):
+		return
 	if (body.is_in_group("switch")):
-			body.queue_free()
+			body.flip_switch()
 	if (body.is_in_group("movable")):
-			body.linear_velocity = (player_backward_direction * -1) * (pushing_force * 0.25)
+			body.linear_velocity = (player_backward_direction * -1) * pushing_force
 
 func reset_after_attack() -> void:
-	player_state = PLAYER_STATES.IDLE
 	can_attack = true
 	animation_change = true
 
