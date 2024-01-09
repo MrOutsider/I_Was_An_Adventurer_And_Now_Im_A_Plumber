@@ -1,8 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://bqx7wudvltgak"]
+[gd_scene load_steps=15 format=3 uid="uid://bqx7wudvltgak"]
 
 [ext_resource type="Texture2D" uid="uid://ct2dowk3f1hu7" path="res://assets/0x72_DungeonTilesetII_v1.6.png" id="1_wmamx"]
 [ext_resource type="PackedScene" uid="uid://bledb3dcpla5r" path="res://prefabs/player/player.tscn" id="2_dr3r3"]
 [ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="3_2rm7w"]
+
+[sub_resource type="GDScript" id="GDScript_fjr6i"]
+script/source = "extends CanvasLayer
+
+func _ready():
+	show()
+"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bda6n"]
 texture = ExtResource("1_wmamx")
@@ -1981,23 +1988,61 @@ size = Vector2(28, 28)
 script/source = "extends StaticBody2D
 
 @export var switched_on : bool = false;
+@onready var sprite_2d = $Sprite2D
 
 func _ready():
-	modulate = Color(0.1, 0.1, 1.0)
+	sprite_2d.modulate = Color(0.1, 0.1, 1.0)
 
 func flip_switch() -> void:
 	if (switched_on):
 		switched_on = false
-		modulate = Color(0.1, 0.1, 1.0)
+		sprite_2d.modulate = Color(0.1, 0.1, 1.0)
 	else:
 		switched_on = true
-		modulate = Color(0.1, 1.0, 0.1)
+		sprite_2d.modulate = Color(0.1, 1.0, 0.1)
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtsff"]
 size = Vector2(16, 16)
 
+[sub_resource type="SystemFont" id="SystemFont_ahloh"]
+
+[sub_resource type="SystemFont" id="SystemFont_6g0lj"]
+
+[sub_resource type="Theme" id="Theme_cwics"]
+default_font = SubResource("SystemFont_6g0lj")
+default_font_size = 10
+Label/font_sizes/font_size = 9
+Label/fonts/font = SubResource("SystemFont_ahloh")
+
 [node name="Node2D" type="Node2D"]
+
+[node name="UI" type="CanvasLayer" parent="."]
+visible = false
+script = SubResource("GDScript_fjr6i")
+
+[node name="MarginContainer" type="MarginContainer" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "WASD Movment (Left Stick)
+Space For Attack (X Button)
+Left Arrow Resets Attack State To Idle (Back)
+ESC Key To Quit (Start)"
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_eedf0")
@@ -2059,3 +2104,11 @@ texture = ExtResource("3_2rm7w")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Switch"]
 shape = SubResource("RectangleShape2D_vtsff")
+
+[node name="Label" type="Label" parent="Switch"]
+offset_left = -15.0
+offset_top = -19.0
+offset_right = 14.0
+offset_bottom = -6.0
+theme = SubResource("Theme_cwics")
+text = "Switch"

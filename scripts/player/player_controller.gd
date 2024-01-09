@@ -1,35 +1,42 @@
 extends CharacterBody2D
 
-@export var HP : Area2D
 @onready var anim_player : AnimationPlayer = $AnimationPlayer
+@onready var knockback_timer = $Knockback_Timer
 
 @export var speed : float = 7.0
 @export var pushing_force = 150.0
-@export var friction : float = 1.0
+const FRICTION_BASE : float = 1.0
+const FRICTION_KNOCKBACK : float = 0.3
+const KNOCKBACK_FORCE : float = 1000.0
+@export var friction : float = FRICTION_BASE
 @export var acceleration : float = 1.0
 
-enum PLAYER_STATES {IDLE, MOVING, ATTACKING, DASHING, HURTING, GRABBING}
+enum PLAYER_STATES {IDLE, MOVING, ATTACKING, KNOCKED_BACK, HURTING, GRABBING}
 var player_state : int = PLAYER_STATES.IDLE
+var player_last_state : int = player_state
 
 enum PLAYER_DIRECTION_STATES {UP, DOWN, LEFT, RIGHT}
 var player_direction_state : int = PLAYER_DIRECTION_STATES.DOWN
+var player_backward_direction : Vector2 = Vector2.ZERO
 
+var can_attack : bool = true
 var animation_change : bool = true
 
 var input_dir : Vector2 = Vector2.ZERO
 
 func _ready():
-	pass
+	knockback_timer.connect("timeout", reset_friction_after_knockback)
 
 func _input(event):
-	if (Input.is_action_pressed("ui_cancel")):
+	if (Input.is_action_pressed("quit")):
 		get_tree().quit()
 	
-	if (Input.is_action_just_pressed("attack")):
-		player_state = PLAYER_STATES.ATTACKING
-		animation_change = true
+	if (Input.is_action_just_pressed("attack") && can_attack):
+		can_attack = false
+		set_player_state(PLAYER_STATES.ATTACKING)
+		knockback(player_backward_direction)
 	
-	if (Input.is_action_just_pressed("ui_left")):
+	if (Input.is_action_just_pressed("reset")):
 		reset_after_attack()
 	
 	if (player_state == PLAYER_STATES.IDLE || player_state == PLAYER_STATES.MOVING):
@@ -43,12 +50,10 @@ func _input(event):
 	match player_state:
 		PLAYER_STATES.IDLE:
 			if (input_dir.length() > 0.0):
-				player_state = PLAYER_STATES.MOVING
-				animation_change = true
+				set_player_state(PLAYER_STATES.MOVING)
 		PLAYER_STATES.MOVING:
 			if (input_dir.length() == 0.0):
-				player_state = PLAYER_STATES.IDLE
-				animation_change = true
+				set_player_state(PLAYER_STATES.IDLE)
 
 func _process(delta):
 	player_dir_to_state()
@@ -70,37 +75,50 @@ func _physics_process(delta):
 					col.get_collider().apply_force((col.get_normal() * pushing_force)* -1.0)
 					velocity = col.get_collider().linear_velocity
 
+func set_player_state(new_state : PLAYER_STATES) -> void:
+	player_last_state = player_state
+	player_state = new_state
+	animation_change = true
+
 func player_dir_to_state() -> void:
 	match player_state:
 		PLAYER_STATES.IDLE:
 			if (abs(input_dir.y) > abs(input_dir.x)):
 				if (input_dir.y > 0.0):
 					player_direction_state = PLAYER_DIRECTION_STATES.DOWN
+					player_backward_direction = Vector2.UP
 					animation_change = true
 				else:
 					player_direction_state = PLAYER_DIRECTION_STATES.UP
+					player_backward_direction = Vector2.DOWN
 					animation_change = true
 			elif (abs(input_dir.y) < abs(input_dir.x)):
 				if (input_dir.x > 0.0):
 					player_direction_state = PLAYER_DIRECTION_STATES.RIGHT
+					player_backward_direction = Vector2.LEFT
 					animation_change = true
 				else:
 					player_direction_state = PLAYER_DIRECTION_STATES.LEFT
+					player_backward_direction = Vector2.RIGHT
 					animation_change = true
 		PLAYER_STATES.MOVING:
 			if (abs(input_dir.y) > abs(input_dir.x)):
 				if (input_dir.y > 0.0):
 					player_direction_state = PLAYER_DIRECTION_STATES.DOWN
+					player_backward_direction = Vector2.UP
 					animation_change = true
 				else:
 					player_direction_state = PLAYER_DIRECTION_STATES.UP
+					player_backward_direction = Vector2.DOWN
 					animation_change = true
 			elif (abs(input_dir.y) < abs(input_dir.x)):
 				if (input_dir.x > 0.0):
 					player_direction_state = PLAYER_DIRECTION_STATES.RIGHT
+					player_backward_direction = Vector2.LEFT
 					animation_change = true
 				else:
 					player_direction_state = PLAYER_DIRECTION_STATES.LEFT
+					player_backward_direction = Vector2.RIGHT
 					animation_change = true
 
 func animate_sprite() -> void:
@@ -136,8 +154,33 @@ func animate_sprite() -> void:
 						anim_player.play("idle_left") # Attack
 					PLAYER_DIRECTION_STATES.RIGHT:
 						anim_player.play("idle_right") # Attack
+			PLAYER_STATES.KNOCKED_BACK:
+				match player_direction_state:
+					PLAYER_DIRECTION_STATES.UP:
+						anim_player.play("idle_up") # Attack
+					PLAYER_DIRECTION_STATES.DOWN:
+						anim_player.play("idle_down") # Attack
+					PLAYER_DIRECTION_STATES.LEFT:
+						anim_player.play("idle_left") # Attack
+					PLAYER_DIRECTION_STATES.RIGHT:
+						anim_player.play("idle_right") # Attack
 		animation_change = false
+
+func knockback(knockback_vector : Vector2) -> void:
+	set_player_state(PLAYER_STATES.KNOCKED_BACK)
+	friction = FRICTION_KNOCKBACK
+	velocity = velocity + (knockback_vector * KNOCKBACK_FORCE)
+	knockback_timer.start()
 
 func reset_after_attack() -> void:
 	player_state = PLAYER_STATES.IDLE
+	can_attack = true
 	animation_change = true
+
+func reset_after_dash() -> void:
+	player_state = PLAYER_STATES.IDLE
+	animation_change = true
+
+func reset_friction_after_knockback() -> void:
+	friction = FRICTION_BASE
+	player_state = PLAYER_STATES.IDLE
