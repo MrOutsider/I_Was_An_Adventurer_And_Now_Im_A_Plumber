@@ -48,7 +48,7 @@ func _input(_event):
 		input_dir.y = Input.get_action_raw_strength("move_down") - Input.get_action_raw_strength("move_up")
 		if (input_dir.length() > 1.0):
 			input_dir = input_dir.normalized()
-		if (input_dir.length() < 0.1):
+		if (input_dir.length() < 0.3):
 			input_dir = Vector2.ZERO
 		
 		if (Input.is_action_just_pressed("attack") && can_attack):
