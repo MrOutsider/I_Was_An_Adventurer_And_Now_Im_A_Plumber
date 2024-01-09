@@ -3,6 +3,9 @@ extends CharacterBody2D
 @onready var anim_player : AnimationPlayer = $AnimationPlayer
 @onready var knockback_timer = $Knockback_Timer
 
+# Colliders
+@onready var sword_col : Area2D = $SwordPivot/Sword
+
 @export var speed : float = 7.0
 @export var pushing_force = 150.0
 const FRICTION_BASE : float = 1.0
@@ -26,6 +29,8 @@ var input_dir : Vector2 = Vector2.ZERO
 
 func _ready():
 	knockback_timer.connect("timeout", reset_friction_after_knockback)
+	sword_col.connect("body_entered", attack_hit, 1)
+	sword_col.connect("area_entered", attack_hit, 1)
 
 func _input(event):
 	if (Input.is_action_pressed("quit")):
@@ -34,7 +39,6 @@ func _input(event):
 	if (Input.is_action_just_pressed("attack") && can_attack):
 		can_attack = false
 		set_player_state(PLAYER_STATES.ATTACKING)
-		knockback(player_backward_direction)
 	
 	if (Input.is_action_just_pressed("reset")):
 		reset_after_attack()
@@ -147,13 +151,13 @@ func animate_sprite() -> void:
 			PLAYER_STATES.ATTACKING:
 				match player_direction_state:
 					PLAYER_DIRECTION_STATES.UP:
-						anim_player.play("idle_up") # Attack
+						anim_player.play("attack_sword_up") # Attack
 					PLAYER_DIRECTION_STATES.DOWN:
-						anim_player.play("idle_down") # Attack
+						anim_player.play("attack_sword_down") # Attack
 					PLAYER_DIRECTION_STATES.LEFT:
-						anim_player.play("idle_left") # Attack
+						anim_player.play("attack_sword_left") # Attack
 					PLAYER_DIRECTION_STATES.RIGHT:
-						anim_player.play("idle_right") # Attack
+						anim_player.play("attack_sword_right") # Attack
 			PLAYER_STATES.KNOCKED_BACK:
 				match player_direction_state:
 					PLAYER_DIRECTION_STATES.UP:
@@ -171,6 +175,13 @@ func knockback(knockback_vector : Vector2) -> void:
 	friction = FRICTION_KNOCKBACK
 	velocity = velocity + (knockback_vector * KNOCKBACK_FORCE)
 	knockback_timer.start()
+
+func attack_hit(body) -> void:
+	print(body)
+	if (body.is_in_group("switch")):
+			body.queue_free()
+	if (body.is_in_group("movable")):
+			body.linear_velocity = (player_backward_direction * -1) * (pushing_force * 0.25)
 
 func reset_after_attack() -> void:
 	player_state = PLAYER_STATES.IDLE
