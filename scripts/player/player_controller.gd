@@ -1,15 +1,16 @@
 extends CharacterBody2D
 
 @onready var anim_player : AnimationPlayer = $AnimationPlayer
-@onready var anim_player_attacks = $AnimationPlayerAttacks
+@onready var anim_player_attacks : AnimationPlayer = $AnimationPlayerAttacks
+@onready var player_sprite : AnimatedSprite2D = $AnimatedSprite2D
 
-@onready var knockback_timer = $Knockback_Timer
+@onready var knockback_timer : Timer = $Knockback_Timer
 
 # Colliders
 @onready var sword_col : Area2D = $SwordPivot/Sword
 
 @export var speed : float = 7.0
-@export var pushing_force = 20.0
+@export var pushing_force : float = 20.0
 const FRICTION_BASE : float = 1.0
 const FRICTION_KNOCKBACK : float = 0.3
 const KNOCKBACK_FORCE : float = 1000.0
@@ -30,6 +31,7 @@ var animation_change : bool = true
 var input_dir : Vector2 = Vector2.ZERO
 
 func _ready():
+	player_sprite.play("idle_down")
 	knockback_timer.connect("timeout", reset_friction_after_knockback)
 	sword_col.connect("body_entered", attack_hit, 1)
 	sword_col.connect("area_entered", attack_hit, 1)
@@ -183,9 +185,11 @@ func attack_hit(body) -> void:
 	if (body.is_in_group("player")):
 		return
 	if (body.is_in_group("switch")):
-			body.flip_switch()
+		body.flip_switch()
 	if (body.is_in_group("movable")):
-			body.linear_velocity = (player_backward_direction * -1) * pushing_force
+		body.linear_velocity = (player_backward_direction * -1) * pushing_force
+	if (body.is_in_group("enemy")):
+		body.hurt()
 
 func reset_after_attack() -> void:
 	can_attack = true
