@@ -9,7 +9,7 @@
 radius = 7.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_31dof"]
-size = Vector2(16, 16)
+size = Vector2(16, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_08uht"]
 size = Vector2(4, 20)
@@ -741,6 +741,7 @@ collision_layer = 2
 shape = SubResource("CircleShape2D_idbeo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 7)
 shape = SubResource("RectangleShape2D_31dof")
 
 [node name="SwordPivot" type="Node2D" parent="."]

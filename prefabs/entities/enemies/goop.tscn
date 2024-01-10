@@ -10,7 +10,7 @@
 radius = 8.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n41rb"]
-size = Vector2(14, 15)
+size = Vector2(14, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h2jm5"]
 atlas = ExtResource("3_ip4d4")
@@ -449,7 +449,7 @@ position = Vector2(0, 0.5)
 scale = Vector2(0.8, 0.85)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 0.5)
+position = Vector2(0, 6)
 shape = SubResource("RectangleShape2D_n41rb")
 
 [node name="Shadow" type="Sprite2D" parent="."]

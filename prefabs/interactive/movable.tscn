@@ -24,7 +24,7 @@ func on_sleep_state_change() -> void:
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n7v8b"]
-size = Vector2(28, 28)
+size = Vector2(28, 14)
 
 [node name="Movable" type="RigidBody2D" groups=["movable", "solid"]]
 collision_layer = 2
@@ -36,6 +36,10 @@ linear_damp = 0.8
 script = SubResource("GDScript_oma22")
 metadata/_edit_group_ = true
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 7)
+shape = SubResource("RectangleShape2D_n7v8b")
+
 [node name="Sprite2D2" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.403922)
 position = Vector2(4.17233e-07, 12.5)
@@ -45,10 +49,6 @@ texture = ExtResource("1_m8esk")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.21875, 0.21875)
 texture = ExtResource("1_m8esk")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource("RectangleShape2D_n7v8b")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 position = Vector2(0, 13)

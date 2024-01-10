@@ -12,7 +12,7 @@ extends CharacterBody2D
 # Constants
 const FRICTION_BASE : float = 1.0
 const FRICTION_KNOCKBACK : float = 0.3
-const KNOCKBACK_FORCE : float = 750.0
+const KNOCKBACK_FORCE : float = 400.0
 
 # Stats
 @export var health : int = 6
