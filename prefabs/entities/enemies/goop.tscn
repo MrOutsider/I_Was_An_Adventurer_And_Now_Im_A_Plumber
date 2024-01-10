@@ -439,7 +439,7 @@ speed = 75.0
 metadata/_edit_group_ = true
 
 [node name="Hurtbox" parent="." groups=["enemy"] instance=ExtResource("3_c3tp1")]
-position = Vector2(0, 3)
+position = Vector2(0, -4)
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
@@ -447,17 +447,17 @@ position = Vector2(0, -1)
 shape = SubResource("CircleShape2D_03ab8")
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
-position = Vector2(0, 1)
+position = Vector2(0, -6)
 scale = Vector2(0.8, 0.85)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 3)
+position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_n41rb")
 
 [node name="Shadow" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.517647)
 show_behind_parent = true
-position = Vector2(0, 4)
+position = Vector2(0, -3)
 scale = Vector2(0.078125, 0.03125)
 texture = ExtResource("3_w5r40")
 

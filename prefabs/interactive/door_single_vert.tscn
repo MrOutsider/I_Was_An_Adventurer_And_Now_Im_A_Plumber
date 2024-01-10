@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://b2s65sbd2f6lw"]
+
+[ext_resource type="Script" path="res://scripts/interactive/door.gd" id="1_1rpom"]
+[ext_resource type="Texture2D" uid="uid://dukpt0ln2xtyh" path="res://assets/art/tilemaps/hero_temple_tilemap.png" id="2_vbrs2"]
+[ext_resource type="AudioStream" uid="uid://ca2x0c2fsoltp" path="res://assets/audio/sfx/heavy_bump.wav" id="3_npc5t"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1a27x"]
+atlas = ExtResource("2_vbrs2")
+region = Rect2(54, 112, 4, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a1hsb"]
+size = Vector2(4, 16)
+
+[node name="DoorSingle" type="CharacterBody2D" groups=["solid"]]
+collision_layer = 4
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_1rpom")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = SubResource("AtlasTexture_1a27x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_a1hsb")
+
+[node name="BumpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_npc5t")
+volume_db = -15.0

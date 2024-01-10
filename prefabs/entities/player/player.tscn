@@ -740,18 +740,19 @@ HURTBOX = NodePath("Hurtbox")
 metadata/_edit_group_ = true
 
 [node name="Hurtbox" parent="." groups=["player"] instance=ExtResource("4_cx3hx")]
+position = Vector2(0, -3)
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CircleShape2D_idbeo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2)
+position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_31dof")
 
 [node name="SwordPivot" type="Node2D" parent="."]
 z_index = 1
-position = Vector2(0, -5)
+position = Vector2(0, -8)
 
 [node name="Sword" type="Area2D" parent="SwordPivot"]
 y_sort_enabled = true
@@ -777,12 +778,12 @@ shape = SubResource("RectangleShape2D_08uht")
 [node name="Shadow" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.517647)
 show_behind_parent = true
-position = Vector2(0, 2)
+position = Vector2(0, -1)
 scale = Vector2(0.09375, 0.03125)
 texture = ExtResource("2_d3pjb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -5)
+position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_7a8jc")
 animation = &"idle_down"
 script = SubResource("GDScript_w8gsq")
@@ -808,6 +809,7 @@ libraries = {
 [node name="AnimationPlayerEffects" type="AnimationPlayer" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -5)
 zoom = Vector2(4, 4)
 
 [node name="AudioListener2D" type="AudioListener2D" parent="Camera2D"]

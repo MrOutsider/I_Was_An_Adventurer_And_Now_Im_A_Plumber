@@ -47,27 +47,22 @@ linear_damp = 0.8
 script = SubResource("GDScript_oma22")
 metadata/_edit_group_ = true
 
-[node name="BumpSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("1_1p7y4")
-volume_db = -15.0
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4)
+position = Vector2(0, -4)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_51gkr")
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.403922)
-position = Vector2(2.84217e-14, 4.75)
+position = Vector2(2.84217e-14, -3.25)
 scale = Vector2(0.125, 0.0742188)
 texture = ExtResource("1_d6uwo")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -1)
+position = Vector2(0, -9)
 texture = SubResource("AtlasTexture_enrn5")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-position = Vector2(0, 8)
 emitting = false
 amount = 16
 lifetime = 0.5
@@ -80,3 +75,7 @@ radial_accel_max = 6.06
 angle_max = 360.0
 scale_amount_max = 2.0
 color = Color(1, 1, 1, 0.588235)
+
+[node name="BumpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("1_1p7y4")
+volume_db = -15.0
