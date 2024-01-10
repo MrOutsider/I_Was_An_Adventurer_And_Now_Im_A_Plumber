@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=3 uid="uid://b81uds5ulet3l"]
+
+[ext_resource type="Script" path="res://scripts/levels/technical/main_menu.gd" id="1_6pvca"]
+
+[node name="MainMenu" type="Node" node_paths=PackedStringArray("new_game_button", "load_game_button", "options_button", "quit_button")]
+script = ExtResource("1_6pvca")
+new_game_button = NodePath("Node/MarginContainer/CenterContainer/VBoxContainer/NewGame")
+load_game_button = NodePath("Node/MarginContainer/CenterContainer/VBoxContainer/LoadGame")
+options_button = NodePath("Node/MarginContainer/CenterContainer/VBoxContainer/Options")
+quit_button = NodePath("Node/MarginContainer/CenterContainer/VBoxContainer/Quit")
+
+[node name="Node" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.458824, 0.694118, 0.788235, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="Node"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Node/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Node/MarginContainer/CenterContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="NewGame" type="Button" parent="Node/MarginContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "New Game"
+
+[node name="LoadGame" type="Button" parent="Node/MarginContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Load Game"
+
+[node name="Options" type="Button" parent="Node/MarginContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Options"
+
+[node name="Quit" type="Button" parent="Node/MarginContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit
+"

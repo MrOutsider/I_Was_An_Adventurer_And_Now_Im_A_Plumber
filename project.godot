@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="The Weight Of A Hero"
-run/main_scene="res://test.tscn"
+run/main_scene="res://levels/technical/main_menu.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 boot_splash/show_image=false
 boot_splash/fullsize=false

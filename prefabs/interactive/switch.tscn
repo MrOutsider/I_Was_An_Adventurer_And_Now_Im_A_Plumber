@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="1_a10k2"]
 [ext_resource type="Script" path="res://scripts/interactive/switch.tres.gd" id="1_ychb0"]
 [ext_resource type="Texture2D" uid="uid://jlkdpsqrbajo" path="res://assets/art/interactive/lever.png" id="2_4i66w"]
-[ext_resource type="AudioStream" uid="uid://wgbsjbo238d3" path="res://assets/sounds/sfx/lever.wav" id="3_4j5na"]
+[ext_resource type="AudioStream" uid="uid://wgbsjbo238d3" path="res://assets/audio/sfx/lever.wav" id="3_4j5na"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtsff"]
 size = Vector2(16, 6)

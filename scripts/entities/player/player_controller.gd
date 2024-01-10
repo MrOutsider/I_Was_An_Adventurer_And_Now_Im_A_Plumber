@@ -5,6 +5,7 @@ extends CharacterBody2D
 @onready var anim_player_attacks : AnimationPlayer = $AnimationPlayerAttacks
 @onready var anim_player_effects : AnimationPlayer = $AnimationPlayerEffects
 @onready var player_sprite : AnimatedSprite2D = $AnimatedSprite2D
+@onready var music_player : AudioStreamPlayer = $MusicPlayer
 # Modules
 @export var HURTBOX : Area2D
 # -> Timers
@@ -44,12 +45,18 @@ var input_dir : Vector2 = Vector2.ZERO
 # Standard Functions
 func _ready():
 	player_sprite.play("idle_down") # Start Sprite Animations
-	# Connecting Signal
+	# Connecting Signals
 	HURTBOX.connect("hit", take_dmg, 2)
 	knockback_timer.connect("timeout", reset_after_knockback)
 	sword_attack_timer.connect("timeout", reset_after_attack)
 	sword_col.connect("body_entered", attack_hit, 1)
 	sword_col.connect("area_entered", attack_hit, 1)
+	# Music
+	music_player.finished.connect(music_end)
+	# TMP --------------------------------------------------------------------------------------------------- TMP
+	music_player.stream = load("res://assets/audio/music/xDeviruchi - The Final of The Fantasy.wav")
+	music_player.play()
+	# TMP --------------------------------------------------------------------------------------------------- TMP
 
 func _input(_event):
 	if (Input.is_action_pressed("quit")):
@@ -219,3 +226,5 @@ func reset_after_knockback() -> void:
 		friction = FRICTION_BASE
 		set_player_state(PLAYER_STATES.IDLE)
 
+func music_end() -> void:
+	music_player.play()

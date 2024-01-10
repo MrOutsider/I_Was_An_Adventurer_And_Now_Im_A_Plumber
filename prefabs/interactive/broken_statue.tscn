@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://bywdhmnhpxadf"]
 
+[ext_resource type="AudioStream" uid="uid://ca2x0c2fsoltp" path="res://assets/audio/sfx/heavy_bump.wav" id="1_1p7y4"]
 [ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="1_d6uwo"]
 [ext_resource type="Texture2D" uid="uid://dukpt0ln2xtyh" path="res://assets/art/tilemaps/hero_temple_tilemap.png" id="2_14yfx"]
-[ext_resource type="AudioStream" uid="uid://ca2x0c2fsoltp" path="res://assets/sounds/sfx/heavy_bump.wav" id="3_86wj6"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_24uab"]
 rough = true
@@ -29,12 +29,13 @@ func on_sleep_state_change() -> void:
 		particles.emitting = true
 "
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_n7v8b"]
-size = Vector2(18, 9)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_51gkr"]
+radius = 5.0
+height = 16.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_enrn5"]
 atlas = ExtResource("2_14yfx")
-region = Rect2(96, 62, 16, 18)
+region = Rect2(64, 62, 16, 18)
 
 [node name="BrokenStatue" type="RigidBody2D" groups=["movable", "solid"]]
 collision_layer = 2
@@ -47,12 +48,13 @@ script = SubResource("GDScript_oma22")
 metadata/_edit_group_ = true
 
 [node name="BumpSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_86wj6")
+stream = ExtResource("1_1p7y4")
 volume_db = -15.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4.5)
-shape = SubResource("RectangleShape2D_n7v8b")
+position = Vector2(0, 4)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_51gkr")
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.403922)

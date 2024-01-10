@@ -1,15 +1,20 @@
-[gd_scene load_steps=36 format=3 uid="uid://bledb3dcpla5r"]
+[gd_scene load_steps=38 format=3 uid="uid://bledb3dcpla5r"]
 
 [ext_resource type="Script" path="res://scripts/entities/player/player_controller.gd" id="1_i4220"]
 [ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="2_d3pjb"]
+[ext_resource type="Texture2D" uid="uid://dukpt0ln2xtyh" path="res://assets/art/tilemaps/hero_temple_tilemap.png" id="3_6dpkb"]
 [ext_resource type="PackedScene" uid="uid://cuc6xpjjjqomm" path="res://prefabs/entities/modules/hurtbox.tscn" id="4_cx3hx"]
 [ext_resource type="Texture2D" uid="uid://crktye8vuclp" path="res://assets/art/player/Main_Char_16x16.png" id="4_pa1rl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_idbeo"]
-radius = 7.0
+radius = 6.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_31dof"]
 size = Vector2(14, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vqx4e"]
+atlas = ExtResource("3_6dpkb")
+region = Rect2(91, 50, 2, 18)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_08uht"]
 size = Vector2(4, 20)
@@ -741,11 +746,12 @@ collision_layer = 2
 shape = SubResource("CircleShape2D_idbeo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 7)
+position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_31dof")
 
 [node name="SwordPivot" type="Node2D" parent="."]
 z_index = 1
+position = Vector2(0, -5)
 
 [node name="Sword" type="Area2D" parent="SwordPivot"]
 y_sort_enabled = true
@@ -758,22 +764,25 @@ metadata/_edit_group_ = true
 
 [node name="sword" type="Sprite2D" parent="SwordPivot/Sword"]
 visible = false
-scale = Vector2(0.0312676, 0.15625)
-texture = ExtResource("2_d3pjb")
+modulate = Color(0.678431, 0.419608, 0.231373, 1)
+position = Vector2(5.96046e-08, 1.19209e-07)
+scale = Vector2(2, 1.11111)
+texture = SubResource("AtlasTexture_vqx4e")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SwordPivot/Sword"]
 visible = false
-position = Vector2(-6.71564e-07, 0)
+position = Vector2(-3.8743e-07, 0)
 shape = SubResource("RectangleShape2D_08uht")
 
 [node name="Shadow" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.517647)
 show_behind_parent = true
-position = Vector2(0, 7)
+position = Vector2(0, 2)
 scale = Vector2(0.09375, 0.03125)
 texture = ExtResource("2_d3pjb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -5)
 sprite_frames = SubResource("SpriteFrames_7a8jc")
 animation = &"idle_down"
 script = SubResource("GDScript_w8gsq")
@@ -814,3 +823,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -30.0
