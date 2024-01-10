@@ -1,8 +1,9 @@
-[gd_scene load_steps=33 format=3 uid="uid://dwrfsnquxvgvh"]
+[gd_scene load_steps=34 format=3 uid="uid://dwrfsnquxvgvh"]
 
 [ext_resource type="Script" path="res://scripts/entities/enemies/base_enemy.gd" id="1_qr4ul"]
 [ext_resource type="PackedScene" uid="uid://cuc6xpjjjqomm" path="res://prefabs/entities/modules/hurtbox.tscn" id="3_c3tp1"]
 [ext_resource type="Texture2D" uid="uid://cdx7twt2164gl" path="res://assets/art/enemies/enemy_goop.png" id="3_ip4d4"]
+[ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="3_w5r40"]
 [ext_resource type="AudioStream" uid="uid://bylwo86pgqomn" path="res://assets/sounds/entity_hurt.wav" id="4_lw85v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_03ab8"]
@@ -450,6 +451,13 @@ scale = Vector2(0.8, 0.85)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_n41rb")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.517647)
+show_behind_parent = true
+position = Vector2(0, 7)
+scale = Vector2(0.078125, 0.03125)
+texture = ExtResource("3_w5r40")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_c5o3l")

@@ -765,17 +765,17 @@ visible = false
 position = Vector2(-6.71564e-07, 0)
 shape = SubResource("RectangleShape2D_08uht")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_7a8jc")
-animation = &"idle_down"
-script = SubResource("GDScript_w8gsq")
-
-[node name="Sprite2D" type="Sprite2D" parent="AnimatedSprite2D"]
+[node name="Shadow" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.517647)
 show_behind_parent = true
 position = Vector2(0, 7)
 scale = Vector2(0.09375, 0.03125)
 texture = ExtResource("2_d3pjb")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7a8jc")
+animation = &"idle_down"
+script = SubResource("GDScript_w8gsq")
 
 [node name="Knockback_Timer" type="Timer" parent="."]
 wait_time = 0.2
