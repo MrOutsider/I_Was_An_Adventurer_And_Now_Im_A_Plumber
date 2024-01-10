@@ -1,0 +1,65 @@
+[gd_scene load_steps=5 format=3 uid="uid://bywdhmnhpxadf"]
+
+[ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="1_m8esk"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_24uab"]
+rough = true
+bounce = 0.2
+
+[sub_resource type="GDScript" id="GDScript_oma22"]
+script/source = "extends RigidBody2D
+
+@onready var particles = $CPUParticles2D
+
+func _ready():
+	particles.emitting = false
+	connect(\"sleeping_state_changed\", on_sleep_state_change)
+
+func on_sleep_state_change() -> void:
+	if (sleeping):
+		particles.emitting = false
+		linear_velocity = Vector2.ZERO
+	else:
+		particles.emitting = true
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n7v8b"]
+size = Vector2(28, 28)
+
+[node name="Movable" type="RigidBody2D" groups=["movable", "solid"]]
+collision_layer = 2
+collision_mask = 7
+mass = 300.0
+physics_material_override = SubResource("PhysicsMaterial_24uab")
+lock_rotation = true
+linear_damp = 0.8
+script = SubResource("GDScript_oma22")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.403922)
+position = Vector2(4.17233e-07, 12.5)
+scale = Vector2(0.21875, 0.0390625)
+texture = ExtResource("1_m8esk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.21875, 0.21875)
+texture = ExtResource("1_m8esk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_n7v8b")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(0, 13)
+emitting = false
+amount = 16
+lifetime_randomness = 0.25
+emission_shape = 3
+emission_rect_extents = Vector2(12, 1)
+gravity = Vector2(0, 0)
+linear_accel_max = 14.14
+radial_accel_max = 6.06
+angle_max = 360.0
+scale_amount_max = 3.0
+color = Color(1, 1, 1, 0.588235)

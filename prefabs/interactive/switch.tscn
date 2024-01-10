@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://byferik5n0677"]
+
+[ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="1_a10k2"]
+[ext_resource type="Script" path="res://scripts/interactive/switch.tres.gd" id="1_ychb0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vtsff"]
+size = Vector2(16, 16)
+
+[sub_resource type="SystemFont" id="SystemFont_ahloh"]
+subpixel_positioning = 0
+
+[sub_resource type="SystemFont" id="SystemFont_6g0lj"]
+subpixel_positioning = 0
+
+[sub_resource type="Theme" id="Theme_cwics"]
+default_font = SubResource("SystemFont_6g0lj")
+default_font_size = 10
+Label/font_sizes/font_size = 9
+Label/fonts/font = SubResource("SystemFont_ahloh")
+
+[node name="Switch" type="CharacterBody2D" groups=["solid", "switch"]]
+collision_layer = 4
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_ychb0")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_vtsff")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("1_a10k2")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -15.0
+offset_top = -19.0
+offset_right = 14.0
+offset_bottom = -6.0
+theme = SubResource("Theme_cwics")
+text = "Switch"

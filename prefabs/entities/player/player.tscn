@@ -1,8 +1,12 @@
-[gd_scene load_steps=35 format=3 uid="uid://bledb3dcpla5r"]
+[gd_scene load_steps=36 format=3 uid="uid://bledb3dcpla5r"]
 
-[ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_hqj3q"]
-[ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="2_cvq8l"]
-[ext_resource type="Texture2D" uid="uid://crktye8vuclp" path="res://assets/player/Main_Char_16x16.png" id="2_j0kam"]
+[ext_resource type="Script" path="res://scripts/entities/player/player_controller.gd" id="1_i4220"]
+[ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="2_d3pjb"]
+[ext_resource type="Texture2D" uid="uid://crktye8vuclp" path="res://assets/player/Main_Char_16x16.png" id="3_u0q78"]
+[ext_resource type="PackedScene" uid="uid://cuc6xpjjjqomm" path="res://prefabs/entities/modules/hurtbox.tscn" id="4_cx3hx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_idbeo"]
+radius = 7.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_31dof"]
 size = Vector2(16, 16)
@@ -11,51 +15,51 @@ size = Vector2(16, 16)
 size = Vector2(4, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uk04w"]
-atlas = ExtResource("2_j0kam")
+atlas = ExtResource("3_u0q78")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yjyxe"]
-atlas = ExtResource("2_j0kam")
+atlas = ExtResource("3_u0q78")
 region = Rect2(0, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5bwge"]
-atlas = ExtResource("2_j0kam")
+atlas = ExtResource("3_u0q78")
 region = Rect2(0, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gxk67"]
-atlas = ExtResource("2_j0kam")
+atlas = ExtResource("3_u0q78")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_inhl7"]
-atlas = ExtResource("2_j0kam")
+atlas = ExtResource("3_u0q78")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_12bhu"]
-atlas = ExtResource("2_j0kam")
+atlas = ExtResource("3_u0q78")
 region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8hdib"]
-atlas = ExtResource("2_j0kam")
+atlas = ExtResource("3_u0q78")
 region = Rect2(32, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sx0uu"]
-atlas = ExtResource("2_j0kam")
+atlas = ExtResource("3_u0q78")
 region = Rect2(0, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0dbmn"]
-atlas = ExtResource("2_j0kam")
+atlas = ExtResource("3_u0q78")
 region = Rect2(16, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p8fpn"]
-atlas = ExtResource("2_j0kam")
+atlas = ExtResource("3_u0q78")
 region = Rect2(16, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k2ipf"]
-atlas = ExtResource("2_j0kam")
+atlas = ExtResource("3_u0q78")
 region = Rect2(0, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8hcvd"]
-atlas = ExtResource("2_j0kam")
+atlas = ExtResource("3_u0q78")
 region = Rect2(32, 32, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7a8jc"]
@@ -720,19 +724,23 @@ _data = {
 "move_up": SubResource("Animation_xtyg4")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_nrlxc"]
-radius = 6.0
-
-[node name="Player" type="CharacterBody2D" groups=["player"]]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("HURTBOX")]
 collision_layer = 2
 collision_mask = 7
 motion_mode = 1
 platform_floor_layers = 4294967040
 platform_wall_layers = 1
-script = ExtResource("1_hqj3q")
+script = ExtResource("1_i4220")
+HURTBOX = NodePath("Hurtbox")
+metadata/_edit_group_ = true
+
+[node name="Hurtbox" parent="." groups=["player"] instance=ExtResource("4_cx3hx")]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_idbeo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("RectangleShape2D_31dof")
 
 [node name="SwordPivot" type="Node2D" parent="."]
@@ -750,7 +758,7 @@ metadata/_edit_group_ = true
 [node name="sword" type="Sprite2D" parent="SwordPivot/Sword"]
 visible = false
 scale = Vector2(0.0312676, 0.15625)
-texture = ExtResource("2_cvq8l")
+texture = ExtResource("2_d3pjb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SwordPivot/Sword"]
 visible = false
@@ -767,7 +775,7 @@ modulate = Color(0, 0, 0, 0.517647)
 show_behind_parent = true
 position = Vector2(0, 7)
 scale = Vector2(0.09375, 0.03125)
-texture = ExtResource("2_cvq8l")
+texture = ExtResource("2_d3pjb")
 
 [node name="Knockback_Timer" type="Timer" parent="."]
 wait_time = 0.2
@@ -787,12 +795,7 @@ libraries = {
 "": SubResource("AnimationLibrary_q1r7a")
 }
 
-[node name="Hurtbox" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-shape = SubResource("CircleShape2D_nrlxc")
+[node name="AnimationPlayerEffects" type="AnimationPlayer" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(4, 4)
