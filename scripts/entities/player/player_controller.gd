@@ -206,6 +206,8 @@ func attack_hit(body) -> void:
 		body.take_dmg(1, forward_direction)
 	if (body.is_in_group("solid")):
 		knockback(forward_direction * -1.0)
+		if (body.has_method("hit_sound")):
+			body.hit_sound()
 
 # Functions triggered by timers
 func reset_after_attack() -> void:

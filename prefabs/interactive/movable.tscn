@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bywdhmnhpxadf"]
+[gd_scene load_steps=6 format=3 uid="uid://bywdhmnhpxadf"]
 
 [ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="1_m8esk"]
+[ext_resource type="AudioStream" uid="uid://ca2x0c2fsoltp" path="res://assets/sounds/sfx/heavy_bump.wav" id="2_k565o"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_24uab"]
 rough = true
@@ -10,10 +11,14 @@ bounce = 0.2
 script/source = "extends RigidBody2D
 
 @onready var particles = $CPUParticles2D
+@onready var bump_sound = $BumpSound
 
 func _ready():
 	particles.emitting = false
 	connect(\"sleeping_state_changed\", on_sleep_state_change)
+
+func hit_sound() -> void:
+	bump_sound.play()
 
 func on_sleep_state_change() -> void:
 	if (sleeping):
@@ -63,3 +68,7 @@ radial_accel_max = 6.06
 angle_max = 360.0
 scale_amount_max = 3.0
 color = Color(1, 1, 1, 0.588235)
+
+[node name="BumpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_k565o")
+volume_db = -15.0

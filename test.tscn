@@ -1958,6 +1958,7 @@ sources/1 = SubResource("TileSetAtlasSource_bda6n")
 [node name="Node2D" type="Node2D"]
 
 [node name="UI" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="MarginContainer" type="MarginContainer" parent="UI"]
 anchors_preset = 15

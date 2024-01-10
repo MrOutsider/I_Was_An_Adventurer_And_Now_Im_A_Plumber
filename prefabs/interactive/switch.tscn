@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://byferik5n0677"]
+[gd_scene load_steps=7 format=3 uid="uid://byferik5n0677"]
 
 [ext_resource type="Script" path="res://scripts/interactive/switch.tres.gd" id="1_ychb0"]
 [ext_resource type="Texture2D" uid="uid://jlkdpsqrbajo" path="res://assets/art/interactive/lever.png" id="2_4i66w"]
+[ext_resource type="AudioStream" uid="uid://wgbsjbo238d3" path="res://assets/sounds/sfx/lever.wav" id="3_4j5na"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtsff"]
 size = Vector2(18, 10)
@@ -31,3 +32,6 @@ texture = SubResource("AtlasTexture_od5u1")
 [node name="LeverOn" type="Sprite2D" parent="."]
 visible = false
 texture = SubResource("AtlasTexture_c7ygs")
+
+[node name="LeverSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_4j5na")
