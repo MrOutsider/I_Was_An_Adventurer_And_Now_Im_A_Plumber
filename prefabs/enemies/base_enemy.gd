@@ -12,9 +12,10 @@ func _ready():
 	rot_t.start()
 	rot_t.connect("timeout", change_face)
 
-func hurt() -> void:
+func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:
 	hurt_animations.play("hurt")
 
+# ----- Remove ----- ----- Remove ----- ----- Remove ----- 
 func change_face() -> void:
 	var i = randi_range(0, 4)
 	match i:
@@ -26,3 +27,4 @@ func change_face() -> void:
 			animation_player.play("idle_left")
 		3:
 			animation_player.play("idle_right")
+# ----- Remove ----- ----- Remove ----- ----- Remove ----- 

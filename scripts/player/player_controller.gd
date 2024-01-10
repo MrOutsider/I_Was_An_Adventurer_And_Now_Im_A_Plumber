@@ -1,22 +1,27 @@
 extends CharacterBody2D
 
+# Node Imports
 @onready var anim_player : AnimationPlayer = $AnimationPlayer
 @onready var anim_player_attacks : AnimationPlayer = $AnimationPlayerAttacks
 @onready var player_sprite : AnimatedSprite2D = $AnimatedSprite2D
-
+# -> Timers
 @onready var knockback_timer : Timer = $Knockback_Timer
-
-# Colliders
+@onready var sword_attack_timer = $Sword_Attack_Timer
+# -> Colliders
 @onready var sword_col : Area2D = $SwordPivot/Sword
 
-@export var speed : float = 7.0
-@export var pushing_force : float = 20.0
+# Constants
 const FRICTION_BASE : float = 1.0
 const FRICTION_KNOCKBACK : float = 0.3
-const KNOCKBACK_FORCE : float = 500.0
+const KNOCKBACK_FORCE : float = 750.0
+
+# Stats
+@export var speed : float = 7.0
+@export var pushing_force : float = 20.0
 @export var friction : float = FRICTION_BASE
 @export var acceleration : float = 1.0
 
+# State Machine
 enum PLAYER_STATES {IDLE, MOVING, ATTACKING, KNOCKED_BACK, HURTING, GRABBING}
 var player_state : int = PLAYER_STATES.IDLE
 var player_last_state : int = player_state
@@ -25,43 +30,27 @@ enum PLAYER_DIRECTION_STATES {UP, DOWN, LEFT, RIGHT}
 var player_direction_state : int = PLAYER_DIRECTION_STATES.DOWN
 var player_backward_direction : Vector2 = Vector2.ZERO
 
+# State Flags
 var can_attack : bool = true
 var animation_change : bool = true
 
+# Script Global
 var input_dir : Vector2 = Vector2.ZERO
 
 func _ready():
-	player_sprite.play("idle_down")
-	knockback_timer.connect("timeout", reset_friction_after_knockback)
+	player_sprite.play("idle_down") # Start Sprite Animations
+	# Connecting Signal
+	knockback_timer.connect("timeout", reset_after_knockback)
+	sword_attack_timer.connect("timeout", reset_after_attack)
 	sword_col.connect("body_entered", attack_hit, 1)
 	sword_col.connect("area_entered", attack_hit, 1)
 
 func _input(_event):
 	if (Input.is_action_pressed("quit")):
 		get_tree().quit()
-	
-	if (player_state == PLAYER_STATES.IDLE || player_state == PLAYER_STATES.MOVING):
-		input_dir.x = Input.get_action_raw_strength("move_right") - Input.get_action_raw_strength("move_left")
-		input_dir.y = Input.get_action_raw_strength("move_down") - Input.get_action_raw_strength("move_up")
-		if (input_dir.length() > 1.0):
-			input_dir = input_dir.normalized()
-		if (input_dir.length() < 0.3):
-			input_dir = Vector2.ZERO
-		
-		if (Input.is_action_just_pressed("attack") && can_attack):
-			can_attack = false
-			set_player_state(PLAYER_STATES.ATTACKING)
-	
-	match player_state:
-		PLAYER_STATES.IDLE:
-			if (input_dir.length() > 0.0):
-				set_player_state(PLAYER_STATES.MOVING)
-		PLAYER_STATES.MOVING:
-			if (input_dir.length() == 0.0):
-				set_player_state(PLAYER_STATES.IDLE)
 
 func _process(_delta):
-	player_dir_to_state()
+	process_inputs()
 	animate_sprite()
 
 func _physics_process(_delta):
@@ -150,33 +139,39 @@ func animate_sprite() -> void:
 						anim_player.play("move_left")
 					PLAYER_DIRECTION_STATES.RIGHT:
 						anim_player.play("move_right")
-			PLAYER_STATES.ATTACKING:
-				match player_direction_state:
-					PLAYER_DIRECTION_STATES.UP:
-						anim_player_attacks.play("attack_sword_up") # Attack
-					PLAYER_DIRECTION_STATES.DOWN:
-						anim_player_attacks.play("attack_sword_down") # Attack
-					PLAYER_DIRECTION_STATES.LEFT:
-						anim_player_attacks.play("attack_sword_left") # Attack
-					PLAYER_DIRECTION_STATES.RIGHT:
-						anim_player_attacks.play("attack_sword_right") # Attack
 			PLAYER_STATES.KNOCKED_BACK:
 				match player_direction_state:
 					PLAYER_DIRECTION_STATES.UP:
-						anim_player.play("idle_up") # Attack
+						anim_player.play("idle_up")
 					PLAYER_DIRECTION_STATES.DOWN:
-						anim_player.play("idle_down") # Attack
+						anim_player.play("idle_down")
 					PLAYER_DIRECTION_STATES.LEFT:
-						anim_player.play("idle_left") # Attack
+						anim_player.play("idle_left")
 					PLAYER_DIRECTION_STATES.RIGHT:
-						anim_player.play("idle_right") # Attack
+						anim_player.play("idle_right")
+			PLAYER_STATES.ATTACKING:
+				match player_direction_state:
+					PLAYER_DIRECTION_STATES.UP:
+						anim_player_attacks.play("attack_sword_up")
+					PLAYER_DIRECTION_STATES.DOWN:
+						anim_player_attacks.play("attack_sword_down")
+					PLAYER_DIRECTION_STATES.LEFT:
+						anim_player_attacks.play("attack_sword_left")
+					PLAYER_DIRECTION_STATES.RIGHT:
+						anim_player_attacks.play("attack_sword_right")
 		animation_change = false
 
+func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:
+	if (player_state == PLAYER_STATES.IDLE || player_state == PLAYER_STATES.MOVING):
+		knockback(dir_of_atk)
+		# Do damage here.
+
 func knockback(knockback_vector : Vector2) -> void:
-	set_player_state(PLAYER_STATES.KNOCKED_BACK)
-	friction = FRICTION_KNOCKBACK
-	velocity = velocity + (knockback_vector * KNOCKBACK_FORCE)
-	knockback_timer.start()
+	if (player_state != PLAYER_STATES.KNOCKED_BACK && knockback_vector.length() > 0.0):
+		set_player_state(PLAYER_STATES.KNOCKED_BACK)
+		friction = FRICTION_KNOCKBACK
+		velocity = velocity + (knockback_vector * KNOCKBACK_FORCE)
+		knockback_timer.start()
 
 func attack_hit(body) -> void:
 	if (body.is_in_group("player")):
@@ -186,18 +181,37 @@ func attack_hit(body) -> void:
 	if (body.is_in_group("movable")):
 		body.linear_velocity = (player_backward_direction * -1) * pushing_force
 	if (body.is_in_group("enemy")):
-		body.hurt()
+		body.take_dmg(1, Vector2.ZERO)
 	if (body.is_in_group("solid")):
 		knockback(player_backward_direction)
 
 func reset_after_attack() -> void:
 	can_attack = true
-	animation_change = true
+	if (player_state != PLAYER_STATES.KNOCKED_BACK):
+		set_player_state(PLAYER_STATES.IDLE)
 
-func reset_after_dash() -> void:
-	player_state = PLAYER_STATES.IDLE
-	animation_change = true
-
-func reset_friction_after_knockback() -> void:
+func reset_after_knockback() -> void:
 	friction = FRICTION_BASE
-	player_state = PLAYER_STATES.IDLE
+	set_player_state(PLAYER_STATES.IDLE)
+
+func process_inputs() -> void:
+	if (player_state == PLAYER_STATES.IDLE || player_state == PLAYER_STATES.MOVING):
+		input_dir.x = Input.get_action_raw_strength("move_right") - Input.get_action_raw_strength("move_left")
+		input_dir.y = Input.get_action_raw_strength("move_down") - Input.get_action_raw_strength("move_up")
+		player_dir_to_state()
+		if (input_dir.length() > 1.0):
+			input_dir = input_dir.normalized()
+		if (input_dir.length() < 0.3):
+			input_dir = Vector2.ZERO
+		
+		if (Input.is_action_just_pressed("attack") && can_attack):
+			can_attack = false
+			set_player_state(PLAYER_STATES.ATTACKING)
+	
+	match player_state:
+		PLAYER_STATES.IDLE:
+			if (input_dir.length() > 0.0):
+				set_player_state(PLAYER_STATES.MOVING)
+		PLAYER_STATES.MOVING:
+			if (input_dir.length() == 0.0):
+				set_player_state(PLAYER_STATES.IDLE)
