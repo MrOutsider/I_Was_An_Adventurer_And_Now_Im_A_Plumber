@@ -468,6 +468,7 @@ libraries = {
 "": SubResource("AnimationLibrary_pq0ah")
 }
 
-[node name="HurtSound" type="AudioStreamPlayer" parent="."]
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
+process_mode = 1
 stream = ExtResource("4_lw85v")
-volume_db = -12.18
+volume_db = -10.0

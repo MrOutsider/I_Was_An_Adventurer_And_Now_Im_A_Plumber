@@ -3,13 +3,13 @@ extends CharacterBody2D
 # Node Imports
 @onready var anim_player : AnimationPlayer = $AnimationPlayer
 @onready var anim_player_attacks : AnimationPlayer = $AnimationPlayerAttacks
-@onready var anim_player_effects = $AnimationPlayerEffects
+@onready var anim_player_effects : AnimationPlayer = $AnimationPlayerEffects
 @onready var player_sprite : AnimatedSprite2D = $AnimatedSprite2D
 # Modules
 @export var HURTBOX : Area2D
 # -> Timers
 @onready var knockback_timer : Timer = $Knockback_Timer
-@onready var sword_attack_timer = $Sword_Attack_Timer
+@onready var sword_attack_timer : Timer = $Sword_Attack_Timer
 # -> Colliders
 @onready var sword_col : Area2D = $SwordPivot/Sword
 

@@ -1,13 +1,13 @@
 extends CharacterBody2D
 
 # Node Imports
-@onready var anim_player_effects = $AnimationPlayer
-@onready var anim_player_effects_effects = $AnimationPlayerEffects
-@onready var animated_sprite_2d = $AnimatedSprite2D
+@onready var anim_player_effects : AnimationPlayer = $AnimationPlayer
+@onready var anim_player_effects_effects : AnimationPlayer = $AnimationPlayerEffects
+@onready var animated_sprite_2d : AnimatedSprite2D = $AnimatedSprite2D
 # Modules
 @export var HURTBOX : Area2D
 # Timers
-@onready var knockback_timer = $Knockback_Timer
+@onready var knockback_timer : Timer = $Knockback_Timer
 
 # Constants
 const FRICTION_BASE : float = 1.0
