@@ -72,11 +72,11 @@ func process_inputs() -> void:
 	if (player_state == PLAYER_STATES.IDLE || player_state == PLAYER_STATES.MOVING):
 		input_dir.x = Input.get_action_raw_strength("move_right") - Input.get_action_raw_strength("move_left")
 		input_dir.y = Input.get_action_raw_strength("move_down") - Input.get_action_raw_strength("move_up")
-		player_dir_to_state()
 		if (input_dir.length() > 1.0):
 			input_dir = input_dir.normalized()
 		if (input_dir.length() < 0.3):
 			input_dir = Vector2.ZERO
+		player_dir_to_state()
 		
 		if (Input.is_action_just_pressed("attack")):
 			set_player_state(PLAYER_STATES.ATTACKING)
@@ -201,9 +201,9 @@ func attack_hit(body) -> void:
 	if (body.is_in_group("switch")):
 		body.flip_switch()
 	if (body.is_in_group("movable")):
-		body.linear_velocity = forward_direction * pushing_force
+		body.linear_velocity = input_dir * pushing_force
 	if (body.is_in_group("enemy")):
-		body.take_dmg(1, forward_direction)
+		body.take_dmg(1, input_dir)
 	if (body.is_in_group("solid")):
 		knockback(forward_direction * -1.0)
 		if (body.has_method("hit_sound")):
