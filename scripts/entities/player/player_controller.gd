@@ -201,9 +201,9 @@ func attack_hit(body) -> void:
 	if (body.is_in_group("switch")):
 		body.flip_switch()
 	if (body.is_in_group("movable")):
-		body.linear_velocity = input_dir * pushing_force
+		body.linear_velocity = forward_direction * pushing_force
 	if (body.is_in_group("enemy")):
-		body.take_dmg(1, input_dir)
+		body.take_dmg(1, forward_direction)
 	if (body.is_in_group("solid")):
 		knockback(forward_direction * -1.0)
 		if (body.has_method("hit_sound")):

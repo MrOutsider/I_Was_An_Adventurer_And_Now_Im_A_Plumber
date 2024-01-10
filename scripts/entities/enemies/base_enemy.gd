@@ -42,13 +42,6 @@ func _ready():
 	animated_sprite_2d.play("idle_down")
 	HURTBOX.connect("hit", take_dmg, 2)
 	knockback_timer.connect("timeout", reset_after_knockback)
-# ----- Remove ----- ----- Remove ----- ----- Remove ----- 
-	var rot_t : Timer = Timer.new()
-	add_child(rot_t)
-	rot_t.wait_time = 1.0
-	rot_t.start()
-	rot_t.connect("timeout", change_face)
-# ----- Remove ----- ----- Remove ----- ----- Remove ----- 
 
 func _physics_process(_delta):
 	# Accelerate Or Decelerate
@@ -88,25 +81,3 @@ func reset_after_knockback() -> void:
 	if (entity_state == ENTITY_STATES.KNOCKED_BACK):
 		friction = FRICTION_BASE
 		set_entity_state(ENTITY_STATES.IDLE)
-
-# ----- Remove ----- ----- Remove ----- ----- Remove ----- 
-func change_face() -> void:
-	var i = randi_range(0, 6)
-	match i:
-		0:
-			anim_player_effects.play("idle_down")
-			move_direction = Vector2.DOWN
-		1:
-			anim_player_effects.play("idle_up")
-			move_direction = Vector2.UP
-		2:
-			anim_player_effects.play("idle_left")
-			move_direction = Vector2.LEFT
-		3:
-			anim_player_effects.play("idle_right")
-			move_direction = Vector2.RIGHT
-		4:
-			entity_state = ENTITY_STATES.IDLE
-		5:
-			entity_state = ENTITY_STATES.MOVING
-# ----- Remove ----- ----- Remove ----- ----- Remove ----- 
