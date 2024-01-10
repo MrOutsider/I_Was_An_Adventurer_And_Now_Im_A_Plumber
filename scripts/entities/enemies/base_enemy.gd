@@ -91,14 +91,22 @@ func reset_after_knockback() -> void:
 
 # ----- Remove ----- ----- Remove ----- ----- Remove ----- 
 func change_face() -> void:
-	var i = randi_range(0, 4)
+	var i = randi_range(0, 6)
 	match i:
 		0:
 			anim_player_effects.play("idle_down")
+			move_direction = Vector2.DOWN
 		1:
 			anim_player_effects.play("idle_up")
+			move_direction = Vector2.UP
 		2:
 			anim_player_effects.play("idle_left")
+			move_direction = Vector2.LEFT
 		3:
 			anim_player_effects.play("idle_right")
+			move_direction = Vector2.RIGHT
+		4:
+			entity_state = ENTITY_STATES.IDLE
+		5:
+			entity_state = ENTITY_STATES.MOVING
 # ----- Remove ----- ----- Remove ----- ----- Remove ----- 

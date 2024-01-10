@@ -434,6 +434,7 @@ collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_qr4ul")
 HURTBOX = NodePath("Hurtbox")
+speed = 75.0
 metadata/_edit_group_ = true
 
 [node name="Hurtbox" parent="." groups=["enemy"] instance=ExtResource("3_c3tp1")]
