@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxuaaqfbchn3o"]
+
+[ext_resource type="Script" path="res://scripts/levels/technical/main_menu.gd" id="1_qxp28"]
+
+[node name="MAIN" type="Node" node_paths=PackedStringArray("new_game_button", "load_game_button", "options_button", "quit_button")]
+script = ExtResource("1_qxp28")
+new_game_button = NodePath("MainMenu/CenterContainer/VBoxContainer/NewGame")
+load_game_button = NodePath("MainMenu/CenterContainer/VBoxContainer/LoadGame")
+options_button = NodePath("MainMenu/CenterContainer/VBoxContainer/Options")
+quit_button = NodePath("MainMenu/CenterContainer/VBoxContainer/Quit")
+
+[node name="MainMenu" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="MainMenu"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/CenterContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="NewGame" type="Button" parent="MainMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "New Game"
+
+[node name="LoadGame" type="Button" parent="MainMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Load Game"
+
+[node name="Options" type="Button" parent="MainMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Options"
+
+[node name="Quit" type="Button" parent="MainMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit
+"
+
+[node name="World" type="Node2D" parent="."]
