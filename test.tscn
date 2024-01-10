@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bqx7wudvltgak"]
 
-[ext_resource type="Texture2D" uid="uid://ct2dowk3f1hu7" path="res://assets/0x72_DungeonTilesetII_v1.6.png" id="1_wmamx"]
+[ext_resource type="Texture2D" uid="uid://ct2dowk3f1hu7" path="res://assets/art/0x72_DungeonTilesetII_v1.6.png" id="1_wmamx"]
 [ext_resource type="PackedScene" uid="uid://bledb3dcpla5r" path="res://prefabs/entities/player/player.tscn" id="2_dr3r3"]
 [ext_resource type="PackedScene" uid="uid://bywdhmnhpxadf" path="res://prefabs/interactive/movable.tscn" id="3_uj03t"]
 [ext_resource type="PackedScene" uid="uid://byferik5n0677" path="res://prefabs/interactive/switch.tscn" id="4_svomy"]

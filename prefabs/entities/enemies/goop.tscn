@@ -1,8 +1,9 @@
-[gd_scene load_steps=32 format=3 uid="uid://dwrfsnquxvgvh"]
+[gd_scene load_steps=33 format=3 uid="uid://dwrfsnquxvgvh"]
 
 [ext_resource type="Script" path="res://scripts/entities/enemies/base_enemy.gd" id="1_qr4ul"]
-[ext_resource type="Texture2D" uid="uid://c1aixhsyrbqtt" path="res://assets/enemies/enemy_1.png" id="2_2ilg1"]
 [ext_resource type="PackedScene" uid="uid://cuc6xpjjjqomm" path="res://prefabs/entities/modules/hurtbox.tscn" id="3_c3tp1"]
+[ext_resource type="Texture2D" uid="uid://cdx7twt2164gl" path="res://assets/art/enemies/enemy_goop.png" id="3_ip4d4"]
+[ext_resource type="AudioStream" uid="uid://bylwo86pgqomn" path="res://assets/sounds/entity_hurt.wav" id="4_lw85v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_03ab8"]
 radius = 8.0
@@ -11,63 +12,63 @@ radius = 8.0
 size = Vector2(14, 15)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h2jm5"]
-atlas = ExtResource("2_2ilg1")
+atlas = ExtResource("3_ip4d4")
 region = Rect2(16, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mh6jl"]
-atlas = ExtResource("2_2ilg1")
+atlas = ExtResource("3_ip4d4")
 region = Rect2(32, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tcb8h"]
-atlas = ExtResource("2_2ilg1")
+atlas = ExtResource("3_ip4d4")
 region = Rect2(16, 48, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5pnj1"]
-atlas = ExtResource("2_2ilg1")
+atlas = ExtResource("3_ip4d4")
 region = Rect2(48, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k6nua"]
-atlas = ExtResource("2_2ilg1")
+atlas = ExtResource("3_ip4d4")
 region = Rect2(48, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eb375"]
-atlas = ExtResource("2_2ilg1")
+atlas = ExtResource("3_ip4d4")
 region = Rect2(0, 48, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aye8u"]
-atlas = ExtResource("2_2ilg1")
+atlas = ExtResource("3_ip4d4")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t6nta"]
-atlas = ExtResource("2_2ilg1")
+atlas = ExtResource("3_ip4d4")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mtevu"]
-atlas = ExtResource("2_2ilg1")
+atlas = ExtResource("3_ip4d4")
 region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0jo3l"]
-atlas = ExtResource("2_2ilg1")
+atlas = ExtResource("3_ip4d4")
 region = Rect2(32, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5343b"]
-atlas = ExtResource("2_2ilg1")
+atlas = ExtResource("3_ip4d4")
 region = Rect2(48, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hfkdo"]
-atlas = ExtResource("2_2ilg1")
+atlas = ExtResource("3_ip4d4")
 region = Rect2(0, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6ckus"]
-atlas = ExtResource("2_2ilg1")
+atlas = ExtResource("3_ip4d4")
 region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bxl8s"]
-atlas = ExtResource("2_2ilg1")
+atlas = ExtResource("3_ip4d4")
 region = Rect2(0, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0sme8"]
-atlas = ExtResource("2_2ilg1")
+atlas = ExtResource("3_ip4d4")
 region = Rect2(16, 16, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_c5o3l"]
@@ -406,6 +407,20 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(0, 0), Vector2(0, -1), Vector2(0, 0)]
 }
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("HurtSound")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pq0ah"]
 _data = {
@@ -452,3 +467,7 @@ libraries = {
 libraries = {
 "": SubResource("AnimationLibrary_pq0ah")
 }
+
+[node name="HurtSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_lw85v")
+volume_db = -12.18
