@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bywdhmnhpxadf"]
+[gd_scene load_steps=8 format=3 uid="uid://bywdhmnhpxadf"]
 
-[ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="1_m8esk"]
-[ext_resource type="AudioStream" uid="uid://ca2x0c2fsoltp" path="res://assets/sounds/sfx/heavy_bump.wav" id="2_k565o"]
+[ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="1_d6uwo"]
+[ext_resource type="Texture2D" uid="uid://dr5mxt1pld3mx" path="res://assets/art/tilesets/Floor_1_tiles.png" id="2_dc60o"]
+[ext_resource type="AudioStream" uid="uid://ca2x0c2fsoltp" path="res://assets/sounds/sfx/heavy_bump.wav" id="3_86wj6"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_24uab"]
 rough = true
@@ -29,9 +30,13 @@ func on_sleep_state_change() -> void:
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n7v8b"]
-size = Vector2(28, 14)
+size = Vector2(16, 10)
 
-[node name="Movable" type="RigidBody2D" groups=["movable", "solid"]]
+[sub_resource type="AtlasTexture" id="AtlasTexture_enrn5"]
+atlas = ExtResource("2_dc60o")
+region = Rect2(64, 61, 15, 19)
+
+[node name="BrokenStatue" type="RigidBody2D" groups=["movable", "solid"]]
 collision_layer = 2
 collision_mask = 7
 mass = 300.0
@@ -42,33 +47,35 @@ script = SubResource("GDScript_oma22")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 7)
+position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_n7v8b")
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.403922)
-position = Vector2(4.17233e-07, 12.5)
-scale = Vector2(0.21875, 0.0390625)
-texture = ExtResource("1_m8esk")
+position = Vector2(2.84217e-14, 5.75)
+scale = Vector2(0.125, 0.0742188)
+texture = ExtResource("1_d6uwo")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.21875, 0.21875)
-texture = ExtResource("1_m8esk")
+texture = SubResource("AtlasTexture_enrn5")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-position = Vector2(0, 13)
+position = Vector2(0, 9)
 emitting = false
 amount = 16
+lifetime = 0.5
+randomness = 0.42
 lifetime_randomness = 0.25
 emission_shape = 3
-emission_rect_extents = Vector2(12, 1)
+emission_rect_extents = Vector2(8, 1)
 gravity = Vector2(0, 0)
-linear_accel_max = 14.14
+linear_accel_min = -2.0
+linear_accel_max = 2.0
 radial_accel_max = 6.06
 angle_max = 360.0
-scale_amount_max = 3.0
+scale_amount_max = 2.0
 color = Color(1, 1, 1, 0.588235)
 
 [node name="BumpSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("2_k565o")
+stream = ExtResource("3_86wj6")
 volume_db = -15.0
