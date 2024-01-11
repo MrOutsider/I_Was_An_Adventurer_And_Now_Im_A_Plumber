@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
 # Node Imports
-@onready var anim_player_effects : AnimationPlayer = $AnimationPlayer
-@onready var anim_player_effects_effects : AnimationPlayer = $AnimationPlayerEffects
+@onready var anim_player : AnimationPlayer = $AnimationPlayer
+@onready var anim_player_effects : AnimationPlayer = $AnimationPlayerEffects
 @onready var animated_sprite_2d : AnimatedSprite2D = $AnimatedSprite2D
 # AI Nodes
 @onready var enemy_sight : Area2D = $EnemySight
@@ -32,11 +32,11 @@ const KNOCKBACK_FORCE : float = 400.0
 @export var can_move_movables : bool = false
 
 # Stats
-@export var max_health : int = 6
-@export var health : int = 6
+@export var max_health : int = 2
+@export var health : int = 2
 @export var damage : int = 1
 @export var vision_distance : float = 20.0
-@export var speed : float = 150.0
+@export var speed : float = 50.0
 @export var pushing_force : float = 50.0
 @export var friction : float = FRICTION_BASE
 @export var acceleration : float = 1.0
@@ -46,7 +46,7 @@ enum ENTITY_STATES {IDLE, MOVING, ATTACKING, KNOCKED_BACK, DEAD}
 var entity_state : ENTITY_STATES = ENTITY_STATES.IDLE
 var entity_last_state : ENTITY_STATES = entity_state
 
-enum AI_STATES {IDLE, AGRO}
+enum AI_STATES {IDLE, AGRO, DEAD}
 var ai_state : AI_STATES
 
 enum ENTITY_DIRECTION_STATES {UP, DOWN, LEFT, RIGHT}
@@ -62,6 +62,7 @@ var enemy_node : Node2D = null
 
 # Standard Functions
 func _ready():
+	if (health > max_health): health = max_health
 	# Init sprite animations
 	animated_sprite_2d.play("idle_down")
 	# Set Stats
@@ -73,6 +74,9 @@ func _ready():
 	ai_tick.timeout.connect(ai_look_for_enemy)
 	ai_tick.timeout.connect(ai_aggro)
 	knockback_timer.timeout.connect(reset_after_knockback)
+
+func _process(_delta):
+	animate_sprite()
 
 func _physics_process(_delta):
 	if (move_direction.length() > 0.0 && entity_state == ENTITY_STATES.MOVING):
@@ -92,9 +96,70 @@ func set_entity_state(new_state : ENTITY_STATES) -> void:
 	entity_last_state = entity_state
 	entity_state = new_state
 	animation_change = true
+	match entity_state:
+		ENTITY_STATES.DEAD:
+			set_ai_state(AI_STATES.DEAD)
+			move_direction = Vector2.ZERO
+			anim_player_effects.play("death")
+			animation_change = true
 
 func set_ai_state(new_state : AI_STATES) -> void:
 	ai_state = new_state
+
+func entity_dir_to_state() -> void:
+	if (abs(move_direction.y) > abs(move_direction.x)):
+		if (move_direction.y > 0.0):
+			forward_direction = Vector2.DOWN
+		else:
+			forward_direction = Vector2.UP
+	elif (abs(move_direction.y) < abs(move_direction.x)):
+		if (move_direction.x > 0.0):
+			forward_direction = Vector2.RIGHT
+		else:
+			forward_direction = Vector2.LEFT
+
+func animate_sprite() -> void:
+	if (animation_change):
+		entity_dir_to_state()
+		match entity_state:
+			ENTITY_STATES.MOVING:
+				match forward_direction:
+					Vector2.UP:
+						anim_player.play("move_up")
+						animation_change = false
+						return
+					Vector2.DOWN:
+						anim_player.play("move_down")
+						animation_change = false
+						return
+					Vector2.LEFT:
+						anim_player.play("move_left")
+						animation_change = false
+						return
+					Vector2.RIGHT:
+						anim_player.play("move_right")
+						animation_change = false
+						return
+		if (entity_state == ENTITY_STATES.IDLE ||
+		entity_state == ENTITY_STATES.KNOCKED_BACK ||
+		entity_state == ENTITY_STATES.DEAD):
+			match forward_direction:
+					Vector2.UP:
+						anim_player.play("idle_up")
+						animation_change = false
+						return
+					Vector2.DOWN:
+						anim_player.play("idle_down")
+						animation_change = false
+						return
+					Vector2.LEFT:
+						anim_player.play("idle_left")
+						animation_change = false
+						return
+					Vector2.RIGHT:
+						anim_player.play("idle_right")
+						animation_change = false
+						return
 
 func ai_wander() -> void:
 	if (wander && ai_state == AI_STATES.IDLE):
@@ -107,15 +172,19 @@ func ai_wander() -> void:
 					set_entity_state(ENTITY_STATES.MOVING)
 				2:
 					move_direction = Vector2.UP
+					animation_change = true
 				3:
 					move_direction = Vector2.DOWN
+					animation_change = true
 				4:
 					move_direction = Vector2.LEFT
+					animation_change = true
 				5:
 					move_direction = Vector2.RIGHT
+					animation_change = true
 
 func ai_look_for_enemy() -> void:
-	if (ai_state == AI_STATES.IDLE):
+	if (ai_state == AI_STATES.IDLE && hostile):
 		if (enemy_sight.has_overlapping_areas()):
 			for i in enemy_sight.get_overlapping_areas():
 				if (i.is_in_group(enemy_group)):
@@ -129,31 +198,34 @@ func ai_look_for_enemy() -> void:
 							break
 
 func ai_aggro() -> void:
-	if (hostile && ai_state == AI_STATES.AGRO && enemy_node != null):
+	if (ai_state == AI_STATES.AGRO && enemy_node != null):
 		var enemy_dir = enemy_node.global_position - global_position
 		var enemy_distance = enemy_dir.length()
 		enemy_ray_cast.target_position = enemy_dir
 		if (enemy_ray_cast.get_collider() == enemy_node):
 			if (entity_state == ENTITY_STATES.IDLE): set_entity_state(ENTITY_STATES.MOVING)
 			move_direction = enemy_dir.normalized()
+			animation_change = true
 		elif(enemy_distance > vision_distance):
 			enemy_node = null
-	else:
+	elif (ai_state != AI_STATES.DEAD):
 		set_ai_state(AI_STATES.IDLE)
 
 # Functions used by other nodes
 func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:
-	anim_player_effects_effects.play("hurt")
-	health -= dmg
-	if (health < 1):
-		health = 0
-		set_entity_state(ENTITY_STATES.DEAD)
+	if (entity_state != ENTITY_STATES.DEAD):
+		anim_player_effects.play("hurt")
+		health -= dmg
+		if (health < 1):
+			health = 0
+			set_entity_state(ENTITY_STATES.DEAD)
 	knockback(dir_of_atk)
 
 func knockback(knockback_vector : Vector2) -> void:
 	if (entity_state != ENTITY_STATES.KNOCKED_BACK && knockback_vector.length() > 0.0):
-		set_entity_state(ENTITY_STATES.KNOCKED_BACK)
-		move_direction = Vector2.ZERO
+		if (entity_state != ENTITY_STATES.DEAD):
+			set_entity_state(ENTITY_STATES.KNOCKED_BACK)
+			move_direction = Vector2.ZERO
 		friction = FRICTION_KNOCKBACK
 		velocity = velocity + (knockback_vector * KNOCKBACK_FORCE)
 		knockback_timer.start()
