@@ -29,11 +29,11 @@ const KNOCKBACK_FORCE : float = 400.0
 
 # State Machine
 enum PLAYER_STATES {IDLE, MOVING, ATTACKING, KNOCKED_BACK, DEAD}
-var player_state : int = PLAYER_STATES.IDLE
-var player_last_state : int = player_state
+var player_state : PLAYER_STATES = PLAYER_STATES.IDLE
+var player_last_state : PLAYER_STATES = player_state
 
 enum PLAYER_DIRECTION_STATES {UP, DOWN, LEFT, RIGHT}
-var player_direction_state : int = PLAYER_DIRECTION_STATES.DOWN
+var player_direction_state : PLAYER_DIRECTION_STATES = PLAYER_DIRECTION_STATES.DOWN
 var forward_direction : Vector2 = Vector2.ZERO
 
 # State Flags

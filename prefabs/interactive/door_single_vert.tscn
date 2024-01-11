@@ -6,10 +6,10 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1a27x"]
 atlas = ExtResource("2_vbrs2")
-region = Rect2(54, 112, 4, 16)
+region = Rect2(54, 98, 4, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a1hsb"]
-size = Vector2(4, 16)
+size = Vector2(4, 30)
 
 [node name="DoorSingle" type="CharacterBody2D" groups=["solid"]]
 collision_layer = 20
@@ -19,11 +19,11 @@ script = ExtResource("1_1rpom")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -8)
+position = Vector2(0, -15)
 texture = SubResource("AtlasTexture_1a27x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -8)
+position = Vector2(0, -15)
 shape = SubResource("RectangleShape2D_a1hsb")
 
 [node name="BumpSound" type="AudioStreamPlayer2D" parent="."]

@@ -10,7 +10,7 @@
 size = Vector2(14, 6)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h76gk"]
-radius = 50.0
+radius = 100.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_18jfd"]
 radius = 7.0
@@ -333,7 +333,7 @@ position = Vector2(0, -7)
 collision_layer = 0
 collision_mask = 2
 
-[node name="EnemySightRange" type="CollisionShape2D" parent="EnemySight"]
+[node name="EnemySightArea" type="CollisionShape2D" parent="EnemySight"]
 shape = SubResource("CircleShape2D_h76gk")
 
 [node name="Hurtbox" parent="." groups=["enemy"] instance=ExtResource("2_olipg")]

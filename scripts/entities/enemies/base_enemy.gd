@@ -6,7 +6,7 @@ extends CharacterBody2D
 @onready var animated_sprite_2d : AnimatedSprite2D = $AnimatedSprite2D
 # AI Nodes
 @onready var enemy_sight : Area2D = $EnemySight
-@onready var enemy_sight_range : CollisionShape2D = $EnemySight/EnemySightRange
+@onready var enemy_sight_area : CollisionShape2D = $EnemySight/EnemySightArea
 @onready var enemy_ray_cast : RayCast2D = $RayCasts/EnemyRayCast
 @onready var wall_up_ray_cast : RayCast2D = $RayCasts/WallRayCasts/WallUpRayCast
 @onready var wall_down_ray_cast : RayCast2D = $RayCasts/WallRayCasts/WallDownRayCast
@@ -34,18 +34,22 @@ const KNOCKBACK_FORCE : float = 400.0
 @export var max_health : int = 6
 @export var health : int = 6
 @export var damage : int = 1
+@export var vision_distance : float = 20.0
 @export var speed : float = 150.0
-@export var pushing_force : float = 1000.0
+@export var pushing_force : float = 50.0
 @export var friction : float = FRICTION_BASE
 @export var acceleration : float = 1.0
 
 # State Machine
 enum ENTITY_STATES {IDLE, MOVING, ATTACKING, KNOCKED_BACK, DEAD}
-var entity_state : int = ENTITY_STATES.IDLE
-var entity_last_state : int = entity_state
+var entity_state : ENTITY_STATES = ENTITY_STATES.IDLE
+var entity_last_state : ENTITY_STATES = entity_state
+
+enum AI_STATES {IDLE, AGRO}
+var ai_state : AI_STATES
 
 enum ENTITY_DIRECTION_STATES {UP, DOWN, LEFT, RIGHT}
-var entity_direction_state : int = ENTITY_DIRECTION_STATES.DOWN
+var entity_direction_state : ENTITY_DIRECTION_STATES = ENTITY_DIRECTION_STATES.DOWN
 var forward_direction : Vector2 = Vector2.ZERO
 
 # State Flags
@@ -59,11 +63,13 @@ var enemy_node : Node2D = null
 func _ready():
 	# Init sprite animations
 	animated_sprite_2d.play("idle_down")
+	# Set Stats
+	enemy_sight_area.shape.radius = vision_distance * 10
 	# Reactions
 	HURTBOX.connect("hit", take_dmg, 2)
-	enemy_sight.area_entered.connect(area_entered_vison, 1)
 	# Timers
 	ai_wander_timer.timeout.connect(ai_wander)
+	ai_tick.timeout.connect(ai_look_for_enemy)
 	ai_tick.timeout.connect(ai_aggro)
 	knockback_timer.timeout.connect(reset_after_knockback)
 
@@ -86,13 +92,15 @@ func set_entity_state(new_state : ENTITY_STATES) -> void:
 	entity_state = new_state
 	animation_change = true
 
-func area_entered_vison(area : Node2D) -> void:
-	if (area.is_in_group(enemy_group)):
-		enemy_node = area
-		set_entity_state(ENTITY_STATES.MOVING)
+func ai_look_for_enemy() -> void:
+	if (enemy_sight.has_overlapping_areas()):
+		for i in enemy_sight.get_overlapping_areas():
+			if (i.is_in_group(enemy_group)):
+				enemy_node = i
+				set_entity_state(ENTITY_STATES.MOVING)
+				break
 
 func ai_wander() -> void:
-	# TODO: Pick location and Navmesh to it.
 	if (wander && enemy_node == null):
 		if (entity_state == ENTITY_STATES.IDLE || entity_state == ENTITY_STATES.MOVING):
 			var rand_i = randi_range(0,5)
@@ -113,15 +121,12 @@ func ai_wander() -> void:
 func ai_aggro() -> void:
 	if (hostile && enemy_node != null):
 		var enemy_dir = enemy_node.global_position - global_position
-		var dist_to_enemy = enemy_dir.length()
+		var enemy_distance = enemy_dir.length()
 		enemy_ray_cast.target_position = enemy_dir
 		if (enemy_ray_cast.get_collider() == enemy_node):
 			move_direction = enemy_dir.normalized()
-		else:
+		elif(enemy_distance > vision_distance):
 			enemy_node = null
-			for i in enemy_sight.get_overlapping_areas():
-				if(i.is_in_group(enemy_group)):
-					enemy_node = i
 
 # Functions used by other nodes
 func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:
