@@ -740,6 +740,7 @@ HURTBOX = NodePath("Hurtbox")
 metadata/_edit_group_ = true
 
 [node name="Hurtbox" parent="." groups=["player"] instance=ExtResource("4_cx3hx")]
+visible = false
 position = Vector2(0, -3)
 collision_layer = 2
 
@@ -747,6 +748,7 @@ collision_layer = 2
 shape = SubResource("CircleShape2D_idbeo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_31dof")
 
@@ -779,7 +781,7 @@ shape = SubResource("RectangleShape2D_08uht")
 modulate = Color(0, 0, 0, 0.517647)
 show_behind_parent = true
 position = Vector2(0, -1)
-scale = Vector2(0.09375, 0.03125)
+scale = Vector2(0.75, 0.25)
 texture = ExtResource("2_d3pjb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

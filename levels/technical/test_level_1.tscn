@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dgk4tc8abl3ds"]
+[gd_scene load_steps=10 format=3 uid="uid://dgk4tc8abl3ds"]
 
 [ext_resource type="TileSet" uid="uid://dmn7ddm23rqpv" path="res://prefabs/tilesets/hero_temple_tilemap.tres" id="1_s0aui"]
 [ext_resource type="PackedScene" uid="uid://bledb3dcpla5r" path="res://prefabs/entities/player/player.tscn" id="2_06qwn"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://552m7mituo45" path="res://prefabs/interactive/door_single_hor.tscn" id="5_dardv"]
 [ext_resource type="PackedScene" uid="uid://b2s65sbd2f6lw" path="res://prefabs/interactive/door_single_vert.tscn" id="6_yrqcs"]
 [ext_resource type="PackedScene" uid="uid://bjc8bg3rq7wkv" path="res://prefabs/interactive/pressure_plate.tscn" id="7_svvxv"]
+[ext_resource type="PackedScene" uid="uid://bct46bkjrtmf0" path="res://prefabs/entities/enemies/enemy_goop.tscn" id="8_o44yv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_86pd8"]
 size = Vector2(63, 20)
@@ -62,6 +63,7 @@ position = Vector2(96, 217)
 
 [node name="Switch" parent="Room_1/SortLayer" instance=ExtResource("3_d14m0")]
 position = Vector2(-153, -86)
+switched_on = true
 can_toggle = true
 
 [node name="DoorSingle" parent="Room_1/SortLayer" node_paths=PackedStringArray("switch") instance=ExtResource("5_dardv")]
@@ -70,6 +72,7 @@ switch = NodePath("../Switch")
 
 [node name="Switch2" parent="Room_1/SortLayer" instance=ExtResource("3_d14m0")]
 position = Vector2(-24, 171)
+switched_on = true
 can_toggle = true
 
 [node name="DoorSingle2" parent="Room_1/SortLayer" node_paths=PackedStringArray("switch") instance=ExtResource("6_yrqcs")]
@@ -80,7 +83,7 @@ switch = NodePath("../Switch2")
 position = Vector2(-152, 560)
 
 [node name="BrokenStatue5" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
-position = Vector2(-168, 91)
+position = Vector2(-169, 124)
 
 [node name="PressurePlate" parent="Room_1/SortLayer" instance=ExtResource("7_svvxv")]
 position = Vector2(-168, 112)
@@ -88,3 +91,6 @@ position = Vector2(-168, 112)
 [node name="DoorSingle4" parent="Room_1/SortLayer" node_paths=PackedStringArray("switch") instance=ExtResource("5_dardv")]
 position = Vector2(-152, 208)
 switch = NodePath("../PressurePlate")
+
+[node name="Goop" parent="Room_1/SortLayer" instance=ExtResource("8_o44yv")]
+position = Vector2(-152, 457)
