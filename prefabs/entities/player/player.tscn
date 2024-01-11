@@ -740,7 +740,6 @@ HURTBOX = NodePath("PlayerHurtbox")
 metadata/_edit_group_ = true
 
 [node name="PlayerHurtbox" parent="." groups=["player"] instance=ExtResource("4_cx3hx")]
-visible = false
 position = Vector2(0, -3)
 collision_layer = 10
 
@@ -748,9 +747,12 @@ collision_layer = 10
 shape = SubResource("CircleShape2D_idbeo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_31dof")
+
+[node name="AttackRay" type="RayCast2D" parent="."]
+target_position = Vector2(0, 0)
+collide_with_areas = true
 
 [node name="SwordPivot" type="Node2D" parent="."]
 z_index = 1

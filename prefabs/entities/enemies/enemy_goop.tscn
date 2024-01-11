@@ -612,6 +612,7 @@ collision_mask = 25
 collide_with_areas = true
 
 [node name="WallRayCasts" type="Node2D" parent="RayCasts"]
+visible = false
 
 [node name="WallUpRayCast" type="RayCast2D" parent="RayCasts/WallRayCasts"]
 target_position = Vector2(0, -18)

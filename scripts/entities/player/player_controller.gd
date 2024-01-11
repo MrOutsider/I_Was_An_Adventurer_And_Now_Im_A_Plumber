@@ -13,6 +13,7 @@ extends CharacterBody2D
 @onready var sword_attack_timer : Timer = $SwordAttackTimer
 # -> Colliders
 @onready var sword_col : Area2D = $SwordPivot/Sword
+@onready var attack_ray : RayCast2D = $AttackRay
 
 # Constants
 const FRICTION_BASE : float = 1.0
@@ -179,16 +180,19 @@ func knockback(knockback_vector : Vector2) -> void:
 func attack_hit(body : Node2D) -> void:
 	if (body.is_in_group("player")):
 		return
-	if (body.is_in_group("switch")):
-		body.flip_switch()
-	if (body.is_in_group("movable")):
-		body.linear_velocity = forward_direction * pushing_force
-	if (body.is_in_group("enemy")):
-		body.take_dmg(1, forward_direction)
-	if (body.is_in_group("solid")):
-		knockback(forward_direction * -1.0)
-		if (body.has_method("hit_sound")):
-			body.hit_sound()
+	attack_ray.target_position = body.global_position - global_position
+	attack_ray.force_raycast_update()
+	if (!attack_ray.is_colliding()):
+		if (body.is_in_group("switch")):
+			body.flip_switch()
+		if (body.is_in_group("movable")):
+			body.linear_velocity = forward_direction * pushing_force
+		if (body.is_in_group("enemy")):
+			body.take_dmg(1, forward_direction)
+		if (body.is_in_group("solid")):
+			knockback(forward_direction * -1.0)
+			if (body.has_method("hit_sound")):
+				body.hit_sound()
 
 # Functions triggered by timers
 func reset_after_attack() -> void:
