@@ -29,6 +29,7 @@ const KNOCKBACK_FORCE : float = 400.0
 @export var wander : bool = false
 @export var follow : bool = false # Navmesh following
 @export var enemy_group : String = "player"
+@export var can_move_movables : bool = false
 
 # Stats
 @export var max_health : int = 6
@@ -82,7 +83,7 @@ func _physics_process(_delta):
 		for i in get_slide_collision_count():
 			var col = get_slide_collision(i)
 			if (col.get_collider() is RigidBody2D):
-				if (col.get_collider().is_in_group("movable")):
+				if (col.get_collider().is_in_group("movable") && can_move_movables):
 					col.get_collider().apply_force((col.get_normal() * pushing_force)* -1.0)
 					velocity = col.get_collider().linear_velocity
 
@@ -93,12 +94,13 @@ func set_entity_state(new_state : ENTITY_STATES) -> void:
 	animation_change = true
 
 func ai_look_for_enemy() -> void:
-	if (enemy_sight.has_overlapping_areas()):
-		for i in enemy_sight.get_overlapping_areas():
-			if (i.is_in_group(enemy_group)):
-				enemy_node = i
-				set_entity_state(ENTITY_STATES.MOVING)
-				break
+	if (entity_state == ENTITY_STATES.IDLE || entity_state == ENTITY_STATES.MOVING):
+		if (enemy_sight.has_overlapping_areas()):
+			for i in enemy_sight.get_overlapping_areas():
+				if (i.is_in_group(enemy_group)):
+					enemy_node = i
+					set_entity_state(ENTITY_STATES.MOVING)
+					break
 
 func ai_wander() -> void:
 	if (wander && enemy_node == null):
@@ -140,6 +142,7 @@ func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:
 func knockback(knockback_vector : Vector2) -> void:
 	if (entity_state != ENTITY_STATES.KNOCKED_BACK && knockback_vector.length() > 0.0):
 		set_entity_state(ENTITY_STATES.KNOCKED_BACK)
+		move_direction = Vector2.ZERO
 		friction = FRICTION_KNOCKBACK
 		velocity = velocity + (knockback_vector * KNOCKBACK_FORCE)
 		knockback_timer.start()

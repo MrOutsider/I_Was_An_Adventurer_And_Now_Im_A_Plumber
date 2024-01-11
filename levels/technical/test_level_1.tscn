@@ -47,7 +47,7 @@ y_sort_enabled = true
 metadata/_edit_lock_ = true
 
 [node name="Player" parent="Room_1/SortLayer" instance=ExtResource("2_06qwn")]
-position = Vector2(50, -179)
+position = Vector2(0, -131)
 
 [node name="BrokenStatue" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
 position = Vector2(-112, -52)
@@ -116,18 +116,3 @@ position = Vector2(-168, 484)
 
 [node name="Goop9" parent="Room_1/SortLayer" instance=ExtResource("8_o44yv")]
 position = Vector2(-129, 444)
-
-[node name="Goop10" parent="Room_1/SortLayer" instance=ExtResource("8_o44yv")]
-position = Vector2(134, -181)
-
-[node name="BrokenStatue6" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
-position = Vector2(-28, 19)
-
-[node name="BrokenStatue7" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
-position = Vector2(5, 21)
-
-[node name="BrokenStatue8" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
-position = Vector2(2, -16)
-
-[node name="BrokenStatue9" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
-position = Vector2(-12, 32)
