@@ -202,7 +202,7 @@ func knockback(knockback_vector : Vector2) -> void:
 		knockback_timer.start()
 
 # Function for when weapon hits collider
-func attack_hit(body) -> void:
+func attack_hit(body : Node2D) -> void:
 	if (body.is_in_group("player")):
 		return
 	if (body.is_in_group("switch")):

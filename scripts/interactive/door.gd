@@ -6,7 +6,9 @@ extends CharacterBody2D
 @onready var bump_sound = $BumpSound
 
 func _ready():
-	switch.switch_used.connect(change_door_state, 1)
+	if (switch != null):
+		change_door_state(switch.switched_on)
+		switch.switch_used.connect(change_door_state, 1)
 
 func hit_sound() -> void:
 	bump_sound.play()

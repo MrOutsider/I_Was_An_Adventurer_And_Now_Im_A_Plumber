@@ -37,7 +37,7 @@ height = 16.0
 atlas = ExtResource("2_14yfx")
 region = Rect2(64, 62, 16, 18)
 
-[node name="BrokenStatue" type="RigidBody2D" groups=["movable", "solid"]]
+[node name="BrokenStatue" type="RigidBody2D" groups=["heavy", "movable", "solid"]]
 collision_layer = 2
 collision_mask = 7
 mass = 300.0
