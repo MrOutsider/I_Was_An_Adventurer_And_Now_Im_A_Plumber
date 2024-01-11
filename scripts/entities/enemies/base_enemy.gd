@@ -5,17 +5,18 @@ extends CharacterBody2D
 @onready var anim_player_effects_effects : AnimationPlayer = $AnimationPlayerEffects
 @onready var animated_sprite_2d : AnimatedSprite2D = $AnimatedSprite2D
 # AI Nodes
-@onready var enemy_sight = $EnemySight
-@onready var enemy_sight_range = $EnemySight/EnemySightRange
-@onready var enemy_ray_cast = $RayCasts/EnemyRayCast
-@onready var wall_up_ray_cast = $RayCasts/WallRayCasts/WallUpRayCast
-@onready var wall_down_ray_cast = $RayCasts/WallRayCasts/WallDownRayCast
-@onready var wall_left_ray_cast = $RayCasts/WallRayCasts/WallLeftRayCast
-@onready var wall_right_ray_cast = $RayCasts/WallRayCasts/WallRightRayCast
+@onready var enemy_sight : Area2D = $EnemySight
+@onready var enemy_sight_range : CollisionShape2D = $EnemySight/EnemySightRange
+@onready var enemy_ray_cast : RayCast2D = $RayCasts/EnemyRayCast
+@onready var wall_up_ray_cast : RayCast2D = $RayCasts/WallRayCasts/WallUpRayCast
+@onready var wall_down_ray_cast : RayCast2D = $RayCasts/WallRayCasts/WallDownRayCast
+@onready var wall_left_ray_cast : RayCast2D = $RayCasts/WallRayCasts/WallLeftRayCast
+@onready var wall_right_ray_cast : RayCast2D = $RayCasts/WallRayCasts/WallRightRayCast
 # Modules
 @export var HURTBOX : Area2D
 # Timers
 @onready var ai_tick : Timer = $AI_Tick
+@onready var ai_wander_timer : Timer = $AI_WanderTimer
 @onready var knockback_timer : Timer = $KnockbackTimer
 
 # Constants
@@ -52,12 +53,18 @@ var animation_change : bool = true
 
 # Script Global
 var move_direction : Vector2 = Vector2.ZERO
+var enemy_node : Node2D = null
 
 # Standard Functions
 func _ready():
+	# Init sprite animations
 	animated_sprite_2d.play("idle_down")
+	# Reactions
 	HURTBOX.connect("hit", take_dmg, 2)
-	ai_tick.timeout.connect(ai_wander)
+	enemy_sight.area_entered.connect(area_entered_vison, 1)
+	# Timers
+	ai_wander_timer.timeout.connect(ai_wander)
+	ai_tick.timeout.connect(ai_aggro)
 	knockback_timer.timeout.connect(reset_after_knockback)
 
 func _physics_process(_delta):
@@ -65,7 +72,6 @@ func _physics_process(_delta):
 		velocity = lerp(velocity, move_direction * speed, acceleration)
 	else:
 		velocity = lerp(velocity, Vector2.ZERO, friction)
-	move_and_slide()
 	if (move_and_slide()):
 		for i in get_slide_collision_count():
 			var col = get_slide_collision(i)
@@ -80,9 +86,14 @@ func set_entity_state(new_state : ENTITY_STATES) -> void:
 	entity_state = new_state
 	animation_change = true
 
+func area_entered_vison(area : Node2D) -> void:
+	if (area.is_in_group(enemy_group)):
+		enemy_node = area
+		set_entity_state(ENTITY_STATES.MOVING)
+
 func ai_wander() -> void:
 	# TODO: Pick location and Navmesh to it.
-	if (wander):
+	if (wander && enemy_node == null):
 		if (entity_state == ENTITY_STATES.IDLE || entity_state == ENTITY_STATES.MOVING):
 			var rand_i = randi_range(0,5)
 			match rand_i:
@@ -98,6 +109,19 @@ func ai_wander() -> void:
 					move_direction = Vector2.LEFT
 				5:
 					move_direction = Vector2.RIGHT
+
+func ai_aggro() -> void:
+	if (hostile && enemy_node != null):
+		var enemy_dir = enemy_node.global_position - global_position
+		var dist_to_enemy = enemy_dir.length()
+		enemy_ray_cast.target_position = enemy_dir
+		if (enemy_ray_cast.get_collider() == enemy_node):
+			move_direction = enemy_dir.normalized()
+		else:
+			enemy_node = null
+			for i in enemy_sight.get_overlapping_areas():
+				if(i.is_in_group(enemy_group)):
+					enemy_node = i
 
 # Functions used by other nodes
 func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:

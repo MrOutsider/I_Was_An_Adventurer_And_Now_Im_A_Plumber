@@ -1,5 +1,7 @@
 extends Area2D
 
+@export var heavy_only : bool = true
+
 var switched_on : bool = false
 
 signal switch_used(state : bool)

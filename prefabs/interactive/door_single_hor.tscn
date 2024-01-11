@@ -12,7 +12,7 @@ region = Rect2(48, 96, 16, 32)
 size = Vector2(16, 16)
 
 [node name="DoorSingle" type="CharacterBody2D" groups=["solid"]]
-collision_layer = 4
+collision_layer = 20
 collision_mask = 0
 motion_mode = 1
 script = ExtResource("1_f6mhb")

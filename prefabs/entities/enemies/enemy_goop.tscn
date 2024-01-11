@@ -318,6 +318,7 @@ collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_ldka1")
 HURTBOX = NodePath("Hurtbox")
+hostile = true
 wander = true
 speed = 50.0
 metadata/_edit_group_ = true
@@ -329,13 +330,15 @@ shape = SubResource("RectangleShape2D_gec7d")
 position = Vector2(0, -7)
 
 [node name="EnemySight" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
 
 [node name="EnemySightRange" type="CollisionShape2D" parent="EnemySight"]
 shape = SubResource("CircleShape2D_h76gk")
 
 [node name="Hurtbox" parent="." groups=["enemy"] instance=ExtResource("2_olipg")]
 position = Vector2(0, -2)
-collision_layer = 2
+collision_layer = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CircleShape2D_18jfd")
@@ -344,7 +347,8 @@ shape = SubResource("CircleShape2D_18jfd")
 
 [node name="EnemyRayCast" type="RayCast2D" parent="RayCasts"]
 target_position = Vector2(0, 0)
-collision_mask = 7
+collision_mask = 25
+collide_with_areas = true
 
 [node name="WallRayCasts" type="Node2D" parent="RayCasts"]
 
@@ -376,7 +380,10 @@ wait_time = 0.2
 one_shot = true
 
 [node name="AI_Tick" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.05
+autostart = true
+
+[node name="AI_WanderTimer" type="Timer" parent="."]
 autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

@@ -736,15 +736,15 @@ motion_mode = 1
 platform_floor_layers = 4294967040
 platform_wall_layers = 1
 script = ExtResource("1_i4220")
-HURTBOX = NodePath("Hurtbox")
+HURTBOX = NodePath("PlayerHurtbox")
 metadata/_edit_group_ = true
 
-[node name="Hurtbox" parent="." groups=["player"] instance=ExtResource("4_cx3hx")]
+[node name="PlayerHurtbox" parent="." groups=["player"] instance=ExtResource("4_cx3hx")]
 visible = false
 position = Vector2(0, -3)
-collision_layer = 2
+collision_layer = 10
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerHurtbox"]
 shape = SubResource("CircleShape2D_idbeo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
