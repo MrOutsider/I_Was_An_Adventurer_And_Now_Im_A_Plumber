@@ -312,6 +312,7 @@ _data = {
 [node name="Goop" type="CharacterBody2D" node_paths=PackedStringArray("HURTBOX")]
 script = ExtResource("1_ldka1")
 HURTBOX = NodePath("Hurtbox")
+metadata/_edit_group_ = true
 
 [node name="Hurtbox" parent="." groups=["enemy"] instance=ExtResource("2_olipg")]
 position = Vector2(0, -2)

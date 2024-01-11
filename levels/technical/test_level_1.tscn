@@ -53,17 +53,19 @@ position = Vector2(0, -134)
 position = Vector2(-112, -53)
 
 [node name="BrokenStatue2" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
-position = Vector2(45, 173)
+position = Vector2(30, 198)
 
 [node name="BrokenStatue3" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
-position = Vector2(93, 181)
+position = Vector2(65, 195)
 
 [node name="BrokenStatue4" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
-position = Vector2(96, 217)
+position = Vector2(63, 221)
+
+[node name="BrokenStatue5" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
+position = Vector2(-168, 92)
 
 [node name="Switch" parent="Room_1/SortLayer" instance=ExtResource("3_d14m0")]
-position = Vector2(-153, -86)
-switched_on = true
+position = Vector2(-40, 110)
 can_toggle = true
 
 [node name="DoorSingle" parent="Room_1/SortLayer" node_paths=PackedStringArray("switch") instance=ExtResource("5_dardv")]
@@ -72,18 +74,11 @@ switch = NodePath("../Switch")
 
 [node name="Switch2" parent="Room_1/SortLayer" instance=ExtResource("3_d14m0")]
 position = Vector2(-24, 171)
-switched_on = true
 can_toggle = true
 
 [node name="DoorSingle2" parent="Room_1/SortLayer" node_paths=PackedStringArray("switch") instance=ExtResource("6_yrqcs")]
 position = Vector2(-112, 80)
 switch = NodePath("../Switch2")
-
-[node name="DoorSingle3" parent="Room_1/SortLayer" instance=ExtResource("5_dardv")]
-position = Vector2(-152, 560)
-
-[node name="BrokenStatue5" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
-position = Vector2(-169, 124)
 
 [node name="PressurePlate" parent="Room_1/SortLayer" instance=ExtResource("7_svvxv")]
 position = Vector2(-168, 112)
@@ -92,5 +87,20 @@ position = Vector2(-168, 112)
 position = Vector2(-152, 208)
 switch = NodePath("../PressurePlate")
 
+[node name="DoorSingle3" parent="Room_1/SortLayer" instance=ExtResource("5_dardv")]
+position = Vector2(-152, 560)
+
 [node name="Goop" parent="Room_1/SortLayer" instance=ExtResource("8_o44yv")]
 position = Vector2(-152, 457)
+
+[node name="Goop2" parent="Room_1/SortLayer" instance=ExtResource("8_o44yv")]
+position = Vector2(36, 216)
+
+[node name="Goop3" parent="Room_1/SortLayer" instance=ExtResource("8_o44yv")]
+position = Vector2(-41, 211)
+
+[node name="Goop4" parent="Room_1/SortLayer" instance=ExtResource("8_o44yv")]
+position = Vector2(-160, -89)
+
+[node name="Goop5" parent="Room_1/SortLayer" instance=ExtResource("8_o44yv")]
+position = Vector2(-168, 122)
