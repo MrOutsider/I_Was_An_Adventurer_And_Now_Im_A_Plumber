@@ -32,9 +32,8 @@ enum PLAYER_STATES {IDLE, MOVING, ATTACKING, KNOCKED_BACK, DEAD}
 var player_state : PLAYER_STATES = PLAYER_STATES.IDLE
 var player_last_state : PLAYER_STATES = player_state
 
-enum PLAYER_DIRECTION_STATES {UP, DOWN, LEFT, RIGHT}
-var player_direction_state : PLAYER_DIRECTION_STATES = PLAYER_DIRECTION_STATES.DOWN
 var forward_direction : Vector2 = Vector2.ZERO
+var forward_direction_last : Vector2 = forward_direction
 
 # State Flags
 var animation_change : bool = true
@@ -96,88 +95,62 @@ func process_inputs() -> void:
 				set_player_state(PLAYER_STATES.IDLE)
 
 func player_dir_to_state() -> void:
-	match player_state:
-		PLAYER_STATES.IDLE:
-			if (abs(input_dir.y) > abs(input_dir.x)):
-				if (input_dir.y > 0.0):
-					player_direction_state = PLAYER_DIRECTION_STATES.DOWN
-					forward_direction = Vector2.DOWN
-					animation_change = true
-				else:
-					player_direction_state = PLAYER_DIRECTION_STATES.UP
-					forward_direction = Vector2.UP
-					animation_change = true
-			elif (abs(input_dir.y) < abs(input_dir.x)):
-				if (input_dir.x > 0.0):
-					player_direction_state = PLAYER_DIRECTION_STATES.RIGHT
-					forward_direction = Vector2.RIGHT
-					animation_change = true
-				else:
-					player_direction_state = PLAYER_DIRECTION_STATES.LEFT
-					forward_direction = Vector2.LEFT
-					animation_change = true
-		PLAYER_STATES.MOVING:
-			if (abs(input_dir.y) > abs(input_dir.x)):
-				if (input_dir.y > 0.0):
-					player_direction_state = PLAYER_DIRECTION_STATES.DOWN
-					forward_direction = Vector2.DOWN
-					animation_change = true
-				else:
-					player_direction_state = PLAYER_DIRECTION_STATES.UP
-					forward_direction = Vector2.UP
-					animation_change = true
-			elif (abs(input_dir.y) < abs(input_dir.x)):
-				if (input_dir.x > 0.0):
-					player_direction_state = PLAYER_DIRECTION_STATES.RIGHT
-					forward_direction = Vector2.RIGHT
-					animation_change = true
-				else:
-					player_direction_state = PLAYER_DIRECTION_STATES.LEFT
-					forward_direction = Vector2.LEFT
-					animation_change = true
+	if (abs(input_dir.y) > abs(input_dir.x)):
+		if (input_dir.y > 0.0):
+			forward_direction = Vector2.DOWN
+		else:
+			forward_direction = Vector2.UP
+	elif (abs(input_dir.y) < abs(input_dir.x)):
+		if (input_dir.x > 0.0):
+			forward_direction = Vector2.RIGHT
+		else:
+			forward_direction = Vector2.LEFT
+	if (forward_direction != forward_direction_last):
+		animation_change = true
+	forward_direction_last = forward_direction
 
 func animate_sprite() -> void:
 	if (animation_change):
 		match player_state:
 			PLAYER_STATES.IDLE:
-				match player_direction_state:
-					PLAYER_DIRECTION_STATES.UP:
+				match forward_direction:
+					Vector2.UP:
 						anim_player.play("idle_up")
-					PLAYER_DIRECTION_STATES.DOWN:
+					Vector2.DOWN:
 						anim_player.play("idle_down")
-					PLAYER_DIRECTION_STATES.LEFT:
+					Vector2.LEFT:
 						anim_player.play("idle_left")
-					PLAYER_DIRECTION_STATES.RIGHT:
+					Vector2.RIGHT:
+						anim_player.play("idle_right")
+			PLAYER_STATES.KNOCKED_BACK:
+				match forward_direction:
+					Vector2.UP:
+						anim_player.play("idle_up")
+					Vector2.DOWN:
+						anim_player.play("idle_down")
+					Vector2.LEFT:
+						anim_player.play("idle_left")
+					Vector2.RIGHT:
 						anim_player.play("idle_right")
 			PLAYER_STATES.MOVING:
-				match player_direction_state:
-					PLAYER_DIRECTION_STATES.UP:
+				match forward_direction:
+					Vector2.UP:
 						anim_player.play("move_up")
-					PLAYER_DIRECTION_STATES.DOWN:
+					Vector2.DOWN:
 						anim_player.play("move_down")
-					PLAYER_DIRECTION_STATES.LEFT:
+					Vector2.LEFT:
 						anim_player.play("move_left")
-					PLAYER_DIRECTION_STATES.RIGHT:
+					Vector2.RIGHT:
 						anim_player.play("move_right")
-			PLAYER_STATES.KNOCKED_BACK:
-				match player_direction_state:
-					PLAYER_DIRECTION_STATES.UP:
-						anim_player.play("idle_up")
-					PLAYER_DIRECTION_STATES.DOWN:
-						anim_player.play("idle_down")
-					PLAYER_DIRECTION_STATES.LEFT:
-						anim_player.play("idle_left")
-					PLAYER_DIRECTION_STATES.RIGHT:
-						anim_player.play("idle_right")
 			PLAYER_STATES.ATTACKING:
-				match player_direction_state:
-					PLAYER_DIRECTION_STATES.UP:
+				match forward_direction:
+					Vector2.UP:
 						anim_player_attacks.play("attack_sword_up")
-					PLAYER_DIRECTION_STATES.DOWN:
+					Vector2.DOWN:
 						anim_player_attacks.play("attack_sword_down")
-					PLAYER_DIRECTION_STATES.LEFT:
+					Vector2.LEFT:
 						anim_player_attacks.play("attack_sword_left")
-					PLAYER_DIRECTION_STATES.RIGHT:
+					Vector2.RIGHT:
 						anim_player_attacks.play("attack_sword_right")
 		animation_change = false
 

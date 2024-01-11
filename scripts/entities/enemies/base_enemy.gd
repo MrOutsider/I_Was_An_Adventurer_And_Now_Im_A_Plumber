@@ -126,40 +126,25 @@ func animate_sprite() -> void:
 				match forward_direction:
 					Vector2.UP:
 						anim_player.play("move_up")
-						animation_change = false
-						return
 					Vector2.DOWN:
 						anim_player.play("move_down")
-						animation_change = false
-						return
 					Vector2.LEFT:
 						anim_player.play("move_left")
-						animation_change = false
-						return
 					Vector2.RIGHT:
 						anim_player.play("move_right")
-						animation_change = false
-						return
 		if (entity_state == ENTITY_STATES.IDLE ||
 		entity_state == ENTITY_STATES.KNOCKED_BACK ||
 		entity_state == ENTITY_STATES.DEAD):
 			match forward_direction:
 					Vector2.UP:
 						anim_player.play("idle_up")
-						animation_change = false
-						return
 					Vector2.DOWN:
 						anim_player.play("idle_down")
-						animation_change = false
-						return
 					Vector2.LEFT:
 						anim_player.play("idle_left")
-						animation_change = false
-						return
 					Vector2.RIGHT:
 						anim_player.play("idle_right")
-						animation_change = false
-						return
+		animation_change = false
 
 func ai_wander() -> void:
 	if (wander && ai_state == AI_STATES.IDLE):
