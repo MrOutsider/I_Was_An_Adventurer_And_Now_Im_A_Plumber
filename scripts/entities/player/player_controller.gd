@@ -9,8 +9,8 @@ extends CharacterBody2D
 # Modules
 @export var HURTBOX : Area2D
 # -> Timers
-@onready var knockback_timer : Timer = $Knockback_Timer
-@onready var sword_attack_timer : Timer = $Sword_Attack_Timer
+@onready var knockback_timer : Timer = $KnockbackTimer
+@onready var sword_attack_timer : Timer = $SwordAttackTimer
 # -> Colliders
 @onready var sword_col : Area2D = $SwordPivot/Sword
 
@@ -46,11 +46,11 @@ var input_dir : Vector2 = Vector2.ZERO
 func _ready():
 	player_sprite.play("idle_down") # Start Sprite Animations
 	# Connecting Signals
-	HURTBOX.connect("hit", take_dmg, 2)
-	knockback_timer.connect("timeout", reset_after_knockback)
-	sword_attack_timer.connect("timeout", reset_after_attack)
-	sword_col.connect("body_entered", attack_hit, 1)
-	sword_col.connect("area_entered", attack_hit, 1)
+	HURTBOX.hit.connect(take_dmg, 2)
+	knockback_timer.timeout.connect(reset_after_knockback)
+	sword_attack_timer.timeout.connect(reset_after_attack)
+	sword_col.body_entered.connect(attack_hit, 1)
+	sword_col.area_entered.connect(attack_hit, 1)
 	# Music
 	music_player.finished.connect(music_end)
 	# TMP --------------------------------------------------------------------------------------------------- TMP
@@ -67,7 +67,6 @@ func _process(_delta):
 	animate_sprite()
 
 func _physics_process(_delta):
-	# Accelerate Or Decelerate
 	if (input_dir.length() > 0.0 && player_state == PLAYER_STATES.MOVING):
 		velocity = lerp(velocity, input_dir * speed, acceleration)
 	else:
@@ -191,6 +190,7 @@ func set_player_state(new_state : PLAYER_STATES) -> void:
 func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:
 	health -= dmg
 	if (health < 1):
+		health = 0
 		set_player_state(PLAYER_STATES.DEAD)
 	knockback(dir_of_atk)
 

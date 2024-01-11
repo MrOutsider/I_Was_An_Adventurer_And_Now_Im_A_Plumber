@@ -283,7 +283,7 @@ tracks/3/keys = {
 tracks/4/type = "method"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Sword_Attack_Timer")
+tracks/4/path = NodePath("SwordAttackTimer")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -350,7 +350,7 @@ tracks/3/keys = {
 tracks/4/type = "method"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Sword_Attack_Timer")
+tracks/4/path = NodePath("SwordAttackTimer")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -417,7 +417,7 @@ tracks/3/keys = {
 tracks/4/type = "method"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Sword_Attack_Timer")
+tracks/4/path = NodePath("SwordAttackTimer")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -484,7 +484,7 @@ tracks/3/keys = {
 tracks/4/type = "method"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Sword_Attack_Timer")
+tracks/4/path = NodePath("SwordAttackTimer")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -790,11 +790,11 @@ sprite_frames = SubResource("SpriteFrames_7a8jc")
 animation = &"idle_down"
 script = SubResource("GDScript_w8gsq")
 
-[node name="Knockback_Timer" type="Timer" parent="."]
+[node name="KnockbackTimer" type="Timer" parent="."]
 wait_time = 0.2
 one_shot = true
 
-[node name="Sword_Attack_Timer" type="Timer" parent="."]
+[node name="SwordAttackTimer" type="Timer" parent="."]
 wait_time = 0.15
 one_shot = true
 
