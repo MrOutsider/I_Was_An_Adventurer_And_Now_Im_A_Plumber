@@ -25,20 +25,44 @@ alignment = 1
 
 [node name="NewGame" type="Button" parent="MainMenu/CenterContainer/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../Quit")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../LoadGame")
+focus_next = NodePath("../LoadGame")
+focus_previous = NodePath("../Quit")
 text = "New Game"
 
 [node name="LoadGame" type="Button" parent="MainMenu/CenterContainer/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../NewGame")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../Options")
+focus_next = NodePath("../Options")
+focus_previous = NodePath("../NewGame")
 disabled = true
 text = "Load Game"
 
 [node name="Options" type="Button" parent="MainMenu/CenterContainer/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../LoadGame")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../Quit")
+focus_next = NodePath("../Quit")
+focus_previous = NodePath("../LoadGame")
 disabled = true
 text = "Options"
 
 [node name="Quit" type="Button" parent="MainMenu/CenterContainer/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../Options")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../NewGame")
+focus_next = NodePath("../NewGame")
+focus_previous = NodePath("../Options")
 text = "Quit
 "
 

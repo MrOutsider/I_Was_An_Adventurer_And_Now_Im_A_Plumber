@@ -13,6 +13,7 @@ extends Node
 func _ready():
 	new_game_button.pressed.connect(start_new_game)
 	quit_button.pressed.connect(quit_game)
+	new_game_button.grab_focus()
 
 func start_new_game() -> void:
 	main_menu.queue_free()

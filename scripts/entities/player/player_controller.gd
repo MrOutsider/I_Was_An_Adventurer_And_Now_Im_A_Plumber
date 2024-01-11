@@ -50,8 +50,8 @@ func _ready():
 	HURTBOX.hit.connect(take_dmg, 2)
 	knockback_timer.timeout.connect(reset_after_knockback)
 	sword_attack_timer.timeout.connect(reset_after_attack)
-	sword_col.body_entered.connect(attack_hit, 1)
 	sword_col.area_entered.connect(attack_hit, 1)
+	sword_col.body_entered.connect(attack_hit, 1)
 	# Music
 	music_player.finished.connect(music_end)
 	# TMP --------------------------------------------------------------------------------------------------- TMP
@@ -177,9 +177,10 @@ func knockback(knockback_vector : Vector2) -> void:
 		knockback_timer.start()
 
 # Function for when weapon hits collider
-func attack_hit(body : Node2D) -> void:
+func attack_hit(body : CollisionObject2D) -> void:
 	if (body.is_in_group("player")):
 		return
+	# Raycast to see if wall is between player and body hit.
 	attack_ray.target_position = body.global_position - global_position
 	attack_ray.force_raycast_update()
 	if (!attack_ray.is_colliding()):
@@ -193,6 +194,9 @@ func attack_hit(body : Node2D) -> void:
 			knockback(forward_direction * -1.0)
 			if (body.has_method("hit_sound")):
 				body.hit_sound()
+	# Bounc off of walls when attacking. - Needs custom Area2d with walls layer enabled.
+	if (body.get_collision_layer_value(1)):
+		knockback(forward_direction * -1.0)
 
 # Functions triggered by timers
 func reset_after_attack() -> void:

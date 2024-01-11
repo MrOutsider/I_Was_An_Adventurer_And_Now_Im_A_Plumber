@@ -30,7 +30,7 @@ const KNOCKBACK_FORCE : float = 400.0
 # AI Flags
 @export var hostile : bool = false
 @export var wander : bool = false
-@export var follow : bool = false # Navmesh following
+@export var chase : bool = false ## NAVMESH to last known location
 @export var enemy_group : String = "player"
 @export var can_move_movables : bool = false
 
@@ -49,7 +49,7 @@ enum ENTITY_STATES {IDLE, MOVING, ATTACKING, KNOCKED_BACK, DEAD}
 var entity_state : ENTITY_STATES = ENTITY_STATES.IDLE
 var entity_last_state : ENTITY_STATES = entity_state
 
-enum AI_STATES {IDLE, AGRO, DEAD}
+enum AI_STATES {IDLE, AGRO, HUNT, DEAD}
 var ai_state : AI_STATES
 
 enum ENTITY_DIRECTION_STATES {UP, DOWN, LEFT, RIGHT}
@@ -62,6 +62,7 @@ var animation_change : bool = true
 # Script Global
 var move_direction : Vector2 = Vector2.ZERO
 var enemy_node : Node2D = null
+var last_known_enemy_location : Vector2 = Vector2.ZERO
 
 # Standard Functions
 func _ready():
@@ -196,12 +197,16 @@ func ai_aggro() -> void:
 		enemy_ray_cast.target_position = enemy_dir
 		if (enemy_ray_cast.get_collider() == enemy_node):
 			if (entity_state == ENTITY_STATES.IDLE): set_entity_state(ENTITY_STATES.MOVING)
+			last_known_enemy_location = enemy_node.global_position
 			move_direction = enemy_dir.normalized()
 			animation_change = true
 		elif(enemy_distance > vision_distance):
 			enemy_node = null
 	elif (ai_state != AI_STATES.DEAD):
-		set_ai_state(AI_STATES.IDLE)
+		if (chase):
+			set_ai_state(AI_STATES.HUNT)
+		else:
+			set_ai_state(AI_STATES.IDLE)
 
 # Functions used by other nodes
 func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:
