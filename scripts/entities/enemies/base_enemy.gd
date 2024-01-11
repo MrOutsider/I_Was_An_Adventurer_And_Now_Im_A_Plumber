@@ -93,17 +93,16 @@ func set_entity_state(new_state : ENTITY_STATES) -> void:
 	entity_state = new_state
 	animation_change = true
 
-func ai_look_for_enemy() -> void:
-	if (entity_state == ENTITY_STATES.IDLE || entity_state == ENTITY_STATES.MOVING):
-		if (enemy_sight.has_overlapping_areas()):
-			for i in enemy_sight.get_overlapping_areas():
-				if (i.is_in_group(enemy_group)):
-					enemy_node = i
-					set_entity_state(ENTITY_STATES.MOVING)
-					break
+func set_ai_state(new_state : AI_STATES) -> void:
+	ai_state = new_state
+	match ai_state:
+		AI_STATES.IDLE:
+			modulate = Color(1, 1, 1)
+		AI_STATES.AGRO:
+			modulate = Color(1, 0, 0)
 
 func ai_wander() -> void:
-	if (wander && enemy_node == null):
+	if (wander && ai_state == AI_STATES.IDLE):
 		if (entity_state == ENTITY_STATES.IDLE || entity_state == ENTITY_STATES.MOVING):
 			var rand_i = randi_range(0,5)
 			match rand_i:
@@ -120,15 +119,32 @@ func ai_wander() -> void:
 				5:
 					move_direction = Vector2.RIGHT
 
+func ai_look_for_enemy() -> void:
+	if (ai_state == AI_STATES.IDLE):
+		if (enemy_sight.has_overlapping_areas()):
+			for i in enemy_sight.get_overlapping_areas():
+				if (i.is_in_group(enemy_group)):
+					var enemy_dir = i.global_position - global_position
+					enemy_ray_cast.target_position = enemy_dir
+					var ray_i = enemy_ray_cast.get_collider()
+					if (ray_i != null):
+						if (ray_i.is_in_group(enemy_group)):
+							enemy_node = i
+							set_ai_state(AI_STATES.AGRO)
+							break
+
 func ai_aggro() -> void:
-	if (hostile && enemy_node != null):
+	if (hostile && ai_state == AI_STATES.AGRO && enemy_node != null):
 		var enemy_dir = enemy_node.global_position - global_position
 		var enemy_distance = enemy_dir.length()
 		enemy_ray_cast.target_position = enemy_dir
 		if (enemy_ray_cast.get_collider() == enemy_node):
+			if (entity_state == ENTITY_STATES.IDLE): set_entity_state(ENTITY_STATES.MOVING)
 			move_direction = enemy_dir.normalized()
 		elif(enemy_distance > vision_distance):
 			enemy_node = null
+	else:
+		set_ai_state(AI_STATES.IDLE)
 
 # Functions used by other nodes
 func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:
