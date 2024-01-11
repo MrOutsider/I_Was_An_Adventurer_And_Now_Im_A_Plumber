@@ -25,6 +25,7 @@ const KNOCKBACK_FORCE : float = 400.0
 @export var speed : float = 125.0
 @export var pushing_force : float = 20.0
 @export var friction : float = FRICTION_BASE
+@export var dead_friction : float = 0.5
 @export var acceleration : float = 1.0
 
 # State Machine
@@ -53,8 +54,8 @@ func _ready():
 	# Music
 	music_player.finished.connect(music_end)
 	# TMP --------------------------------------------------------------------------------------------------- TMP
-	music_player.stream = load("res://assets/audio/music/xDeviruchi - The Final of The Fantasy.wav")
-	music_player.play()
+	#music_player.stream = load("res://assets/audio/music/xDeviruchi - The Final of The Fantasy.wav")
+	#music_player.play()
 	# TMP --------------------------------------------------------------------------------------------------- TMP
 
 func _input(_event):
@@ -195,8 +196,8 @@ func reset_after_attack() -> void:
 		set_player_state(PLAYER_STATES.IDLE)
 
 func reset_after_knockback() -> void:
+	friction = FRICTION_BASE
 	if (player_state == PLAYER_STATES.KNOCKED_BACK):
-		friction = FRICTION_BASE
 		set_player_state(PLAYER_STATES.IDLE)
 
 func music_end() -> void:

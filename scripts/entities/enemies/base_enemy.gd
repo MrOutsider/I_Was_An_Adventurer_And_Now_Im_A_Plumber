@@ -13,11 +13,14 @@ extends CharacterBody2D
 @onready var wall_left_ray_cast : RayCast2D = $RayCasts/WallRayCasts/WallLeftRayCast
 @onready var wall_right_ray_cast : RayCast2D = $RayCasts/WallRayCasts/WallRightRayCast
 # Modules
+@onready var visible_on_screen_enabler_2d = $VisibleOnScreenEnabler2D
 @export var HURTBOX : Area2D
 # Timers
 @onready var ai_tick : Timer = $AI_Tick
 @onready var ai_wander_timer : Timer = $AI_WanderTimer
 @onready var knockback_timer : Timer = $KnockbackTimer
+# SFX
+@onready var hurt_sound = $HurtSound
 
 # Constants
 const FRICTION_BASE : float = 1.0
@@ -37,7 +40,7 @@ const KNOCKBACK_FORCE : float = 400.0
 @export var damage : int = 1
 @export var vision_distance : float = 20.0
 @export var speed : float = 50.0
-@export var pushing_force : float = 50.0
+@export var pushing_force : float = 50.0 ## Force when moving against "moveable" group.
 @export var friction : float = FRICTION_BASE
 @export var acceleration : float = 1.0
 
@@ -62,6 +65,7 @@ var enemy_node : Node2D = null
 
 # Standard Functions
 func _ready():
+	visible_on_screen_enabler_2d.show()
 	if (health > max_health): health = max_health
 	# Init sprite animations
 	animated_sprite_2d.play("idle_down")
@@ -99,7 +103,10 @@ func set_entity_state(new_state : ENTITY_STATES) -> void:
 	match entity_state:
 		ENTITY_STATES.DEAD:
 			set_ai_state(AI_STATES.DEAD)
+			set_collision_layer_value(2, false)
+			set_collision_mask_value(2, false)
 			move_direction = Vector2.ZERO
+			hurt_sound.pitch_scale = 0.8
 			anim_player_effects.play("death")
 			animation_change = true
 
@@ -198,6 +205,7 @@ func ai_aggro() -> void:
 
 # Functions used by other nodes
 func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:
+	hurt_sound.play()
 	if (entity_state != ENTITY_STATES.DEAD):
 		anim_player_effects.play("hurt")
 		health -= dmg
@@ -221,6 +229,6 @@ func reset_after_attack() -> void:
 		set_entity_state(ENTITY_STATES.IDLE)
 
 func reset_after_knockback() -> void:
+	friction = FRICTION_BASE
 	if (entity_state == ENTITY_STATES.KNOCKED_BACK):
-		friction = FRICTION_BASE
 		set_entity_state(ENTITY_STATES.IDLE)

@@ -53,13 +53,13 @@ position = Vector2(0, -131)
 position = Vector2(-112, -52)
 
 [node name="BrokenStatue2" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
-position = Vector2(30, 198)
+position = Vector2(29, 173)
 
 [node name="BrokenStatue3" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
-position = Vector2(65, 195)
+position = Vector2(102, 223)
 
 [node name="BrokenStatue4" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
-position = Vector2(63, 221)
+position = Vector2(28, 221)
 
 [node name="BrokenStatue5" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
 position = Vector2(-168, 92)
@@ -94,7 +94,7 @@ position = Vector2(-152, 560)
 position = Vector2(-152, 457)
 
 [node name="Goop2" parent="Room_1/SortLayer" instance=ExtResource("8_o44yv")]
-position = Vector2(36, 216)
+position = Vector2(27, 195)
 
 [node name="Goop3" parent="Room_1/SortLayer" instance=ExtResource("8_o44yv")]
 position = Vector2(-41, 211)
