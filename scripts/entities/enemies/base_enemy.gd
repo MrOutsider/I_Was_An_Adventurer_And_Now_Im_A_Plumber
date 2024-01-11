@@ -95,11 +95,6 @@ func set_entity_state(new_state : ENTITY_STATES) -> void:
 
 func set_ai_state(new_state : AI_STATES) -> void:
 	ai_state = new_state
-	match ai_state:
-		AI_STATES.IDLE:
-			modulate = Color(1, 1, 1)
-		AI_STATES.AGRO:
-			modulate = Color(1, 0, 0)
 
 func ai_wander() -> void:
 	if (wander && ai_state == AI_STATES.IDLE):
