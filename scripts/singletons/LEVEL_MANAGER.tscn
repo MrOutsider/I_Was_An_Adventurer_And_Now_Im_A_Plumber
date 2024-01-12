@@ -1,3 +1,6 @@
-[gd_scene format=3 uid="uid://did74nuia6ope"]
+[gd_scene load_steps=2 format=3 uid="uid://did74nuia6ope"]
+
+[ext_resource type="Script" path="res://scripts/singletons/LEVEL_MANAGER.gd" id="1_sepb5"]
 
 [node name="LEVEL_MANAGER" type="Node"]
+script = ExtResource("1_sepb5")
