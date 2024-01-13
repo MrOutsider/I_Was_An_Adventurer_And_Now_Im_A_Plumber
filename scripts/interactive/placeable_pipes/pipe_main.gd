@@ -28,7 +28,7 @@ func _ready():
 		if (connecting_pipe == null):
 			placed = true
 			placed_sprite.show()
-			static_body_2d.set_collision_layer_value(1, true)
+			#static_body_2d.set_collision_layer_value(1, true)
 			if (next_pipe != null):
 				next_pipe.call_deferred("reveal")
 
@@ -85,7 +85,7 @@ func use() -> void:
 			focus_sprite.hide()
 			pre_place_sprite.hide()
 			placed_sprite.show()
-			static_body_2d.set_collision_layer_value(1, true)
+			#static_body_2d.set_collision_layer_value(1, true)
 			switch_used.emit(true)
 			if (next_pipe != null):
 				next_pipe.reveal()
