@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
-@onready var lever_on : Sprite2D = $LeverOn
-@onready var lever_off : Sprite2D = $LeverOff
-
+@onready var lever_sprite : Sprite2D = $LeverSprite
 @onready var lever_sound : AudioStreamPlayer2D = $LeverSound
+
+const texture : String = "res://assets/art/interactive/lever.png"
 
 @export var switched_on : bool = false
 @export var can_toggle : bool = false
@@ -13,11 +13,13 @@ var toggled : bool = false
 signal switch_used(state : bool)
 
 func _ready():
-	lever_off.hide()
+	lever_sprite.texture = AtlasTexture.new()
+	lever_sprite.texture.atlas = load(texture)
+	lever_sprite.texture.region = Rect2(0, 0, 16, 16)
 	if switched_on:
-		lever_on.show()
+		lever_sprite.texture.region = Rect2(16, 0, 16, 16)
 	else:
-		lever_off.show()
+		lever_sprite.texture.region = Rect2(0, 0, 16, 16)
 
 func flip_switch() -> void:
 	if (!toggled):
@@ -26,10 +28,8 @@ func flip_switch() -> void:
 		if (switched_on):
 			switch_used.emit(false)
 			switched_on = false
-			lever_on.hide()
-			lever_off.show()
+			lever_sprite.texture.region = Rect2(0, 0, 16, 16)
 		else:
 			switch_used.emit(true)
 			switched_on = true
-			lever_off.hide()
-			lever_on.show()
+			lever_sprite.texture.region = Rect2(16, 0, 16, 16)

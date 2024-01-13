@@ -5,4 +5,8 @@
 [node name="MUSIC_MANAGER" type="Node"]
 script = ExtResource("1_pabtp")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer1" type="AudioStreamPlayer" parent="."]
+volume_db = -40.0
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+volume_db = -40.0

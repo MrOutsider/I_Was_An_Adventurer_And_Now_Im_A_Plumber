@@ -14,17 +14,14 @@ func _ready():
 	slider.value_changed.connect(slider_changed, 1)
 
 func slider_changed(_trash) -> void:
-	text = \"%\" + var_to_str(slider.value)
+	text = \"Music: %\" + var_to_str(slider.value)
 "
 
-[node name="MAIN" type="Node" node_paths=PackedStringArray("new_game_button", "options_button", "quit_button", "options_back_button", "options_accept_button", "options_first_node")]
+[node name="MAIN" type="Node" node_paths=PackedStringArray("new_game_button", "options_button", "quit_button")]
 script = ExtResource("1_qxp28")
 new_game_button = NodePath("UI_Menu/MainMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/StartGame")
 options_button = NodePath("UI_Menu/MainMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/Options")
 quit_button = NodePath("UI_Menu/MainMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/Quit")
-options_back_button = NodePath("UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/Back")
-options_accept_button = NodePath("UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Accept")
-options_first_node = NodePath("UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MusicHSlider")
 
 [node name="UI_Menu" type="CanvasLayer" parent="."]
 
@@ -136,69 +133,14 @@ horizontal_alignment = 1
 [node name="HSeparator" type="HSeparator" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="MusicLabels" type="HBoxContainer" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+[node name="MusicLabel" type="Label" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("slider")]
 layout_mode = 2
-alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MusicLabels"]
-layout_mode = 2
-size_flags_horizontal = 3
-alignment = 2
-
-[node name="MusicLabel" type="Label" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MusicLabels/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "Music: "
-horizontal_alignment = 2
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MusicLabels"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="MusicLabelValue" type="Label" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MusicLabels/HBoxContainer2" node_paths=PackedStringArray("slider")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "%"
+text = "Music"
+horizontal_alignment = 1
 script = SubResource("GDScript_356tf")
-slider = NodePath("../../../MusicHSlider")
+slider = NodePath("../MusicHSlider")
 
 [node name="MusicHSlider" type="HSlider" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-step = 5.0
-value = 100.0
-rounded = true
-
-[node name="SFXLabels" type="HBoxContainer" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/SFXLabels"]
-layout_mode = 2
-size_flags_horizontal = 3
-alignment = 2
-
-[node name="SFXLabel" type="Label" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/SFXLabels/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "SFX: "
-horizontal_alignment = 2
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/SFXLabels"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="SFXLabelValue" type="Label" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/SFXLabels/HBoxContainer2" node_paths=PackedStringArray("slider")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "%"
-script = SubResource("GDScript_356tf")
-slider = NodePath("../../../SFXHSlider")
-
-[node name="SFXHSlider" type="HSlider" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 step = 5.0
 value = 100.0

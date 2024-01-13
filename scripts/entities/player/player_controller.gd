@@ -11,7 +11,6 @@ extends CharacterBody2D
 @onready var knockback_timer : Timer = $KnockbackTimer
 @onready var sword_attack_timer : Timer = $SwordAttackTimer
 # -> Colliders
-@onready var interact_area : Area2D = $InteractArea
 @onready var interact_ray : RayCast2D = $InteractRay
 @onready var sword_col : Area2D = $SwordPivot/Sword
 @onready var attack_ray : RayCast2D = $AttackRay
