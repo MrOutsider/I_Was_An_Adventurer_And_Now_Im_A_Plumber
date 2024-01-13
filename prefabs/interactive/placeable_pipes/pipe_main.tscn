@@ -8,7 +8,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1lgh3"]
 size = Vector2(16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_71vp4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_r8jeu"]
 atlas = ExtResource("3_ywdmr")
 region = Rect2(48, 16, 16, 16)
 
@@ -39,7 +39,7 @@ texture = ExtResource("2_021kg")
 
 [node name="PlacedSprite" type="Sprite2D" parent="." index="3"]
 position = Vector2(0, 8)
-texture = SubResource("AtlasTexture_71vp4")
+texture = SubResource("AtlasTexture_r8jeu")
 
 [node name="FocusSprite" type="Sprite2D" parent="." index="4"]
 visible = false

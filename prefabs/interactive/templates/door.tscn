@@ -1,12 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://552m7mituo45"]
+[gd_scene load_steps=7 format=3 uid="uid://cw6btyyxewynm"]
 
-[ext_resource type="Script" path="res://scripts/interactive/templates/door.gd" id="1_f6mhb"]
-[ext_resource type="Texture2D" uid="uid://dukpt0ln2xtyh" path="res://assets/art/tilemaps/hero_temple_tilemap.png" id="2_56bsb"]
-[ext_resource type="AudioStream" uid="uid://ca2x0c2fsoltp" path="res://assets/audio/sfx/heavy_bump.wav" id="3_u1hdb"]
-[ext_resource type="AudioStream" uid="uid://c0ujrylptwfst" path="res://assets/audio/sfx/door_shutting.wav" id="4_dacdh"]
+[ext_resource type="Script" path="res://scripts/interactive/templates/door.gd" id="1_ssxnn"]
+[ext_resource type="Texture2D" uid="uid://dukpt0ln2xtyh" path="res://assets/art/tilemaps/hero_temple_tilemap.png" id="2_j4703"]
+[ext_resource type="AudioStream" uid="uid://ca2x0c2fsoltp" path="res://assets/audio/sfx/heavy_bump.wav" id="3_u1r2g"]
+[ext_resource type="AudioStream" uid="uid://c0ujrylptwfst" path="res://assets/audio/sfx/door_shutting.wav" id="4_qmy5j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1a27x"]
-atlas = ExtResource("2_56bsb")
+atlas = ExtResource("2_j4703")
 region = Rect2(48, 96, 16, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c56bp"]
@@ -16,7 +16,7 @@ size = Vector2(16, 16)
 collision_layer = 5
 collision_mask = 0
 motion_mode = 1
-script = ExtResource("1_f6mhb")
+script = ExtResource("1_ssxnn")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -28,9 +28,9 @@ position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_c56bp")
 
 [node name="BumpSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_u1hdb")
+stream = ExtResource("3_u1r2g")
 volume_db = -15.0
 
 [node name="DoorSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_dacdh")
+stream = ExtResource("4_qmy5j")
 volume_db = -5.0

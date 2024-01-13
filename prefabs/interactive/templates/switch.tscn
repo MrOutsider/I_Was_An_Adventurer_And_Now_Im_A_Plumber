@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://byferik5n0677"]
 
 [ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="1_a10k2"]
-[ext_resource type="Script" path="res://scripts/interactive/switch.tres.gd" id="1_ychb0"]
+[ext_resource type="Script" path="res://scripts/interactive/templates/switch.tres.gd" id="1_ychb0"]
 [ext_resource type="Texture2D" uid="uid://jlkdpsqrbajo" path="res://assets/art/interactive/lever.png" id="2_4i66w"]
 [ext_resource type="AudioStream" uid="uid://wgbsjbo238d3" path="res://assets/audio/sfx/lever.wav" id="4_08t1y"]
 

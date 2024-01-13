@@ -1,0 +1,81 @@
+[gd_scene load_steps=8 format=3 uid="uid://j2fg1w88am72"]
+
+[ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="1_vcnkl"]
+[ext_resource type="Texture2D" uid="uid://dukpt0ln2xtyh" path="res://assets/art/tilemaps/hero_temple_tilemap.png" id="2_3idvu"]
+[ext_resource type="AudioStream" uid="uid://ca2x0c2fsoltp" path="res://assets/audio/sfx/heavy_bump.wav" id="3_v0rr2"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_24uab"]
+rough = true
+bounce = 0.2
+
+[sub_resource type="GDScript" id="GDScript_oma22"]
+script/source = "extends RigidBody2D
+
+@onready var particles = $CPUParticles2D
+@onready var bump_sound = $BumpSound
+
+func _ready():
+	particles.emitting = false
+	connect(\"sleeping_state_changed\", on_sleep_state_change)
+
+func hit_sound() -> void:
+	bump_sound.play()
+
+func on_sleep_state_change() -> void:
+	if (sleeping):
+		particles.emitting = false
+		linear_velocity = Vector2.ZERO
+	else:
+		particles.emitting = true
+"
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_51gkr"]
+radius = 5.0
+height = 16.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enrn5"]
+atlas = ExtResource("2_3idvu")
+region = Rect2(64, 62, 16, 18)
+
+[node name="BrokenStatue" type="RigidBody2D" groups=["heavy", "movable", "solid"]]
+collision_layer = 20
+collision_mask = 39
+mass = 300.0
+physics_material_override = SubResource("PhysicsMaterial_24uab")
+lock_rotation = true
+linear_damp = 0.8
+script = SubResource("GDScript_oma22")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_51gkr")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.403922)
+position = Vector2(2.84217e-14, -3.25)
+scale = Vector2(0.125, 0.0742188)
+texture = ExtResource("1_vcnkl")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -9)
+texture = SubResource("AtlasTexture_enrn5")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 16
+lifetime = 0.5
+randomness = 0.42
+lifetime_randomness = 0.25
+emission_shape = 3
+emission_rect_extents = Vector2(8, 1)
+gravity = Vector2(0, 0)
+radial_accel_max = 6.06
+angle_max = 360.0
+scale_amount_max = 2.0
+color = Color(1, 1, 1, 0.588235)
+
+[node name="BumpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_v0rr2")
+volume_db = -15.0

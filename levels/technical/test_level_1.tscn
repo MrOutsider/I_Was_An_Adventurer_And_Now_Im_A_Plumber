@@ -2,7 +2,7 @@
 
 [ext_resource type="TileSet" uid="uid://dmn7ddm23rqpv" path="res://prefabs/tilesets/hero_temple_tilemap.tres" id="1_s0aui"]
 [ext_resource type="PackedScene" uid="uid://bledb3dcpla5r" path="res://prefabs/entities/player/player.tscn" id="2_06qwn"]
-[ext_resource type="PackedScene" uid="uid://byferik5n0677" path="res://prefabs/interactive/switch.tscn" id="3_d14m0"]
+[ext_resource type="PackedScene" uid="uid://byferik5n0677" path="res://prefabs/interactive/templates/switch.tscn" id="3_d14m0"]
 [ext_resource type="PackedScene" uid="uid://bywdhmnhpxadf" path="res://prefabs/interactive/broken_statue.tscn" id="4_u6mgu"]
 [ext_resource type="PackedScene" uid="uid://552m7mituo45" path="res://prefabs/interactive/door_single_hor.tscn" id="5_dardv"]
 [ext_resource type="PackedScene" uid="uid://b2s65sbd2f6lw" path="res://prefabs/interactive/door_single_vert.tscn" id="6_yrqcs"]
@@ -280,78 +280,78 @@ position = Vector2(376, 240)
 pipe_piece = 1
 connecting_pipe = NodePath("../Pipe23")
 
-[node name="Pipe" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe25" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(224, -32)
 pipe_piece = 4
 
-[node name="Pipe2" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe26" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(240, -32)
 
-[node name="Pipe3" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe27" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(256, -32)
 pipe_piece = 8
 
-[node name="Pipe4" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe28" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(256, -16)
 pipe_piece = 1
 
-[node name="Pipe5" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe29" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(256, 0)
 pipe_piece = 2
 
-[node name="Pipe6" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe30" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(272, 0)
 pipe_piece = 2
 
-[node name="Pipe7" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe31" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(272, -16)
 pipe_piece = 1
 
-[node name="Pipe8" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe32" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(272, -32)
 pipe_piece = 9
 
-[node name="Pipe9" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe33" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(288, -32)
 
-[node name="Pipe10" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe34" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(304, -32)
 pipe_piece = 5
 
-[node name="Pipe11" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe35" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(224, -48)
 pipe_piece = 4
 
-[node name="Pipe12" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe36" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(240, -48)
 
-[node name="Pipe13" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe37" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(256, -48)
 pipe_piece = 6
 
-[node name="Pipe14" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe38" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(272, -48)
 pipe_piece = 7
 
-[node name="Pipe15" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe39" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(288, -48)
 
-[node name="Pipe16" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe40" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(304, -48)
 pipe_piece = 5
 
-[node name="Pipe17" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe41" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(256, -64)
 pipe_piece = 1
 
-[node name="Pipe18" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe42" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(256, -80)
 pipe_piece = 3
 
-[node name="Pipe19" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe43" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(272, -64)
 pipe_piece = 1
 
-[node name="Pipe20" parent="." instance=ExtResource("9_ajp5j")]
+[node name="Pipe44" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(272, -80)
 pipe_piece = 3
