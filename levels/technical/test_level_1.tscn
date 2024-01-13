@@ -224,41 +224,49 @@ next_pipe = NodePath("../Pipe16")
 
 [node name="Pipe16" parent="Room_1/SortLayer" node_paths=PackedStringArray("connecting_pipe", "next_pipe") instance=ExtResource("9_ajp5j")]
 position = Vector2(376, 112)
+pipe_piece = 1
 connecting_pipe = NodePath("../Pipe15")
 next_pipe = NodePath("../Pipe17")
 
 [node name="Pipe17" parent="Room_1/SortLayer" node_paths=PackedStringArray("connecting_pipe", "next_pipe") instance=ExtResource("9_ajp5j")]
 position = Vector2(376, 128)
+pipe_piece = 1
 connecting_pipe = NodePath("../Pipe16")
 next_pipe = NodePath("../Pipe18")
 
 [node name="Pipe18" parent="Room_1/SortLayer" node_paths=PackedStringArray("connecting_pipe", "next_pipe") instance=ExtResource("9_ajp5j")]
 position = Vector2(376, 144)
+pipe_piece = 1
 connecting_pipe = NodePath("../Pipe17")
 next_pipe = NodePath("../Pipe19")
 
 [node name="Pipe19" parent="Room_1/SortLayer" node_paths=PackedStringArray("connecting_pipe", "next_pipe") instance=ExtResource("9_ajp5j")]
 position = Vector2(376, 160)
+pipe_piece = 1
 connecting_pipe = NodePath("../Pipe18")
 next_pipe = NodePath("../Pipe20")
 
 [node name="Pipe20" parent="Room_1/SortLayer" node_paths=PackedStringArray("connecting_pipe", "next_pipe") instance=ExtResource("9_ajp5j")]
 position = Vector2(376, 176)
+pipe_piece = 1
 connecting_pipe = NodePath("../Pipe19")
 next_pipe = NodePath("../Pipe21")
 
 [node name="Pipe21" parent="Room_1/SortLayer" node_paths=PackedStringArray("connecting_pipe", "next_pipe") instance=ExtResource("9_ajp5j")]
 position = Vector2(376, 192)
+pipe_piece = 1
 connecting_pipe = NodePath("../Pipe20")
 next_pipe = NodePath("../Pipe22")
 
 [node name="Pipe22" parent="Room_1/SortLayer" node_paths=PackedStringArray("connecting_pipe", "next_pipe") instance=ExtResource("9_ajp5j")]
 position = Vector2(376, 208)
+pipe_piece = 1
 connecting_pipe = NodePath("../Pipe21")
 next_pipe = NodePath("../Pipe23")
 
 [node name="Pipe23" parent="Room_1/SortLayer" node_paths=PackedStringArray("connecting_pipe", "next_pipe") instance=ExtResource("9_ajp5j")]
 position = Vector2(376, 224)
+pipe_piece = 1
 connecting_pipe = NodePath("../Pipe22")
 next_pipe = NodePath("../Pipe24")
 
@@ -268,4 +276,81 @@ switch = NodePath("../Pipe24")
 
 [node name="Pipe24" parent="Room_1/SortLayer" node_paths=PackedStringArray("connecting_pipe") instance=ExtResource("9_ajp5j")]
 position = Vector2(376, 240)
+pipe_piece = 1
 connecting_pipe = NodePath("../Pipe23")
+
+[node name="Pipe" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(224, -32)
+pipe_piece = 4
+
+[node name="Pipe2" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(240, -32)
+
+[node name="Pipe3" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(256, -32)
+pipe_piece = 8
+
+[node name="Pipe4" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(256, -16)
+pipe_piece = 1
+
+[node name="Pipe5" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(256, 0)
+pipe_piece = 2
+
+[node name="Pipe6" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(272, 0)
+pipe_piece = 2
+
+[node name="Pipe7" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(272, -16)
+pipe_piece = 1
+
+[node name="Pipe8" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(272, -32)
+pipe_piece = 9
+
+[node name="Pipe9" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(288, -32)
+
+[node name="Pipe10" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(304, -32)
+pipe_piece = 5
+
+[node name="Pipe11" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(224, -48)
+pipe_piece = 4
+
+[node name="Pipe12" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(240, -48)
+
+[node name="Pipe13" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(256, -48)
+pipe_piece = 6
+
+[node name="Pipe14" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(272, -48)
+pipe_piece = 7
+
+[node name="Pipe15" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(288, -48)
+
+[node name="Pipe16" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(304, -48)
+pipe_piece = 5
+
+[node name="Pipe17" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(256, -64)
+pipe_piece = 1
+
+[node name="Pipe18" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(256, -80)
+pipe_piece = 3
+
+[node name="Pipe19" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(272, -64)
+pipe_piece = 1
+
+[node name="Pipe20" parent="." instance=ExtResource("9_ajp5j")]
+position = Vector2(272, -80)
+pipe_piece = 3

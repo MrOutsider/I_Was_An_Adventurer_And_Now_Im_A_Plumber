@@ -10,7 +10,7 @@ size = Vector2(16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b5ycl"]
 atlas = ExtResource("3_ywdmr")
-region = Rect2(16, 0, 16, 16)
+region = Rect2(0, 16, 16, 16)
 
 [node name="Pipe" node_paths=PackedStringArray("pre_place_sprite", "placed_sprite", "focus_sprite") instance=ExtResource("1_oklgj")]
 script = ExtResource("2_7t270")
