@@ -6,6 +6,7 @@ extends Node2D
 @onready var area_2d : CollisionObject2D = $Interactable
 @onready var static_body_2d : CollisionObject2D = $PlacedBody
 
+@export var can_use : bool = false
 @export var placed : bool = false
 
 signal switch_used(state : bool)

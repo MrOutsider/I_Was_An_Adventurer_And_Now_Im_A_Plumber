@@ -13,6 +13,7 @@ extends Node2D
 @export var connecting_pipe : Node2D = null
 @export var next_pipe : Node2D = null
 
+var can_use : bool = false
 var placed : bool = false
 
 signal switch_used(state : bool)
@@ -27,6 +28,7 @@ func _ready():
 		focus_sprite.hide()
 		if (connecting_pipe == null):
 			placed = true
+			can_use = true
 			placed_sprite.show()
 			#static_body_2d.set_collision_layer_value(1, true)
 			if (next_pipe != null):
@@ -37,6 +39,7 @@ func _process(_delta):
 		set_sprite()
 
 func reveal() -> void:
+	can_use = true
 	pre_place_sprite.show()
 	placed_sprite.hide()
 	focus_sprite.hide()

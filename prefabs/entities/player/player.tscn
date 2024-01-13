@@ -13,7 +13,7 @@ size = Vector2(14, 6)
 radius = 6.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u4akb"]
-size = Vector2(10, 13)
+size = Vector2(10, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vqx4e"]
 atlas = ExtResource("3_6dpkb")
@@ -880,12 +880,13 @@ collision_mask = 14
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
-position = Vector2(0, 5.5)
+position = Vector2(0, 7)
 shape = SubResource("RectangleShape2D_u4akb")
 
 [node name="InteractRay" type="RayCast2D" parent="."]
-target_position = Vector2(0, 15)
-collision_mask = 14
+position = Vector2(0, -4)
+target_position = Vector2(0, 20)
+collision_mask = 6
 collide_with_areas = true
 
 [node name="AttackRay" type="RayCast2D" parent="."]
@@ -935,7 +936,7 @@ wait_time = 0.2
 one_shot = true
 
 [node name="SwordAttackTimer" type="Timer" parent="."]
-wait_time = 0.3
+wait_time = 0.15
 one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

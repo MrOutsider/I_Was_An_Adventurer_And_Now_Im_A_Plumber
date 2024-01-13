@@ -213,9 +213,9 @@ func interact_with_interactible() -> void:
 
 func interacteable_collision(body : CollisionObject2D) -> void:
 	if (body.is_in_group("interactable")):
-		if (interactible_node != null && interact_ray.is_colliding()):
+		if (interactible_node != null && interact_ray.is_colliding() && body.get_parent().can_use):
 			interactable_lose_focus()
-		if (interact_ray.is_colliding()):
+		if (interact_ray.is_colliding() && body.get_parent().can_use):
 			interactible_node = interact_ray.get_collider().get_parent()
 			interactible_node.focus()
 
