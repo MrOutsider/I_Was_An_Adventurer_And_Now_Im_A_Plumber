@@ -73,7 +73,6 @@ focus_neighbor_left = NodePath(".")
 focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath("../Quit")
 focus_next = NodePath("../Quit")
-disabled = true
 text = "Options"
 
 [node name="Quit" type="Button" parent="UI_Menu/MainMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
@@ -89,6 +88,7 @@ text = "Quit
 "
 
 [node name="OptionsMenu" type="MarginContainer" parent="UI_Menu"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

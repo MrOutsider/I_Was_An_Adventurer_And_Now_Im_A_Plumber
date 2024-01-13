@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 
 LEVEL_MANAGER="*res://scripts/singletons/LEVEL_MANAGER.tscn"
 MUSIC_MANAGER="*res://scripts/singletons/MUSIC_MANAGER.tscn"
+OPTIONS_MANAGER="*res://scripts/singletons/OPTIONS_MANAGER.tscn"
 
 [display]
 

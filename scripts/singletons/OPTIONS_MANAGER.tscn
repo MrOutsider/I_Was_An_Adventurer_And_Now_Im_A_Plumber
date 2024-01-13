@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://yg3g8u7tg5ms"]
+
+[ext_resource type="Script" path="res://scripts/singletons/OPTIONS_MANAGER.gd" id="1_rfn18"]
+
+[node name="OPTIONS_MANAGER" type="Node"]
+script = ExtResource("1_rfn18")
