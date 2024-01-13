@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://552m7mituo45"]
+[gd_scene load_steps=7 format=3 uid="uid://552m7mituo45"]
 
 [ext_resource type="Script" path="res://scripts/interactive/door.gd" id="1_f6mhb"]
 [ext_resource type="Texture2D" uid="uid://dukpt0ln2xtyh" path="res://assets/art/tilemaps/hero_temple_tilemap.png" id="2_56bsb"]
 [ext_resource type="AudioStream" uid="uid://ca2x0c2fsoltp" path="res://assets/audio/sfx/heavy_bump.wav" id="3_u1hdb"]
+[ext_resource type="AudioStream" uid="uid://c0ujrylptwfst" path="res://assets/audio/sfx/door_shutting.wav" id="4_dacdh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1a27x"]
 atlas = ExtResource("2_56bsb")
@@ -29,3 +30,7 @@ shape = SubResource("RectangleShape2D_c56bp")
 [node name="BumpSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_u1hdb")
 volume_db = -15.0
+
+[node name="DoorSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_dacdh")
+volume_db = -5.0

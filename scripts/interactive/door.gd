@@ -4,6 +4,7 @@ extends CharacterBody2D
 @onready var door_sprite = $Sprite2D
 @onready var door_collision = $CollisionShape2D
 @onready var bump_sound = $BumpSound
+@onready var door_sound = $DoorSound
 
 func _ready():
 	if (switch != null):
@@ -18,6 +19,8 @@ func change_door_state(state : bool) -> void:
 	if (state):
 		door_sprite.hide()
 		door_collision.disabled = true
+		door_sound.play()
 	else:
 		door_sprite.show()
 		door_collision.disabled = false
+		door_sound.play()
