@@ -213,7 +213,6 @@ func interact_with_interactible() -> void:
 
 func interacteable_collision(body : CollisionObject2D) -> void:
 	if (body.is_in_group("interactable")):
-		interact_ray.force_raycast_update()
 		if (interactible_node != null && interact_ray.is_colliding()):
 			interactable_lose_focus()
 		if (interact_ray.is_colliding()):

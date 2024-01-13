@@ -22,7 +22,6 @@ func _ready():
 		placed = true
 		placed_sprite.show()
 		static_body_2d.set_collision_layer_value(1, true)
-		area_2d.queue_free()
 		if (next_pipe != null):
 			next_pipe.call_deferred("reveal")
 
@@ -53,7 +52,6 @@ func use() -> void:
 			pre_place_sprite.hide()
 			placed_sprite.show()
 			static_body_2d.set_collision_layer_value(1, true)
-			area_2d.queue_free()
 			switch_used.emit(true)
 			if (next_pipe != null):
 				next_pipe.reveal()
