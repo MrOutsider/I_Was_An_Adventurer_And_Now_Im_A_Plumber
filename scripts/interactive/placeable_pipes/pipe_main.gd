@@ -1,8 +1,8 @@
 @tool
 extends Node2D
 
-@onready var area_2d : CollisionObject2D = $Interactable
-@onready var static_body_2d : CollisionObject2D = $PlacedBody
+@onready var area_2d : Area2D = $Interactable
+@onready var static_body_2d : StaticBody2D = $PlacedBody
 @onready var texture : String = "res://assets/art/interactive/pipes.png"
 @export var pre_place_sprite : Sprite2D
 @export var placed_sprite : Sprite2D
@@ -29,8 +29,10 @@ func _ready():
 		if (connecting_pipe == null):
 			placed = true
 			can_use = true
+			area_2d.monitorable = false
+			area_2d.call_deferred("queue_free")
+			static_body_2d.call_deferred("queue_free")
 			placed_sprite.show()
-			#static_body_2d.set_collision_layer_value(1, true)
 			if (next_pipe != null):
 				next_pipe.call_deferred("reveal")
 
@@ -40,6 +42,7 @@ func _process(_delta):
 
 func reveal() -> void:
 	can_use = true
+	area_2d.monitorable = true
 	pre_place_sprite.show()
 	placed_sprite.hide()
 	focus_sprite.hide()
@@ -71,24 +74,24 @@ func set_sprite() -> void:
 func focus() -> void:
 	if (!placed && connecting_pipe != null):
 		if (connecting_pipe.placed):
-			pre_place_sprite.hide()
 			focus_sprite.show()
 
 func lose_focus() -> void:
 	if (!placed && connecting_pipe != null):
 		if (connecting_pipe.placed):
 			focus_sprite.hide()
-			pre_place_sprite.show()
 
 # Placeable Code
 func use() -> void:
 	if (!placed && connecting_pipe != null):
 		if (connecting_pipe.placed):
 			placed = true
+			area_2d.monitorable = false
+			area_2d.call_deferred("queue_free")
+			static_body_2d.call_deferred("queue_free")
 			focus_sprite.hide()
 			pre_place_sprite.hide()
 			placed_sprite.show()
-			#static_body_2d.set_collision_layer_value(1, true)
 			switch_used.emit(true)
 			if (next_pipe != null):
 				next_pipe.reveal()
