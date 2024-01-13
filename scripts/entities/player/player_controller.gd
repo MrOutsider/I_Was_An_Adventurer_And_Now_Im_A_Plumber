@@ -52,10 +52,6 @@ func _ready():
 	HURTBOX.hit.connect(take_dmg, 2)
 	knockback_timer.timeout.connect(reset_after_knockback)
 	sword_attack_timer.timeout.connect(reset_after_attack)
-	interact_area.area_entered.connect(interacteable_collision, 1)
-	interact_area.area_exited.connect(interacteable_collision_left, 1)
-	interact_area.body_entered.connect(interacteable_collision, 1)
-	interact_area.body_exited.connect(interacteable_collision_left, 1)
 	sword_col.area_entered.connect(attack_hit, 1)
 	sword_col.body_entered.connect(attack_hit, 1)
 
@@ -72,6 +68,7 @@ func _process(_delta):
 	animate_sprite()
 
 func _physics_process(_delta):
+	scan_for_interactables()
 	last_position = global_position
 	if (input_dir.length() > 0.0 && player_state == PLAYER_STATES.MOVING):
 		velocity = lerp(velocity, input_dir * speed, acceleration)
@@ -166,24 +163,30 @@ func set_player_state(new_state : PLAYER_STATES) -> void:
 	player_state = new_state
 	animation_change = true
 
+func scan_for_interactables() -> void:
+	if (interact_ray.is_colliding()):
+		var body : CollisionObject2D = interact_ray.get_collider()
+		if (body != null):
+			if (interactible_node != null):
+				if (interactible_node != body.get_parent()): interactable_lose_focus()
+			if (body.is_in_group("interactable")):
+				if (body.get_parent().can_use):
+					if (interactible_node != null):
+						interactable_lose_focus()
+					interactible_node = body.get_parent()
+					interactible_node.focus()
+	elif (interactible_node != null):
+		interactable_lose_focus()
+
 func interactable_lose_focus() -> void:
 	interactible_node.lose_focus()
 	interactible_node = null
 
-# Functions used by other nodes
-func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:
-	health -= dmg
-	if (health < 1):
-		health = 0
-		set_player_state(PLAYER_STATES.DEAD)
-	knockback(dir_of_atk)
-
-func knockback(knockback_vector : Vector2) -> void:
-	if (player_state != PLAYER_STATES.KNOCKED_BACK && knockback_vector.length() > 0.0):
-		set_player_state(PLAYER_STATES.KNOCKED_BACK)
-		friction = FRICTION_KNOCKBACK
-		velocity = velocity + (knockback_vector * KNOCKBACK_FORCE)
-		knockback_timer.start()
+func interact_with_interactible() -> void:
+	if (interactible_node.is_in_group("placeable")):
+		interactible_node.use()
+	if (interactible_node.is_in_group("switch")):
+		interactible_node.flip_switch()
 
 # Function for when collider collides
 func attack_hit(body : CollisionObject2D) -> void:
@@ -207,22 +210,6 @@ func attack_hit(body : CollisionObject2D) -> void:
 	if (body.get_collision_layer_value(1)):
 		knockback(forward_direction * -1.0)
 
-func interact_with_interactible() -> void:
-	if (interactible_node.is_in_group("placeable")):
-		interactible_node.use()
-
-func interacteable_collision(body : CollisionObject2D) -> void:
-	if (body.is_in_group("interactable")):
-		if (interactible_node != null && interact_ray.is_colliding() && body.get_parent().can_use):
-			interactable_lose_focus()
-		if (interact_ray.is_colliding() && body.get_parent().can_use):
-			interactible_node = interact_ray.get_collider().get_parent()
-			interactible_node.focus()
-
-func interacteable_collision_left(body : CollisionObject2D) -> void:
-	if (body.get_parent() == interactible_node):
-		interactable_lose_focus()
-
 # Functions triggered by timers
 func reset_after_attack() -> void:
 	if (player_state == PLAYER_STATES.ATTACKING):
@@ -232,3 +219,18 @@ func reset_after_knockback() -> void:
 	friction = FRICTION_BASE
 	if (player_state == PLAYER_STATES.KNOCKED_BACK):
 		set_player_state(PLAYER_STATES.IDLE)
+
+# Functions used by other nodes
+func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:
+	health -= dmg
+	if (health < 1):
+		health = 0
+		set_player_state(PLAYER_STATES.DEAD)
+	knockback(dir_of_atk)
+
+func knockback(knockback_vector : Vector2) -> void:
+	if (player_state != PLAYER_STATES.KNOCKED_BACK && knockback_vector.length() > 0.0):
+		set_player_state(PLAYER_STATES.KNOCKED_BACK)
+		friction = FRICTION_KNOCKBACK
+		velocity = velocity + (knockback_vector * KNOCKBACK_FORCE)
+		knockback_timer.start()
