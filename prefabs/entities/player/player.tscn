@@ -946,7 +946,7 @@ shape = SubResource("RectangleShape2D_u4akb")
 [node name="InteractRay" type="RayCast2D" parent="."]
 position = Vector2(0, -4)
 target_position = Vector2(0, 20)
-collision_mask = 6
+collision_mask = 4
 collide_with_areas = true
 
 [node name="AttackRay" type="RayCast2D" parent="."]
