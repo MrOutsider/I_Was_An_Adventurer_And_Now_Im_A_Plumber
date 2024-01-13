@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://c56b7yay5govy"]
+
+[ext_resource type="PackedScene" uid="uid://bt784tfnwjn56" path="res://prefabs/interactive/templates/interactable_placeable.tscn" id="1_oklgj"]
+[ext_resource type="Script" path="res://scripts/interactive/placeable_pipes/pipe_main.gd" id="2_7t270"]
+[ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="2_021kg"]
+[ext_resource type="Texture2D" uid="uid://c45b1morspkym" path="res://assets/art/interactive/pipes.png" id="3_ywdmr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1lgh3"]
+size = Vector2(16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b5ycl"]
+atlas = ExtResource("3_ywdmr")
+region = Rect2(16, 0, 16, 16)
+
+[node name="Pipe" node_paths=PackedStringArray("pre_place_sprite", "placed_sprite", "focus_sprite") instance=ExtResource("1_oklgj")]
+script = ExtResource("2_7t270")
+pre_place_sprite = NodePath("PrePlaceSprite")
+placed_sprite = NodePath("PlacedSprite")
+focus_sprite = NodePath("FocusSprite")
+pipe_piece = 0
+
+[node name="Interactable" parent="." index="0"]
+position = Vector2(0, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactable" index="0"]
+shape = SubResource("RectangleShape2D_1lgh3")
+
+[node name="PlacedBody" parent="." index="1"]
+position = Vector2(0, 8)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="PlacedBody" index="0"]
+shape = SubResource("RectangleShape2D_1lgh3")
+
+[node name="PrePlaceSprite" type="Sprite2D" parent="." index="2"]
+visible = false
+position = Vector2(0, 8)
+texture = ExtResource("2_021kg")
+
+[node name="PlacedSprite" type="Sprite2D" parent="." index="3"]
+position = Vector2(0, 8)
+texture = SubResource("AtlasTexture_b5ycl")
+
+[node name="FocusSprite" type="Sprite2D" parent="." index="4"]
+visible = false
+modulate = Color(0.364706, 0.364706, 0.364706, 1)
+position = Vector2(0, 8)
+texture = ExtResource("2_021kg")

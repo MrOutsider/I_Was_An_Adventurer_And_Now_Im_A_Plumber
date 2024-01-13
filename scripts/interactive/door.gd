@@ -7,7 +7,8 @@ extends CharacterBody2D
 
 func _ready():
 	if (switch != null):
-		change_door_state(switch.switched_on)
+		if (switch.has_method("switched_on")):
+			change_door_state(switch.switched_on)
 		switch.switch_used.connect(change_door_state, 1)
 
 func hit_sound() -> void:

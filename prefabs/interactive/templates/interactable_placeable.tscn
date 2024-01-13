@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://bt784tfnwjn56"]
+
+[ext_resource type="Script" path="res://scripts/interactive/templates/interactable_placeable.tres.gd" id="1_elubg"]
+
+[node name="InteractablePlaceable" type="Node2D" groups=["placeable"]]
+script = ExtResource("1_elubg")
+metadata/_edit_group_ = true
+
+[node name="Interactable" type="Area2D" parent="." groups=["interactable"]]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+
+[node name="PlacedBody" type="StaticBody2D" parent="."]
+collision_layer = 0
+collision_mask = 0

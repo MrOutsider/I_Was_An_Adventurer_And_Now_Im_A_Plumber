@@ -5,13 +5,14 @@ extends CharacterBody2D
 @onready var anim_player_attacks : AnimationPlayer = $AnimationPlayerAttacks
 @onready var anim_player_effects : AnimationPlayer = $AnimationPlayerEffects
 @onready var player_sprite : AnimatedSprite2D = $AnimatedSprite2D
-@onready var music_player : AudioStreamPlayer = $MusicPlayer
 # Modules
 @export var HURTBOX : Area2D
 # -> Timers
 @onready var knockback_timer : Timer = $KnockbackTimer
 @onready var sword_attack_timer : Timer = $SwordAttackTimer
 # -> Colliders
+@onready var interact_area : Area2D = $InteractArea
+@onready var interact_ray : RayCast2D = $InteractRay
 @onready var sword_col : Area2D = $SwordPivot/Sword
 @onready var attack_ray : RayCast2D = $AttackRay
 
@@ -33,7 +34,6 @@ const KNOCKBACK_FORCE : float = 400.0
 enum PLAYER_STATES {IDLE, MOVING, ATTACKING, KNOCKED_BACK, DEAD}
 var player_state : PLAYER_STATES = PLAYER_STATES.IDLE
 var player_last_state : PLAYER_STATES = player_state
-
 var forward_direction : Vector2 = Vector2.ZERO
 var forward_direction_last : Vector2 = forward_direction
 
@@ -41,7 +41,9 @@ var forward_direction_last : Vector2 = forward_direction
 var animation_change : bool = true
 
 # Script Global
+var interactible_node : Node2D = null
 var input_dir : Vector2 = Vector2.ZERO
+var last_position : Vector2 = global_position
 
 # Standard Functions
 func _ready():
@@ -50,24 +52,27 @@ func _ready():
 	HURTBOX.hit.connect(take_dmg, 2)
 	knockback_timer.timeout.connect(reset_after_knockback)
 	sword_attack_timer.timeout.connect(reset_after_attack)
+	interact_area.area_entered.connect(interacteable_collision, 1)
+	interact_area.area_exited.connect(interacteable_collision_left, 1)
+	interact_area.body_entered.connect(interacteable_collision, 1)
+	interact_area.body_exited.connect(interacteable_collision_left, 1)
 	sword_col.area_entered.connect(attack_hit, 1)
 	sword_col.body_entered.connect(attack_hit, 1)
-	# Music
-	music_player.finished.connect(music_end)
-	# TMP --------------------------------------------------------------------------------------------------- TMP
-	#music_player.stream = load("res://assets/audio/music/xDeviruchi - The Final of The Fantasy.wav")
-	#music_player.play()
-	# TMP --------------------------------------------------------------------------------------------------- TMP
 
 func _input(_event):
 	if (Input.is_action_pressed("quit")):
 		get_tree().quit()
+	
+	if (Input.is_action_just_pressed("action")):
+		if (interactible_node != null):
+			interact_with_interactible()
 
 func _process(_delta):
 	process_inputs()
 	animate_sprite()
 
 func _physics_process(_delta):
+	last_position = global_position
 	if (input_dir.length() > 0.0 && player_state == PLAYER_STATES.MOVING):
 		velocity = lerp(velocity, input_dir * speed, acceleration)
 	else:
@@ -81,7 +86,7 @@ func process_inputs() -> void:
 		input_dir.y = Input.get_action_raw_strength("move_down") - Input.get_action_raw_strength("move_up")
 		if (input_dir.length() > 1.0):
 			input_dir = input_dir.normalized()
-		if (input_dir.length() < 0.3):
+		if (input_dir.length() < 0.5):
 			input_dir = Vector2.ZERO
 		player_dir_to_state()
 		
@@ -161,6 +166,10 @@ func set_player_state(new_state : PLAYER_STATES) -> void:
 	player_state = new_state
 	animation_change = true
 
+func interactable_lose_focus() -> void:
+	interactible_node.lose_focus()
+	interactible_node = null
+
 # Functions used by other nodes
 func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:
 	health -= dmg
@@ -176,7 +185,7 @@ func knockback(knockback_vector : Vector2) -> void:
 		velocity = velocity + (knockback_vector * KNOCKBACK_FORCE)
 		knockback_timer.start()
 
-# Function for when weapon hits collider
+# Function for when collider collides
 func attack_hit(body : CollisionObject2D) -> void:
 	if (body.is_in_group("player")):
 		return
@@ -198,6 +207,23 @@ func attack_hit(body : CollisionObject2D) -> void:
 	if (body.get_collision_layer_value(1)):
 		knockback(forward_direction * -1.0)
 
+func interact_with_interactible() -> void:
+	if (interactible_node.is_in_group("placeable")):
+		interactible_node.use()
+
+func interacteable_collision(body : CollisionObject2D) -> void:
+	if (body.is_in_group("interactable")):
+		interact_ray.force_raycast_update()
+		if (interactible_node != null && interact_ray.is_colliding()):
+			interactable_lose_focus()
+		if (interact_ray.is_colliding()):
+			interactible_node = interact_ray.get_collider().get_parent()
+			interactible_node.focus()
+
+func interacteable_collision_left(body : CollisionObject2D) -> void:
+	if (body.get_parent() == interactible_node):
+		interactable_lose_focus()
+
 # Functions triggered by timers
 func reset_after_attack() -> void:
 	if (player_state == PLAYER_STATES.ATTACKING):
@@ -207,6 +233,3 @@ func reset_after_knockback() -> void:
 	friction = FRICTION_BASE
 	if (player_state == PLAYER_STATES.KNOCKED_BACK):
 		set_player_state(PLAYER_STATES.IDLE)
-
-func music_end() -> void:
-	music_player.play()
