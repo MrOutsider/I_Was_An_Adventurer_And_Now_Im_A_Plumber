@@ -59,7 +59,7 @@ y_sort_enabled = true
 metadata/_edit_lock_ = true
 
 [node name="Player" parent="Room_1/SortLayer" instance=ExtResource("2_06qwn")]
-position = Vector2(72, 195)
+position = Vector2(136, 81)
 
 [node name="BrokenStatue" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
 position = Vector2(-112, -52)
@@ -107,7 +107,7 @@ position = Vector2(-24, 171)
 can_toggle = true
 
 [node name="DoorSingle2" parent="Room_1/SortLayer" node_paths=PackedStringArray("switch") instance=ExtResource("6_yrqcs")]
-position = Vector2(-112, 80)
+position = Vector2(-112, 72)
 switch = NodePath("../Switch2")
 
 [node name="DoorSingle4" parent="Room_1/SortLayer" node_paths=PackedStringArray("switch") instance=ExtResource("5_dardv")]
@@ -269,7 +269,7 @@ connecting_pipe = NodePath("../Pipe22")
 next_pipe = NodePath("../Pipe24")
 
 [node name="DoorSingle5" parent="Room_1/SortLayer" node_paths=PackedStringArray("switch") instance=ExtResource("6_yrqcs")]
-position = Vector2(112, 96)
+position = Vector2(112, 81)
 switch = NodePath("../Pipe24")
 
 [node name="Pipe24" parent="Room_1/SortLayer" node_paths=PackedStringArray("connecting_pipe") instance=ExtResource("9_ajp5j")]

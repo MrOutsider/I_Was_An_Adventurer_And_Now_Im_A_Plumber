@@ -5,7 +5,6 @@ extends CharacterBody2D
 @onready var anim_player_attacks : AnimationPlayer = $AnimationPlayerAttacks
 @onready var anim_player_effects : AnimationPlayer = $AnimationPlayerEffects
 @onready var player_sprite : AnimatedSprite2D = $PlayerSprite
-@onready var weapon_sprite : AnimatedSprite2D = $WeaponSprite
 
 # Modules
 @export var HURTBOX : Area2D
@@ -187,7 +186,7 @@ func interact_with_interactible() -> void:
 
 # Function for when collider collides
 func attack_hit(body : CollisionObject2D) -> void:
-	if (body.is_in_group("player")):
+	if (body == self || body == HURTBOX):
 		return
 	# Raycast to see if wall is between player and body hit.
 	attack_ray.target_position = body.global_position - global_position
