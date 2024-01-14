@@ -4,15 +4,16 @@ extends CharacterBody2D
 @onready var anim_player : AnimationPlayer = $AnimationPlayer
 @onready var anim_player_attacks : AnimationPlayer = $AnimationPlayerAttacks
 @onready var anim_player_effects : AnimationPlayer = $AnimationPlayerEffects
-@onready var player_sprite : AnimatedSprite2D = $AnimatedSprite2D
+@onready var player_sprite : AnimatedSprite2D = $PlayerSprite
+@onready var weapon_sprite : AnimatedSprite2D = $WeaponSprite
+
 # Modules
 @export var HURTBOX : Area2D
 # -> Timers
 @onready var knockback_timer : Timer = $KnockbackTimer
-@onready var sword_attack_timer : Timer = $SwordAttackTimer
 # -> Colliders
 @onready var interact_ray : RayCast2D = $InteractRay
-@onready var sword_col : Area2D = $SwordPivot/Sword
+@export var sword_col : Area2D
 @onready var attack_ray : RayCast2D = $AttackRay
 
 # Constants
@@ -50,9 +51,9 @@ func _ready():
 	# Connecting Signals
 	HURTBOX.hit.connect(take_dmg, 2)
 	knockback_timer.timeout.connect(reset_after_knockback)
-	sword_attack_timer.timeout.connect(reset_after_attack)
 	sword_col.area_entered.connect(attack_hit, 1)
 	sword_col.body_entered.connect(attack_hit, 1)
+	anim_player_attacks.animation_finished.connect(reset_after_attack, 1)
 
 func _input(_event):
 	if (Input.is_action_just_pressed("action")):
@@ -207,8 +208,11 @@ func attack_hit(body : CollisionObject2D) -> void:
 		knockback(forward_direction * -1.0)
 
 # Functions triggered by timers
-func reset_after_attack() -> void:
-	if (entity_state == ENTITY_STATES.ATTACKING):
+func reset_after_attack(anim : String) -> void:
+	if (anim == "attack_sword_down" ||
+	anim == "attack_sword_up" ||
+	anim == "attack_sword_left" ||
+	anim == "attack_sword_right"):
 		set_player_state(ENTITY_STATES.IDLE)
 
 func reset_after_knockback() -> void:
