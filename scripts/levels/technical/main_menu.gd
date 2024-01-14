@@ -1,7 +1,7 @@
 extends Node
 
 # Dev
-@onready var test_level_1 : PackedScene = preload("res://levels/technical/test_level_1.tscn")
+@onready var level_1 : PackedScene = preload("res://levels/level_1.tscn")
 
 # Menu
 @onready var menu_level : PackedScene = preload("res://levels/technical/main_menu_bg.tscn")
@@ -25,6 +25,9 @@ extends Node
 @export var master_audio_volume_slider : HSlider
 @export var music_volume_slider : HSlider
 @export var sfx_volume_slider : HSlider
+
+# UI
+@export var UI : Control
 
 enum MENUS {MAIN, OPTIONS, IN_GAME}
 var current_menu : int = -1
@@ -115,13 +118,18 @@ func pause(value : int) -> void:
 
 # Main Menu
 func start_new_game() -> void:
+	# TMP
+	UI.show()
+	# TMP
 	can_pause = true
 	swap_menu(MENUS.IN_GAME)
 	level.queue_free()
-	level = test_level_1.instantiate()
+	level = level_1.instantiate()
 	WORLD.add_child(level)
+	level.end = self
+	PLAYER.set_pipe(0)
+	PLAYER.set_hp(5)
 	MUSIC_MANAGER.load_song(4)
-	MUSIC_MANAGER.load_song(7)
 	MUSIC_MANAGER.play_song()
 
 func goto_options_menu() -> void:

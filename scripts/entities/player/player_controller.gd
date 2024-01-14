@@ -5,7 +5,8 @@ extends CharacterBody2D
 @onready var anim_player_attacks : AnimationPlayer = $AnimationPlayerAttacks
 @onready var anim_player_effects : AnimationPlayer = $AnimationPlayerEffects
 @onready var player_sprite : AnimatedSprite2D = $PlayerSprite
-@onready var player_attack_sound = $PlayerAttackSound
+@onready var canvas_layer = $Camera2D/CanvasLayer
+@onready var hurt_sound : AudioStreamPlayer2D = $HurtSound
 
 # Modules
 @export var HURTBOX : Area2D
@@ -45,8 +46,23 @@ var interactible_node : Node2D = null
 var input_dir : Vector2 = Vector2.ZERO
 var last_position : Vector2 = global_position
 
+# DEV
+@export var end : Node = null
+func upd_hp(value : int) -> void:
+	health = value
+
+func reset() -> void:
+	end.start_new_game()
+# DEV
+
+
 # Standard Functions
 func _ready():
+	# DEV
+	PLAYER.hp_change.connect(upd_hp, 1)
+	PLAYER.set_hp(health)
+	# DEV
+	canvas_layer.show()
 	player_sprite.play("idle_down") # Start Sprite Animations 
 	# Connecting Signals
 	HURTBOX.hit.connect(take_dmg, 2)
@@ -145,9 +161,6 @@ func animate_sprite() -> void:
 					Vector2.RIGHT:
 						anim_player.play("move_right")
 			ENTITY_STATES.ATTACKING:
-				var pitch = randf_range(0.8, 1.2)
-				player_attack_sound.pitch_scale = pitch
-				player_attack_sound.play()
 				if (forward_direction == Vector2.ZERO):
 					forward_direction = Vector2.DOWN
 				match forward_direction:
@@ -229,9 +242,18 @@ func reset_after_knockback() -> void:
 # Functions used by other nodes
 func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:
 	health -= dmg
+	var i = randf_range(0.5, 0.75)
+	hurt_sound.pitch_scale = i
+	hurt_sound.play()
+	anim_player_effects.play("hurt")
 	if (health < 1):
 		health = 0
 		set_player_state(ENTITY_STATES.DEAD)
+		# DEV
+		reset()
+		# DEV
+	
+	PLAYER.set_hp(health)
 	knockback(dir_of_atk)
 
 func knockback(knockback_vector : Vector2) -> void:

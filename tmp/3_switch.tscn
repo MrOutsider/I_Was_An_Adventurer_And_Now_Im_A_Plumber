@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2g8n8xecntol"]
+
+[sub_resource type="GDScript" id="GDScript_ohrm8"]
+script/source = "extends Node
+
+@export var switch_1 : Node2D
+@export var switch_2 : Node2D
+@export var switch_3 : Node2D
+
+@export var door : Node2D
+
+var lock_1 : bool = false
+var lock_2 : bool = false
+var lock_3 : bool = false
+
+
+func _ready():
+	switch_1.switch_used.connect(unlock_1, 1)
+	switch_2.switch_used.connect(unlock_2, 1)
+	switch_3.switch_used.connect(unlock_3, 1)
+
+func unlock_1 (x : bool) -> void:
+	lock_1 = x
+	print(\"1\")
+	check()
+
+func unlock_2 (x : bool) -> void:
+	lock_2 = x
+	print(\"3\")
+	check()
+
+func unlock_3 (x : bool) -> void:
+	lock_3 = x
+	print(\"2\")
+	check()
+
+func check() -> void:
+	if (lock_1 && lock_2 && lock_3):
+		door.change_door_state(true)
+	else:
+		door.change_door_state(false)
+"
+
+[node name="3_Switch" type="Node"]
+script = SubResource("GDScript_ohrm8")

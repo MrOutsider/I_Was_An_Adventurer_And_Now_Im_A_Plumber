@@ -220,10 +220,11 @@ func ai_aggro() -> void:
 
 func hitbox_hit(body : CollisionObject2D) -> void:
 	if (enemy_node != null):
-		if (body == enemy_node && attack_speed_timer.time_left == 0):
-			enemy_node.take_dmg(damage, (enemy_node.global_position - global_position).normalized())
+		if (body == enemy_node && entity_state != ENTITY_STATES.DEAD):
 			enemy_in_range = true
-			attack_speed_timer.start()
+			if (attack_speed_timer.time_left == 0):
+				enemy_node.take_dmg(damage, (enemy_node.global_position - global_position).normalized())
+				attack_speed_timer.start()
 
 func hitbox_left(body : CollisionObject2D) -> void:
 	if (enemy_node != null):

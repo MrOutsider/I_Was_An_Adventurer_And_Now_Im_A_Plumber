@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dxuaaqfbchn3o"]
+[gd_scene load_steps=14 format=3 uid="uid://dxuaaqfbchn3o"]
 
 [ext_resource type="Script" path="res://scripts/levels/technical/main_menu.gd" id="1_qxp28"]
 [ext_resource type="Theme" uid="uid://2qetftmms3bw" path="res://prefabs/themes/main_theme.tres" id="2_nec11"]
+[ext_resource type="Texture2D" uid="uid://da3evduf0yvrj" path="res://assets/art/ui/in_game/Hearts.png" id="3_3uwln"]
+[ext_resource type="Texture2D" uid="uid://bpnqyirdvlbs2" path="res://assets/art/tilemaps/underground_tiles.png" id="4_apsbm"]
 
 [sub_resource type="GDScript" id="GDScript_356tf"]
 script/source = "extends Label
@@ -17,7 +19,59 @@ func slider_changed(_trash) -> void:
 	text = \"%\" + var_to_str(slider.value)
 "
 
-[node name="MAIN" type="Node" node_paths=PackedStringArray("new_game_button", "options_button", "quit_button", "options_back_button", "options_accept_button", "master_audio_volume_slider", "music_volume_slider", "sfx_volume_slider")]
+[sub_resource type="AtlasTexture" id="AtlasTexture_yw8a2"]
+atlas = ExtResource("3_3uwln")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="GDScript" id="GDScript_7n4lt"]
+script/source = "extends TextureRect
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	PLAYER.heart1 = self
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m0nfx"]
+atlas = ExtResource("3_3uwln")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="GDScript" id="GDScript_xvlkt"]
+script/source = "extends TextureRect
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	PLAYER.heart2 = self
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_53qr0"]
+atlas = ExtResource("3_3uwln")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="GDScript" id="GDScript_ragbr"]
+script/source = "extends TextureRect
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	PLAYER.heart3 = self
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oumps"]
+atlas = ExtResource("4_apsbm")
+region = Rect2(160, 64, 32, 16)
+
+[sub_resource type="GDScript" id="GDScript_5l7dv"]
+script/source = "extends Label
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	PLAYER.pipe_label = self
+"
+
+[node name="MAIN" type="Node" node_paths=PackedStringArray("new_game_button", "options_button", "quit_button", "options_back_button", "options_accept_button", "master_audio_volume_slider", "music_volume_slider", "sfx_volume_slider", "UI")]
 process_mode = 3
 script = ExtResource("1_qxp28")
 new_game_button = NodePath("UI_Menu/MainMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/StartGame")
@@ -28,6 +82,7 @@ options_accept_button = NodePath("UI_Menu/OptionsMenu/CenterContainer/MarginCont
 master_audio_volume_slider = NodePath("UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MasterAudioHSlider")
 music_volume_slider = NodePath("UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MusicHSlider")
 sfx_volume_slider = NodePath("UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/SFXHSlider")
+UI = NodePath("UI_Menu/PlayerUI")
 
 [node name="UI_Menu" type="CanvasLayer" parent="."]
 process_mode = 3
@@ -79,6 +134,7 @@ focus_previous = NodePath("../StartGame")
 text = "Options"
 
 [node name="Quit" type="Button" parent="UI_Menu/MainMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 focus_neighbor_top = NodePath("../Options")
 focus_neighbor_bottom = NodePath("../StartGame")
@@ -294,6 +350,65 @@ focus_next = NodePath("../../HBoxContainer2/Back")
 focus_previous = NodePath("../../HBoxContainer2/Back")
 text = "Accept
 "
+
+[node name="PlayerUI" type="MarginContainer" parent="UI_Menu"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_nec11")
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI_Menu/PlayerUI"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI_Menu/PlayerUI/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UI_Menu/PlayerUI/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Heart1" type="TextureRect" parent="UI_Menu/PlayerUI/VBoxContainer/HBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = SubResource("AtlasTexture_yw8a2")
+script = SubResource("GDScript_7n4lt")
+
+[node name="Heart2" type="TextureRect" parent="UI_Menu/PlayerUI/VBoxContainer/HBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = SubResource("AtlasTexture_m0nfx")
+script = SubResource("GDScript_xvlkt")
+
+[node name="Heart3" type="TextureRect" parent="UI_Menu/PlayerUI/VBoxContainer/HBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = SubResource("AtlasTexture_53qr0")
+script = SubResource("GDScript_ragbr")
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="UI_Menu/PlayerUI/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI_Menu/PlayerUI/VBoxContainer/HBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+texture = SubResource("AtlasTexture_oumps")
+
+[node name="Label" type="Label" parent="UI_Menu/PlayerUI/VBoxContainer/HBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "0"
+script = SubResource("GDScript_5l7dv")
 
 [node name="World" type="Node2D" parent="."]
 process_mode = 1

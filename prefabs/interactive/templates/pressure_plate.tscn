@@ -2,19 +2,22 @@
 
 [ext_resource type="Script" path="res://scripts/interactive/templates/pressure_plate.gd" id="1_wisbr"]
 [ext_resource type="Texture2D" uid="uid://bpnqyirdvlbs2" path="res://assets/art/tilemaps/underground_tiles.png" id="2_0w40l"]
-[ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="2_y4b6l"]
 [ext_resource type="AudioStream" uid="uid://06k6q5mloka8" path="res://assets/audio/sfx/pressuer_plate.wav" id="4_14u2g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_escif"]
 size = Vector2(16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m0i2k"]
+atlas = ExtResource("2_0w40l")
+region = Rect2(192, 64, 16, 16)
 
 [node name="PressurePlate" type="Area2D"]
 collision_layer = 4
 collision_mask = 6
 script = ExtResource("1_wisbr")
 texture = ExtResource("2_0w40l")
-region_off = Rect2(160, 64, 16, 16)
-region_on = Rect2(176, 64, 16, 16)
+region_off = Rect2(192, 64, 16, 16)
+region_on = Rect2(208, 64, 16, 16)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -23,7 +26,7 @@ shape = SubResource("RectangleShape2D_escif")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, 8)
-texture = ExtResource("2_y4b6l")
+texture = SubResource("AtlasTexture_m0i2k")
 
 [node name="ActivateSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_14u2g")

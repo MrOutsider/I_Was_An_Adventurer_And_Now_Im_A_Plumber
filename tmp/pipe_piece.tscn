@@ -1,0 +1,137 @@
+[gd_scene load_steps=10 format=3 uid="uid://chkrf52yx8ny2"]
+
+[ext_resource type="Texture2D" uid="uid://bpnqyirdvlbs2" path="res://assets/art/tilemaps/underground_tiles.png" id="1_s82su"]
+[ext_resource type="AudioStream" uid="uid://dv87644l5atsl" path="res://assets/audio/sfx/item_get.wav" id="2_0fbxm"]
+
+[sub_resource type="GDScript" id="GDScript_h5cju"]
+script/source = "extends Area2D
+
+@onready var audio_stream_player_2d : AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready var animation_player : AnimationPlayer = $AnimationPlayer
+
+func _ready():
+	area_entered.connect(item_get, 1)
+
+func item_get(body : CollisionObject2D) -> void:
+	if (body.is_in_group(\"player\")):
+		PLAYER.set_pipe(PLAYER.pipes + 1)
+		audio_stream_player_2d.play()
+		animation_player.play(\"get\")
+
+func diglet() -> void:
+	call_deferred(\"queue_free\")
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f5i3s"]
+size = Vector2(20, 9)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gheu4"]
+load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7hi00"]
+atlas = ExtResource("1_s82su")
+region = Rect2(160, 64, 32, 16)
+
+[sub_resource type="Animation" id="Animation_u7wq8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -8)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_d01d3"]
+resource_name = "get"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -8), Vector2(0, -16)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"diglet"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mun4l"]
+_data = {
+"RESET": SubResource("Animation_u7wq8"),
+"get": SubResource("Animation_d01d3")
+}
+
+[node name="PipePiece" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = SubResource("GDScript_h5cju")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2.5)
+shape = SubResource("RectangleShape2D_f5i3s")
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.513726)
+position = Vector2(0, -2.5)
+scale = Vector2(1.375, 0.6875)
+texture = SubResource("CompressedTexture2D_gheu4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = SubResource("AtlasTexture_7hi00")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_mun4l")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_0fbxm")

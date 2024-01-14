@@ -22,9 +22,9 @@ func _ready():
 func body_on_plate(body : Node2D) -> void:
 	if (body.is_in_group("heavy")):
 		sprite.texture.region = region_on
+		switched_on = true
 		switch_used.emit(switched_on)
 		sound.play()
-		switched_on = true
 
 func body_left_plate(_body : Node2D) -> void:
 	switched_on = false
@@ -34,4 +34,5 @@ func body_left_plate(_body : Node2D) -> void:
 	if (!switched_on):
 		sprite.texture.region = region_off
 		switch_used.emit(switched_on)
-		sound.play()
+		if (_body.is_in_group("heavy")):
+			sound.play()

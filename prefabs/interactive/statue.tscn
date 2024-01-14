@@ -1,11 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://d3r3wxfmapp1h"]
+[gd_scene load_steps=8 format=3 uid="uid://d3r3wxfmapp1h"]
 
 [ext_resource type="Texture2D" uid="uid://dukpt0ln2xtyh" path="res://assets/art/tilemaps/hero_temple_tilemap.png" id="2_hl8ld"]
 [ext_resource type="AudioStream" uid="uid://ca2x0c2fsoltp" path="res://assets/audio/sfx/heavy_bump.wav" id="3_3fyfp"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_24uab"]
 rough = true
-bounce = 0.2
+bounce = 0.1
 
 [sub_resource type="GDScript" id="GDScript_oma22"]
 script/source = "extends RigidBody2D
@@ -29,8 +29,11 @@ func on_sleep_state_change() -> void:
 "
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_51gkr"]
-radius = 5.0
+radius = 4.0
 height = 16.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jjbkf"]
+load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_enrn5"]
 atlas = ExtResource("2_hl8ld")
@@ -50,6 +53,12 @@ metadata/_edit_group_ = true
 position = Vector2(0, -4)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_51gkr")
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.513726)
+position = Vector2(0, -2.5)
+scale = Vector2(1.125, 0.4375)
+texture = SubResource("CompressedTexture2D_jjbkf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -16)

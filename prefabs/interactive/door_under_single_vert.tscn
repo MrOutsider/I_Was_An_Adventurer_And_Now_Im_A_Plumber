@@ -20,11 +20,9 @@ script = ExtResource("1_v2stf")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -15)
 texture = SubResource("AtlasTexture_1a27x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -15)
 shape = SubResource("RectangleShape2D_a1hsb")
 
 [node name="BumpSound" type="AudioStreamPlayer2D" parent="."]

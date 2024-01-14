@@ -1,0 +1,61 @@
+[gd_scene load_steps=2 format=3 uid="uid://bw2s2y7s633hm"]
+
+[sub_resource type="GDScript" id="GDScript_y1eih"]
+script/source = "extends Node
+
+var heart1 : TextureRect = null
+var heart2 : TextureRect = null
+var heart3 : TextureRect = null
+
+var empty : Rect2 = Rect2(32, 0, 16, 16)
+var half : Rect2 = Rect2(16, 0, 16, 16)
+var full : Rect2 = Rect2(0, 0, 16, 16)
+
+var hp : int = 0
+const  max_hp : int = 6
+var pipes : int = 0;
+var pipe_label : Label = null
+
+signal hp_change(value : int)
+
+func set_pipe(value : int) -> void:
+	pipes = value
+	pipe_label.text = var_to_str(value)
+
+func set_hp(value : int) -> void:
+	if (value <= max_hp):
+		hp = value
+		hp_change.emit(value)
+		match value:
+			0:
+				heart1.texture.region = empty
+				heart2.texture.region = empty
+				heart3.texture.region = empty
+			1:
+				heart1.texture.region = half
+				heart2.texture.region = empty
+				heart3.texture.region = empty
+			2:
+				heart1.texture.region = full
+				heart2.texture.region = empty
+				heart3.texture.region = empty
+			3:
+				heart1.texture.region = full
+				heart2.texture.region = half
+				heart3.texture.region = empty
+			4:
+				heart1.texture.region = full
+				heart2.texture.region = full
+				heart3.texture.region = empty
+			5:
+				heart1.texture.region = full
+				heart2.texture.region = full
+				heart3.texture.region = half
+			6:
+				heart1.texture.region = full
+				heart2.texture.region = full
+				heart3.texture.region = full
+"
+
+[node name="PLAYER" type="Node"]
+script = SubResource("GDScript_y1eih")

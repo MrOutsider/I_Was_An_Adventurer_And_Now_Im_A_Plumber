@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=3 uid="uid://cw0mmws1cvkqt"]
+
+[ext_resource type="Script" path="res://scripts/interactive/templates/door.gd" id="1_fhjb4"]
+[ext_resource type="Texture2D" uid="uid://bpnqyirdvlbs2" path="res://assets/art/tilemaps/underground_tiles.png" id="2_g1a5j"]
+[ext_resource type="AudioStream" uid="uid://ca2x0c2fsoltp" path="res://assets/audio/sfx/heavy_bump.wav" id="3_0djw0"]
+[ext_resource type="AudioStream" uid="uid://c0ujrylptwfst" path="res://assets/audio/sfx/door_shutting.wav" id="4_cyugb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jg43t"]
+atlas = ExtResource("2_g1a5j")
+region = Rect2(70, 96, 4, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a1hsb"]
+size = Vector2(4, 30)
+
+[node name="DoorSingle" type="CharacterBody2D" groups=["solid"]]
+collision_layer = 20
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_fhjb4")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_jg43t")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_a1hsb")
+
+[node name="BumpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_0djw0")
+bus = &"SFX"
+
+[node name="DoorSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_cyugb")
+bus = &"SFX"

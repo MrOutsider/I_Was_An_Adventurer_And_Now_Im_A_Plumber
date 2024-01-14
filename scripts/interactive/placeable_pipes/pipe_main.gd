@@ -82,8 +82,9 @@ func lose_focus() -> void:
 
 # Placeable Code
 func use() -> void:
-	if (!placed && connecting_pipe != null):
+	if (!placed && connecting_pipe != null && PLAYER.pipes > 0):
 		if (connecting_pipe.placed):
+			PLAYER.set_pipe(PLAYER.pipes - 1)
 			placed = true
 			interact_area.monitorable = false
 			interact_area.call_deferred("queue_free")
