@@ -30,9 +30,9 @@ const KNOCKBACK_FORCE : float = 400.0
 @export var acceleration : float = 1.0
 
 # State Machine
-enum PLAYER_STATES {IDLE, MOVING, ATTACKING, KNOCKED_BACK, DEAD}
-var player_state : PLAYER_STATES = PLAYER_STATES.IDLE
-var player_last_state : PLAYER_STATES = player_state
+enum ENTITY_STATES {IDLE, MOVING, ATTACKING, KNOCKED_BACK, DEAD}
+var entity_state : ENTITY_STATES = ENTITY_STATES.IDLE
+var entity_last_state : ENTITY_STATES = entity_state
 var forward_direction : Vector2 = Vector2.ZERO
 var forward_direction_last : Vector2 = forward_direction
 
@@ -66,7 +66,7 @@ func _process(_delta):
 func _physics_process(_delta):
 	scan_for_interactables()
 	last_position = global_position
-	if (input_dir.length() > 0.0 && player_state == PLAYER_STATES.MOVING):
+	if (input_dir.length() > 0.0 && entity_state == ENTITY_STATES.MOVING):
 		velocity = lerp(velocity, input_dir * speed, acceleration)
 	else:
 		velocity = lerp(velocity, Vector2.ZERO, friction)
@@ -74,7 +74,7 @@ func _physics_process(_delta):
 
 # Utility Functions
 func process_inputs() -> void:
-	if (player_state == PLAYER_STATES.IDLE || player_state == PLAYER_STATES.MOVING):
+	if (entity_state == ENTITY_STATES.IDLE || entity_state == ENTITY_STATES.MOVING):
 		input_dir.x = Input.get_action_raw_strength("move_right") - Input.get_action_raw_strength("move_left")
 		input_dir.y = Input.get_action_raw_strength("move_down") - Input.get_action_raw_strength("move_up")
 		if (input_dir.length() > 1.0):
@@ -84,15 +84,15 @@ func process_inputs() -> void:
 		player_dir_to_state()
 		
 		if (Input.is_action_just_pressed("attack")):
-			set_player_state(PLAYER_STATES.ATTACKING)
+			set_player_state(ENTITY_STATES.ATTACKING)
 	
-	match player_state:
-		PLAYER_STATES.IDLE:
+	match entity_state:
+		ENTITY_STATES.IDLE:
 			if (input_dir.length() > 0.0):
-				set_player_state(PLAYER_STATES.MOVING)
-		PLAYER_STATES.MOVING:
+				set_player_state(ENTITY_STATES.MOVING)
+		ENTITY_STATES.MOVING:
 			if (input_dir.length() == 0.0):
-				set_player_state(PLAYER_STATES.IDLE)
+				set_player_state(ENTITY_STATES.IDLE)
 
 func player_dir_to_state() -> void:
 	if (abs(input_dir.y) > abs(input_dir.x)):
@@ -111,8 +111,8 @@ func player_dir_to_state() -> void:
 
 func animate_sprite() -> void:
 	if (animation_change):
-		match player_state:
-			PLAYER_STATES.IDLE:
+		match entity_state:
+			ENTITY_STATES.IDLE:
 				match forward_direction:
 					Vector2.UP:
 						anim_player.play("idle_up")
@@ -122,7 +122,7 @@ func animate_sprite() -> void:
 						anim_player.play("idle_left")
 					Vector2.RIGHT:
 						anim_player.play("idle_right")
-			PLAYER_STATES.KNOCKED_BACK:
+			ENTITY_STATES.KNOCKED_BACK:
 				match forward_direction:
 					Vector2.UP:
 						anim_player.play("idle_up")
@@ -132,7 +132,7 @@ func animate_sprite() -> void:
 						anim_player.play("idle_left")
 					Vector2.RIGHT:
 						anim_player.play("idle_right")
-			PLAYER_STATES.MOVING:
+			ENTITY_STATES.MOVING:
 				match forward_direction:
 					Vector2.UP:
 						anim_player.play("move_up")
@@ -142,7 +142,7 @@ func animate_sprite() -> void:
 						anim_player.play("move_left")
 					Vector2.RIGHT:
 						anim_player.play("move_right")
-			PLAYER_STATES.ATTACKING:
+			ENTITY_STATES.ATTACKING:
 				match forward_direction:
 					Vector2.UP:
 						anim_player_attacks.play("attack_sword_up")
@@ -154,9 +154,9 @@ func animate_sprite() -> void:
 						anim_player_attacks.play("attack_sword_right")
 		animation_change = false
 
-func set_player_state(new_state : PLAYER_STATES) -> void:
-	player_last_state = player_state
-	player_state = new_state
+func set_player_state(new_state : ENTITY_STATES) -> void:
+	entity_last_state = entity_state
+	entity_state = new_state
 	animation_change = true
 
 func scan_for_interactables() -> void:
@@ -208,25 +208,25 @@ func attack_hit(body : CollisionObject2D) -> void:
 
 # Functions triggered by timers
 func reset_after_attack() -> void:
-	if (player_state == PLAYER_STATES.ATTACKING):
-		set_player_state(PLAYER_STATES.IDLE)
+	if (entity_state == ENTITY_STATES.ATTACKING):
+		set_player_state(ENTITY_STATES.IDLE)
 
 func reset_after_knockback() -> void:
 	friction = FRICTION_BASE
-	if (player_state == PLAYER_STATES.KNOCKED_BACK):
-		set_player_state(PLAYER_STATES.IDLE)
+	if (entity_state == ENTITY_STATES.KNOCKED_BACK):
+		set_player_state(ENTITY_STATES.IDLE)
 
 # Functions used by other nodes
 func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:
 	health -= dmg
 	if (health < 1):
 		health = 0
-		set_player_state(PLAYER_STATES.DEAD)
+		set_player_state(ENTITY_STATES.DEAD)
 	knockback(dir_of_atk)
 
 func knockback(knockback_vector : Vector2) -> void:
-	if (player_state != PLAYER_STATES.KNOCKED_BACK && knockback_vector.length() > 0.0):
-		set_player_state(PLAYER_STATES.KNOCKED_BACK)
+	if (entity_state != ENTITY_STATES.KNOCKED_BACK && knockback_vector.length() > 0.0):
+		set_player_state(ENTITY_STATES.KNOCKED_BACK)
 		friction = FRICTION_KNOCKBACK
 		velocity = velocity + (knockback_vector * KNOCKBACK_FORCE)
 		knockback_timer.start()

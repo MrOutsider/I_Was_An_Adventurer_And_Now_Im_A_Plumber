@@ -187,14 +187,15 @@ func ai_look_for_enemy() -> void:
 		if (enemy_sight.has_overlapping_areas()):
 			for i in enemy_sight.get_overlapping_areas():
 				if (i.is_in_group(enemy_group)):
-					var enemy_dir = i.global_position - global_position
-					enemy_ray_cast.target_position = enemy_dir
-					var ray_i = enemy_ray_cast.get_collider()
-					if (ray_i != null):
-						if (ray_i.is_in_group(enemy_group)):
-							enemy_node = i
-							set_ai_state(AI_STATES.AGRO)
-							break
+					if (i.get_parent().entity_state != ENTITY_STATES.DEAD):
+						var enemy_dir = i.global_position - global_position
+						enemy_ray_cast.target_position = enemy_dir
+						var ray_i = enemy_ray_cast.get_collider()
+						if (ray_i != null):
+							if (ray_i.is_in_group(enemy_group)):
+								enemy_node = i
+								set_ai_state(AI_STATES.AGRO)
+								break
 
 func ai_aggro() -> void:
 	if (ai_state == AI_STATES.AGRO && enemy_node != null):
