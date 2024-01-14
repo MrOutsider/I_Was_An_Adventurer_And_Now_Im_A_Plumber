@@ -296,3 +296,4 @@ text = "Accept
 "
 
 [node name="World" type="Node2D" parent="."]
+process_mode = 1

@@ -59,7 +59,7 @@ y_sort_enabled = true
 metadata/_edit_lock_ = true
 
 [node name="Player" parent="Room_1/SortLayer" instance=ExtResource("2_06qwn")]
-position = Vector2(128, 88)
+position = Vector2(64, 192)
 
 [node name="BrokenStatue" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
 position = Vector2(-112, -52)
