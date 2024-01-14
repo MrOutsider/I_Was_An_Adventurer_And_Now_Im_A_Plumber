@@ -64,6 +64,7 @@ var animation_change : bool = true
 # Script Global
 var move_direction : Vector2 = Vector2.ZERO
 var enemy_node : Node2D = null
+var enemy_in_range : bool = false
 var last_known_enemy_location : Vector2 = Vector2.ZERO
 
 # Standard Functions
@@ -78,12 +79,13 @@ func _ready():
 	HURTBOX.hit.connect(take_dmg, 2)
 	HITBOX.area_entered.connect(hitbox_hit, 1)
 	HITBOX.body_entered.connect(hitbox_hit, 1)
-	HITBOX.area_exited
-	HITBOX.body_exited
+	HITBOX.area_exited.connect(hitbox_left, 1)
+	HITBOX.body_exited.connect(hitbox_left, 1)
 	# Timers
 	ai_wander_timer.timeout.connect(ai_wander)
 	ai_tick.timeout.connect(ai_look_for_enemy)
 	ai_tick.timeout.connect(ai_aggro)
+	attack_speed_timer.timeout.connect(melee_atk)
 	knockback_timer.timeout.connect(reset_after_knockback)
 
 func _process(_delta):
@@ -239,6 +241,20 @@ func hitbox_hit(body : CollisionObject2D) -> void:
 	if (enemy_node != null):
 		if (body == enemy_node && attack_speed_timer.time_left == 0):
 			enemy_node.take_dmg(damage, (enemy_node.global_position - global_position).normalized())
+			enemy_in_range = true
+			attack_speed_timer.start()
+
+func hitbox_left(body : CollisionObject2D) -> void:
+	if (enemy_node != null):
+		if (body == enemy_node):
+			enemy_in_range = false
+
+func melee_atk() -> void:
+	if (enemy_in_range && enemy_node != null):
+		enemy_node.take_dmg(damage, (enemy_node.global_position - global_position).normalized())
+		if (enemy_node.get_parent().entity_state == ENTITY_STATES.DEAD):
+			enemy_node == null
+		else:
 			attack_speed_timer.start()
 
 # Functions triggered by timers

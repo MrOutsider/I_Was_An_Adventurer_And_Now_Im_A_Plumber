@@ -55,6 +55,8 @@ texture = SubResource("AtlasTexture_2fi14")
 
 [node name="player_goop" parent="Room_1/SortLayer" instance=ExtResource("8_wocvq")]
 position = Vector2(-79, 5)
+max_health = 10
+health = 10
 
 [node name="Hurtbox" parent="Room_1/SortLayer/player_goop" index="3" groups=["player"]]
 
