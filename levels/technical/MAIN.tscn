@@ -17,7 +17,7 @@ func slider_changed(_trash) -> void:
 	text = \"%\" + var_to_str(slider.value)
 "
 
-[node name="MAIN" type="Node" node_paths=PackedStringArray("new_game_button", "options_button", "quit_button", "options_back_button", "options_accept_button", "options_first_node")]
+[node name="MAIN" type="Node" node_paths=PackedStringArray("new_game_button", "options_button", "quit_button", "options_back_button", "options_accept_button", "options_first_node", "music_volume_slider", "sfx_volume_slider")]
 script = ExtResource("1_qxp28")
 new_game_button = NodePath("UI_Menu/MainMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/StartGame")
 options_button = NodePath("UI_Menu/MainMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/Options")
@@ -25,11 +25,12 @@ quit_button = NodePath("UI_Menu/MainMenu/CenterContainer/MarginContainer/MarginC
 options_back_button = NodePath("UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/Back")
 options_accept_button = NodePath("UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Accept")
 options_first_node = NodePath("UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MusicHSlider")
+music_volume_slider = NodePath("UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MusicHSlider")
+sfx_volume_slider = NodePath("UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/SFXHSlider")
 
 [node name="UI_Menu" type="CanvasLayer" parent="."]
 
 [node name="MainMenu" type="MarginContainer" parent="UI_Menu"]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -61,26 +62,24 @@ alignment = 1
 
 [node name="StartGame" type="Button" parent="UI_Menu/MainMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-focus_neighbor_left = NodePath(".")
 focus_neighbor_top = NodePath("../Quit")
-focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../Options")
+focus_next = NodePath("../Options")
 focus_previous = NodePath("../Quit")
 text = "Start Game"
 
 [node name="Options" type="Button" parent="UI_Menu/MainMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-focus_neighbor_left = NodePath(".")
-focus_neighbor_right = NodePath(".")
+focus_neighbor_top = NodePath("../StartGame")
 focus_neighbor_bottom = NodePath("../Quit")
 focus_next = NodePath("../Quit")
+focus_previous = NodePath("../StartGame")
 text = "Options"
 
 [node name="Quit" type="Button" parent="UI_Menu/MainMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
-focus_neighbor_left = NodePath(".")
 focus_neighbor_top = NodePath("../Options")
-focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath("../StartGame")
 focus_next = NodePath("../StartGame")
 focus_previous = NodePath("../Options")
@@ -166,6 +165,10 @@ slider = NodePath("../../../MusicHSlider")
 
 [node name="MusicHSlider" type="HSlider" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../../../HBoxContainer/HBoxContainer/Accept")
+focus_neighbor_bottom = NodePath("../SFXHSlider")
+focus_next = NodePath("../SFXHSlider")
+focus_previous = NodePath("../../../HBoxContainer/HBoxContainer/Accept")
 step = 5.0
 value = 100.0
 rounded = true
@@ -200,6 +203,10 @@ slider = NodePath("../../../SFXHSlider")
 
 [node name="SFXHSlider" type="HSlider" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../MusicHSlider")
+focus_neighbor_bottom = NodePath("../../../HBoxContainer/HBoxContainer/Accept")
+focus_next = NodePath("../../../HBoxContainer/HBoxContainer/Accept")
+focus_previous = NodePath("../MusicHSlider")
 step = 5.0
 value = 100.0
 rounded = true
@@ -217,6 +224,12 @@ alignment = 2
 [node name="Back" type="Button" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../../HBoxContainer/Accept")
+focus_neighbor_top = NodePath("../../../ScrollContainer/VBoxContainer/SFXHSlider")
+focus_neighbor_right = NodePath("../../HBoxContainer/Accept")
+focus_neighbor_bottom = NodePath("../../../ScrollContainer/VBoxContainer/MusicHSlider")
+focus_next = NodePath("../../HBoxContainer/Accept")
+focus_previous = NodePath("../../HBoxContainer/Accept")
 text = "Back"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
@@ -226,6 +239,12 @@ size_flags_horizontal = 3
 [node name="Accept" type="Button" parent="UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../../HBoxContainer2/Back")
+focus_neighbor_top = NodePath("../../../ScrollContainer/VBoxContainer/SFXHSlider")
+focus_neighbor_right = NodePath("../../HBoxContainer2/Back")
+focus_neighbor_bottom = NodePath("../../../ScrollContainer/VBoxContainer/MusicHSlider")
+focus_next = NodePath("../../HBoxContainer2/Back")
+focus_previous = NodePath("../../HBoxContainer2/Back")
 text = "Accept
 "
 

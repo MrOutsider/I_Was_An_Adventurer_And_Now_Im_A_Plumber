@@ -17,6 +17,10 @@ extends Node
 @export var options_accept_button : Button
 @export var options_first_node : Control
 
+# Options Variables to Globals
+@export var music_volume_slider : HSlider
+@export var sfx_volume_slider : HSlider
+
 @onready var test_level_1 : PackedScene = preload("res://levels/technical/test_level_1.tscn")
 
 enum MENUS {MAIN, OPTIONS, IN_GAME}
@@ -50,20 +54,29 @@ func swap_menu(menu_id : MENUS) -> void:
 
 	match menu_id:
 		MENUS.MAIN:
+			OPTIONS_MANAGER.change_game_state(OPTIONS_MANAGER.GAME_STATES.MENU)
 			main_menu.show()
 			current_menu = MENUS.MAIN
+			new_game_button.grab_focus()
 		MENUS.OPTIONS:
+			OPTIONS_MANAGER.change_game_state(OPTIONS_MANAGER.GAME_STATES.MENU)
 			options_menu.show()
 			current_menu = MENUS.OPTIONS
+			music_volume_slider.grab_focus()
+		MENUS.IN_GAME:
+			OPTIONS_MANAGER.change_game_state(OPTIONS_MANAGER.GAME_STATES.IN_GAME)
 
 # Main Menu
 func start_new_game() -> void:
+	swap_menu(MENUS.IN_GAME)
 	WORLD.get_child(0).queue_free()
 	main_menu.queue_free()
 	var n = test_level_1.instantiate()
 	WORLD.add_child(n)
 
 func goto_options_menu() -> void:
+	music_volume_slider.value = OPTIONS_MANAGER.music_volume
+	sfx_volume_slider.value = OPTIONS_MANAGER.sfx_volume
 	swap_menu(MENUS.OPTIONS)
 
 func quit_game() -> void:
@@ -71,6 +84,8 @@ func quit_game() -> void:
 
 # Options Menu
 func options_go_back() -> void:
+	music_volume_slider.value = OPTIONS_MANAGER.music_volume
+	sfx_volume_slider.value = OPTIONS_MANAGER.sfx_volume
 	match last_menu:
 		MENUS.MAIN:
 			swap_menu(MENUS.MAIN)
@@ -78,6 +93,9 @@ func options_go_back() -> void:
 			pass
 
 func options_accept() -> void:
+	OPTIONS_MANAGER.change_music(int (music_volume_slider.value))
+	OPTIONS_MANAGER.change_sfx(int (sfx_volume_slider.value))
+	
 	match last_menu:
 		MENUS.MAIN:
 			swap_menu(MENUS.MAIN)
