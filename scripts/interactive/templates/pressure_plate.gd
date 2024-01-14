@@ -3,6 +3,7 @@ extends Area2D
 @export var heavy_only : bool = true
 
 @onready var sprite : Sprite2D = $Sprite2D
+@onready var sound : AudioStreamPlayer2D = $ActivateSound
 @export var texture : Texture
 @export var region_off : Rect2
 @export var region_on : Rect2
@@ -20,9 +21,10 @@ func _ready():
 
 func body_on_plate(body : Node2D) -> void:
 	if (body.is_in_group("heavy")):
-		switched_on = true
 		sprite.texture.region = region_on
 		switch_used.emit(switched_on)
+		sound.play()
+		switched_on = true
 
 func body_left_plate(_body : Node2D) -> void:
 	switched_on = false
@@ -32,3 +34,4 @@ func body_left_plate(_body : Node2D) -> void:
 	if (!switched_on):
 		sprite.texture.region = region_off
 		switch_used.emit(switched_on)
+		sound.play()

@@ -5,6 +5,7 @@ extends CharacterBody2D
 @onready var anim_player_attacks : AnimationPlayer = $AnimationPlayerAttacks
 @onready var anim_player_effects : AnimationPlayer = $AnimationPlayerEffects
 @onready var player_sprite : AnimatedSprite2D = $PlayerSprite
+@onready var player_attack_sound = $PlayerAttackSound
 
 # Modules
 @export var HURTBOX : Area2D
@@ -33,7 +34,7 @@ const KNOCKBACK_FORCE : float = 400.0
 enum ENTITY_STATES {IDLE, MOVING, ATTACKING, KNOCKED_BACK, DEAD}
 var entity_state : ENTITY_STATES = ENTITY_STATES.IDLE
 var entity_last_state : ENTITY_STATES = entity_state
-var forward_direction : Vector2 = Vector2.ZERO
+@export var forward_direction : Vector2 = Vector2.ZERO
 var forward_direction_last : Vector2 = forward_direction
 
 # State Flags
@@ -46,13 +47,14 @@ var last_position : Vector2 = global_position
 
 # Standard Functions
 func _ready():
-	player_sprite.play("idle_down") # Start Sprite Animations
+	player_sprite.play("idle_down") # Start Sprite Animations 
 	# Connecting Signals
 	HURTBOX.hit.connect(take_dmg, 2)
 	knockback_timer.timeout.connect(reset_after_knockback)
 	sword_col.area_entered.connect(attack_hit, 1)
 	sword_col.body_entered.connect(attack_hit, 1)
 	anim_player_attacks.animation_finished.connect(reset_after_attack, 1)
+	call_deferred("set_player_state", ENTITY_STATES.IDLE)
 
 func _input(_event):
 	if (Input.is_action_just_pressed("action")):
@@ -143,6 +145,11 @@ func animate_sprite() -> void:
 					Vector2.RIGHT:
 						anim_player.play("move_right")
 			ENTITY_STATES.ATTACKING:
+				var pitch = randf_range(0.8, 1.2)
+				player_attack_sound.pitch_scale = pitch
+				player_attack_sound.play()
+				if (forward_direction == Vector2.ZERO):
+					forward_direction = Vector2.DOWN
 				match forward_direction:
 					Vector2.UP:
 						anim_player_attacks.play("attack_sword_up")
