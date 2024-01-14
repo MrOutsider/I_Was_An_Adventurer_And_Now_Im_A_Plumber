@@ -253,7 +253,7 @@ func melee_atk() -> void:
 	if (enemy_in_range && enemy_node != null):
 		enemy_node.take_dmg(damage, (enemy_node.global_position - global_position).normalized())
 		if (enemy_node.get_parent().entity_state == ENTITY_STATES.DEAD):
-			enemy_node == null
+			enemy_node = null
 		else:
 			attack_speed_timer.start()
 
