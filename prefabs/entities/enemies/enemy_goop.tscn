@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://bct46bkjrtmf0"]
+[gd_scene load_steps=40 format=3 uid="uid://bct46bkjrtmf0"]
 
 [ext_resource type="Script" path="res://scripts/entities/enemies/base_enemy.gd" id="1_ldka1"]
 [ext_resource type="PackedScene" uid="uid://cuc6xpjjjqomm" path="res://prefabs/entities/modules/hurtbox.tscn" id="2_olipg"]
@@ -14,6 +14,8 @@ radius = 100.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_18jfd"]
 radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_17ygj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v5ntq"]
 atlas = ExtResource("4_3mag4")
@@ -570,12 +572,13 @@ _data = {
 "hurt": SubResource("Animation_c2f4f")
 }
 
-[node name="Goop" type="CharacterBody2D" node_paths=PackedStringArray("HURTBOX") groups=["body"]]
+[node name="Goop" type="CharacterBody2D" node_paths=PackedStringArray("HURTBOX", "HITBOX") groups=["body"]]
 collision_layer = 2
 collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_ldka1")
 HURTBOX = NodePath("Hurtbox")
+HITBOX = NodePath("Hitbox")
 hostile = true
 wander = true
 speed = 20.0
@@ -603,6 +606,15 @@ collision_layer = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CircleShape2D_18jfd")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_17ygj")
 
 [node name="RayCasts" type="Node2D" parent="."]
 
@@ -637,6 +649,8 @@ position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_nicej")
 animation = &"idle_down"
 
+[node name="AttackSpeedTimer" type="Timer" parent="."]
+
 [node name="KnockbackTimer" type="Timer" parent="."]
 wait_time = 0.2
 one_shot = true
@@ -661,4 +675,4 @@ libraries = {
 [node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
 process_mode = 1
 stream = ExtResource("5_3g1d5")
-volume_db = -15.0
+bus = &"SFX"

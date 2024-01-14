@@ -15,9 +15,11 @@ extends CharacterBody2D
 # Modules
 @onready var visible_on_screen_enabler_2d = $VisibleOnScreenEnabler2D
 @export var HURTBOX : Area2D
+@export var HITBOX : Area2D
 # Timers
 @onready var ai_tick : Timer = $AI_Tick
 @onready var ai_wander_timer : Timer = $AI_WanderTimer
+@onready var attack_speed_timer = $AttackSpeedTimer
 @onready var knockback_timer : Timer = $KnockbackTimer
 # SFX
 @onready var hurt_sound = $HurtSound
@@ -73,7 +75,11 @@ func _ready():
 	# Set Stats
 	enemy_sight_area.shape.radius = vision_distance * 10
 	# Reactions
-	HURTBOX.connect("hit", take_dmg, 2)
+	HURTBOX.hit.connect(take_dmg, 2)
+	HITBOX.area_entered.connect(hitbox_hit, 1)
+	HITBOX.body_entered.connect(hitbox_hit, 1)
+	HITBOX.area_exited
+	HITBOX.body_exited
 	# Timers
 	ai_wander_timer.timeout.connect(ai_wander)
 	ai_tick.timeout.connect(ai_look_for_enemy)
@@ -227,6 +233,12 @@ func knockback(knockback_vector : Vector2) -> void:
 		friction = FRICTION_KNOCKBACK
 		velocity = velocity + (knockback_vector * KNOCKBACK_FORCE)
 		knockback_timer.start()
+
+func hitbox_hit(body : CollisionObject2D) -> void:
+	if (enemy_node != null):
+		if (body == enemy_node && attack_speed_timer.time_left == 0):
+			enemy_node.take_dmg(damage, (enemy_node.global_position - global_position).normalized())
+			attack_speed_timer.start()
 
 # Functions triggered by timers
 func reset_after_attack() -> void:

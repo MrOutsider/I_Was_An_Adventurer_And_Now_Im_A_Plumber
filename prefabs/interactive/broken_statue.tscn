@@ -78,4 +78,4 @@ color = Color(1, 1, 1, 0.588235)
 
 [node name="BumpSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("1_1p7y4")
-volume_db = -15.0
+bus = &"SFX"

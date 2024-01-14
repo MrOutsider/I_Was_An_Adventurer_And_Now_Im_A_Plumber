@@ -55,9 +55,6 @@ func _ready():
 	sword_col.body_entered.connect(attack_hit, 1)
 
 func _input(_event):
-	if (Input.is_action_pressed("quit")):
-		get_tree().quit()
-	
 	if (Input.is_action_just_pressed("action")):
 		if (interactible_node != null):
 			interact_with_interactible()

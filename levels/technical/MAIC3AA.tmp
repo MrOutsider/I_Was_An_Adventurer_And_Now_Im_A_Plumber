@@ -18,7 +18,6 @@ func slider_changed(_trash) -> void:
 "
 
 [node name="MAIN" type="Node" node_paths=PackedStringArray("new_game_button", "options_button", "quit_button", "options_back_button", "options_accept_button", "master_audio_volume_slider", "music_volume_slider", "sfx_volume_slider")]
-process_mode = 3
 script = ExtResource("1_qxp28")
 new_game_button = NodePath("UI_Menu/MainMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/StartGame")
 options_button = NodePath("UI_Menu/MainMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/Options")
@@ -30,7 +29,6 @@ music_volume_slider = NodePath("UI_Menu/OptionsMenu/CenterContainer/MarginContai
 sfx_volume_slider = NodePath("UI_Menu/OptionsMenu/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/SFXHSlider")
 
 [node name="UI_Menu" type="CanvasLayer" parent="."]
-process_mode = 3
 
 [node name="MainMenu" type="MarginContainer" parent="UI_Menu"]
 anchors_preset = 15

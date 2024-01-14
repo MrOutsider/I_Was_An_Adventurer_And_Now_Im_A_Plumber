@@ -29,8 +29,8 @@ shape = SubResource("RectangleShape2D_a1hsb")
 
 [node name="BumpSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_npc5t")
-volume_db = -15.0
+bus = &"SFX"
 
 [node name="DoorSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_i0xc2")
-volume_db = -5.0
+bus = &"SFX"
