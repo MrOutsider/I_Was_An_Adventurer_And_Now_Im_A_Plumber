@@ -53,11 +53,11 @@ func _ready():
 	# Run
 	level = menu_level.instantiate()
 	WORLD.add_child(level)
-	MUSIC_MANAGER.load_song(1)
+	MUSIC_MANAGER.load_song(2)
 	MUSIC_MANAGER.play_song()
-	OPTIONS_MANAGER.change_master_volume(50)
+	OPTIONS_MANAGER.change_master_volume(100)
 	OPTIONS_MANAGER.change_music_volume(50)
-	OPTIONS_MANAGER.change_sfx_volume(50)
+	OPTIONS_MANAGER.change_sfx_volume(100)
 	call_deferred("load_options_settigns")
 	swap_menu(MENUS.MAIN)
 
@@ -120,6 +120,9 @@ func start_new_game() -> void:
 	level.queue_free()
 	level = test_level_1.instantiate()
 	WORLD.add_child(level)
+	MUSIC_MANAGER.load_song(4)
+	MUSIC_MANAGER.load_song(7)
+	MUSIC_MANAGER.play_song()
 
 func goto_options_menu() -> void:
 	music_volume_slider.value = OPTIONS_MANAGER.music_volume

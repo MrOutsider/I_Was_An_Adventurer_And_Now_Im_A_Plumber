@@ -148,9 +148,10 @@ func animate_sprite() -> void:
 						anim_player.play("move_left")
 					Vector2.RIGHT:
 						anim_player.play("move_right")
+			ENTITY_STATES.DEAD:
+				anim_player.play("die")
 		if (entity_state == ENTITY_STATES.IDLE ||
-		entity_state == ENTITY_STATES.KNOCKED_BACK ||
-		entity_state == ENTITY_STATES.DEAD):
+		entity_state == ENTITY_STATES.KNOCKED_BACK):
 			match forward_direction:
 					Vector2.UP:
 						anim_player.play("idle_up")
@@ -217,26 +218,6 @@ func ai_aggro() -> void:
 		else:
 			set_ai_state(AI_STATES.IDLE)
 
-# Functions used by other nodes
-func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:
-	hurt_sound.play()
-	if (entity_state != ENTITY_STATES.DEAD):
-		anim_player_effects.play("hurt")
-		health -= dmg
-		if (health < 1):
-			health = 0
-			set_entity_state(ENTITY_STATES.DEAD)
-	knockback(dir_of_atk)
-
-func knockback(knockback_vector : Vector2) -> void:
-	if (entity_state != ENTITY_STATES.KNOCKED_BACK && knockback_vector.length() > 0.0):
-		if (entity_state != ENTITY_STATES.DEAD):
-			set_entity_state(ENTITY_STATES.KNOCKED_BACK)
-			move_direction = Vector2.ZERO
-		friction = FRICTION_KNOCKBACK
-		velocity = velocity + (knockback_vector * KNOCKBACK_FORCE)
-		knockback_timer.start()
-
 func hitbox_hit(body : CollisionObject2D) -> void:
 	if (enemy_node != null):
 		if (body == enemy_node && attack_speed_timer.time_left == 0):
@@ -250,12 +231,32 @@ func hitbox_left(body : CollisionObject2D) -> void:
 			enemy_in_range = false
 
 func melee_atk() -> void:
-	if (enemy_in_range && enemy_node != null):
+	if (enemy_in_range && enemy_node != null && entity_state != ENTITY_STATES.DEAD):
 		enemy_node.take_dmg(damage, (enemy_node.global_position - global_position).normalized())
 		if (enemy_node.get_parent().entity_state == ENTITY_STATES.DEAD):
 			enemy_node = null
 		else:
 			attack_speed_timer.start()
+
+# Functions used by other nodes
+func take_dmg(dmg : int, dir_of_atk : Vector2) -> void:
+	hurt_sound.play()
+	if (entity_state != ENTITY_STATES.DEAD):
+		anim_player_effects.play("hurt")
+		health -= dmg
+		if (health < 1 && entity_state != ENTITY_STATES.DEAD):
+			health = 0
+			set_entity_state(ENTITY_STATES.DEAD)
+	knockback(dir_of_atk)
+
+func knockback(knockback_vector : Vector2) -> void:
+	if (entity_state != ENTITY_STATES.KNOCKED_BACK && knockback_vector.length() > 0.0):
+		if (entity_state != ENTITY_STATES.DEAD):
+			set_entity_state(ENTITY_STATES.KNOCKED_BACK)
+			move_direction = Vector2.ZERO
+		friction = FRICTION_KNOCKBACK
+		velocity = velocity + (knockback_vector * KNOCKBACK_FORCE)
+		knockback_timer.start()
 
 # Functions triggered by timers
 func reset_after_attack() -> void:

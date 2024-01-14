@@ -21,7 +21,7 @@ func change_master_volume(value : int) -> void:
 func change_music_volume(value : int) -> void:
 	if (music_volume != value):
 		music_volume = value
-		AudioServer.set_bus_volume_db(1, linear_to_db(value / 100.0))
+		AudioServer.set_bus_volume_db(1, linear_to_db((value / 100.0) * 0.1))
 
 func change_sfx_volume(value : int) -> void:
 	if (sfx_volume != value):

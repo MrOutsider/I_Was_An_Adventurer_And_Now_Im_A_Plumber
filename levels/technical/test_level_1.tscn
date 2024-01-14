@@ -6,9 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://bywdhmnhpxadf" path="res://prefabs/interactive/broken_statue.tscn" id="4_u6mgu"]
 [ext_resource type="PackedScene" uid="uid://552m7mituo45" path="res://prefabs/interactive/door_single_hor.tscn" id="5_dardv"]
 [ext_resource type="PackedScene" uid="uid://b2s65sbd2f6lw" path="res://prefabs/interactive/door_single_vert.tscn" id="6_yrqcs"]
-[ext_resource type="PackedScene" uid="uid://bjc8bg3rq7wkv" path="res://prefabs/interactive/pressure_plate.tscn" id="7_svvxv"]
 [ext_resource type="PackedScene" uid="uid://bct46bkjrtmf0" path="res://prefabs/entities/enemies/enemy_goop.tscn" id="8_o44yv"]
 [ext_resource type="PackedScene" uid="uid://c56b7yay5govy" path="res://prefabs/interactive/placeable_pipes/pipe_main.tscn" id="9_ajp5j"]
+[ext_resource type="PackedScene" uid="uid://tyka7um88pq4" path="res://prefabs/interactive/templates/pressure_plate.tscn" id="9_churj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_86pd8"]
 size = Vector2(63, 20)
@@ -59,7 +59,7 @@ y_sort_enabled = true
 metadata/_edit_lock_ = true
 
 [node name="Player" parent="Room_1/SortLayer" instance=ExtResource("2_06qwn")]
-position = Vector2(64, 192)
+position = Vector2(72, 195)
 
 [node name="BrokenStatue" parent="Room_1/SortLayer" instance=ExtResource("4_u6mgu")]
 position = Vector2(-112, -52)
@@ -110,12 +110,9 @@ can_toggle = true
 position = Vector2(-112, 80)
 switch = NodePath("../Switch2")
 
-[node name="PressurePlate" parent="Room_1/SortLayer" instance=ExtResource("7_svvxv")]
-position = Vector2(-168, 112)
-
 [node name="DoorSingle4" parent="Room_1/SortLayer" node_paths=PackedStringArray("switch") instance=ExtResource("5_dardv")]
 position = Vector2(-152, 208)
-switch = NodePath("../PressurePlate")
+switch = NodePath("../PressurePlate2")
 
 [node name="DoorSingle3" parent="Room_1/SortLayer" instance=ExtResource("5_dardv")]
 position = Vector2(-152, 560)
@@ -133,7 +130,7 @@ position = Vector2(-41, 211)
 position = Vector2(-160, -89)
 
 [node name="Goop5" parent="Room_1/SortLayer" instance=ExtResource("8_o44yv")]
-position = Vector2(-168, 122)
+position = Vector2(-138, 121)
 
 [node name="Goop6" parent="Room_1/SortLayer" instance=ExtResource("8_o44yv")]
 position = Vector2(-178, 451)
@@ -355,3 +352,9 @@ pipe_piece = 1
 [node name="Pipe44" parent="Room_1/SortLayer" instance=ExtResource("9_ajp5j")]
 position = Vector2(272, -80)
 pipe_piece = 3
+
+[node name="PressurePlate" parent="Room_1/SortLayer" instance=ExtResource("9_churj")]
+position = Vector2(-152, -64)
+
+[node name="PressurePlate2" parent="Room_1/SortLayer" instance=ExtResource("9_churj")]
+position = Vector2(-168, 112)

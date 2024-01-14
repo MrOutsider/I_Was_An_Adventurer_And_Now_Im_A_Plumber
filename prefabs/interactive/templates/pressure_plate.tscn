@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://tyka7um88pq4"]
+[gd_scene load_steps=5 format=3 uid="uid://tyka7um88pq4"]
 
 [ext_resource type="Script" path="res://scripts/interactive/templates/pressure_plate.gd" id="1_wisbr"]
+[ext_resource type="Texture2D" uid="uid://bpnqyirdvlbs2" path="res://assets/art/tilemaps/underground_tiles.png" id="2_0w40l"]
 [ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="2_y4b6l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_escif"]
@@ -10,6 +11,9 @@ size = Vector2(16, 16)
 collision_layer = 4
 collision_mask = 6
 script = ExtResource("1_wisbr")
+texture = ExtResource("2_0w40l")
+region_off = Rect2(160, 64, 16, 16)
+region_on = Rect2(176, 64, 16, 16)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
