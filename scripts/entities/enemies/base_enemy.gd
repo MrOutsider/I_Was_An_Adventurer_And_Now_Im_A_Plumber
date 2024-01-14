@@ -149,7 +149,7 @@ func animate_sprite() -> void:
 					Vector2.RIGHT:
 						anim_player.play("move_right")
 			ENTITY_STATES.DEAD:
-				anim_player.play("die")
+				anim_player.play("death")
 		if (entity_state == ENTITY_STATES.IDLE ||
 		entity_state == ENTITY_STATES.KNOCKED_BACK):
 			match forward_direction:
