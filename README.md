@@ -12,10 +12,9 @@ You must recover the broken pipes and restore water to your village!
 - E / (Controller A) to Build Pipes, when you have some.
 - Hit statues to move them onto pressure plates.
 - For the theme Building Connections the game does the following
+  - You connect pipes.
 
-You connect pipes.
-Assets Used
-
+### **Assets Used**
 - Art - https://www.kenney.nl/
 - https://kenney.nl/assets/fantasy-ui-borders
 - Font - https://www.fontspace.com/public-pixel-font-f72305
@@ -27,7 +26,7 @@ Assets Used
 - [Aseprite](https://dacap.itch.io/aseprite)
 - [ChipTone](https://sfbgames.itch.io/chiptone)
 
-- Devs
+### **Devs**
 Art - My Friend [Haywire4777](https://haywire4777.itch.io/)
 Level Design - My Friend [NorthernFist](https://northerfist.itch.io/)
 
