@@ -20,15 +20,15 @@ You must recover the broken pipes and restore water to your village!
 - Font - https://www.fontspace.com/public-pixel-font-f72305
 - Music - https://xdeviruchi.itch.io/8-bit-fantasy-adventure-music-pack
 
-- Tools Used
+### **Tools Used**
 - [Godot](https://godotengine.org/)
 - [Gimp](https://www.gimp.org/)
 - [Aseprite](https://dacap.itch.io/aseprite)
 - [ChipTone](https://sfbgames.itch.io/chiptone)
 
 ### **Devs**
-Art - My Friend [Haywire4777](https://haywire4777.itch.io/)
-Level Design - My Friend [NorthernFist](https://northerfist.itch.io/)
+- Art - My Friend [Haywire4777](https://haywire4777.itch.io/)
+- Level Design - My Friend [NorthernFist](https://northerfist.itch.io/)
 
 ### **Screenshots**
 ![screenshot 1](/readme/A2P_1.png)
