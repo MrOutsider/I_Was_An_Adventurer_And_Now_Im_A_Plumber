@@ -16,7 +16,7 @@ You must recover the broken pipes and restore water to your village!
 
 ### **Assets Used**
 - Art - https://www.kenney.nl/
-- https://kenney.nl/assets/fantasy-ui-borders
+  - https://kenney.nl/assets/fantasy-ui-borders
 - Font - https://www.fontspace.com/public-pixel-font-f72305
 - Music - https://xdeviruchi.itch.io/8-bit-fantasy-adventure-music-pack
 
