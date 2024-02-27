@@ -39,6 +39,7 @@ var can_pause : bool = false
 var level : Node = null
 
 func _ready():
+	LEVEL_MANAGER.current_main = self
 	# Signals
 	OPTIONS_MANAGER.game_state_change.connect(pause, 1)
 	# Main Menu
@@ -62,6 +63,7 @@ func _ready():
 	OPTIONS_MANAGER.change_music_volume(50)
 	OPTIONS_MANAGER.change_sfx_volume(100)
 	call_deferred("load_options_settigns")
+	main_menu.call_deferred("show")
 	swap_menu(MENUS.MAIN)
 
 func _input(_event):
@@ -126,7 +128,6 @@ func start_new_game() -> void:
 	level.queue_free()
 	level = level_1.instantiate()
 	WORLD.add_child(level)
-	level.end = self
 	PLAYER.set_pipe(0)
 	PLAYER.set_hp(5)
 	MUSIC_MANAGER.load_song(4)

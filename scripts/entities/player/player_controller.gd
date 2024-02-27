@@ -47,12 +47,11 @@ var input_dir : Vector2 = Vector2.ZERO
 var last_position : Vector2 = global_position
 
 # DEV
-@export var end : Node = null
 func upd_hp(value : int) -> void:
 	health = value
 
 func reset() -> void:
-	end.start_new_game()
+	LEVEL_MANAGER.start_new_game()
 # DEV
 
 

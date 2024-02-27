@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://bywdhmnhpxadf"]
 
 [ext_resource type="AudioStream" uid="uid://ca2x0c2fsoltp" path="res://assets/audio/sfx/heavy_bump.wav" id="1_1p7y4"]
-[ext_resource type="Texture2D" uid="uid://doqylnllmvnf0" path="res://icon.svg" id="1_d6uwo"]
+[ext_resource type="Texture2D" uid="uid://ccjm0mihncoci" path="res://icon.svg" id="1_d6uwo"]
 [ext_resource type="Texture2D" uid="uid://dukpt0ln2xtyh" path="res://assets/art/tilemaps/hero_temple_tilemap.png" id="2_14yfx"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_24uab"]

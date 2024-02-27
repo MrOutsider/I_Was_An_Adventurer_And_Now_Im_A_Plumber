@@ -1,7 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://did74nuia6ope"]
+[gd_scene load_steps=3 format=3 uid="uid://did74nuia6ope"]
 
 [ext_resource type="Script" path="res://scripts/singletons/LEVEL_MANAGER.gd" id="1_sepb5"]
+[ext_resource type="PackedScene" uid="uid://dxuaaqfbchn3o" path="res://levels/technical/MAIN.tscn" id="2_x33m8"]
 
 [node name="LEVEL_MANAGER" type="Node"]
 process_mode = 3
 script = ExtResource("1_sepb5")
+main = ExtResource("2_x33m8")
